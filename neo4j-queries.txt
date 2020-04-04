@@ -1,0 +1,15 @@
+0) Get some data
+    MATCH (n1)-[r]->(n2) RETURN r, n1, n2 LIMIT 25;
+
+1) restituire i primi dieci nodi WORDS 
+    MATCH (word:words) RETURN word.form LIMIT 10
+    
+2) identificare i nodi WORDS con una certa forma (p.es. "murder") e restiture i suoi attributi
+    MATCH (word:words {form: "murder"}) RETURN word.POS,word.freq, word.prob, word.wordId
+    
+3) per un nodo WORDS specifico, restituire 10 nodi EVENTS connessi al target da archi di tipo ARGS
+  (NB: gli archi sono direzionati evento -> parola)
+    MATCH (word:words {form: "murder", POS: "N"}) <-[:args]-(event:events) return event.form LIMIT 10
+    
+4) in questa query parto dal nodo "murder/N", attraverso il nodo evento con cui è connesso e recupero gli altri nodi WORDS associati al nodo evento
+    MATCH (w:words {form:"murder",POS:"N"})<-[a:args]-(e:events)-[a2:args]->(n) RETURN a.role,a2.role, n.form LIMIT 30;
