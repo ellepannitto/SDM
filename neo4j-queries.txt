@@ -13,3 +13,8 @@
     
 4) in questa query parto dal nodo "murder/N", attraverso il nodo evento con cui è connesso e recupero gli altri nodi WORDS associati al nodo evento
     MATCH (w:words {form:"murder",POS:"N"})<-[a:args]-(e:events)-[a2:args]->(n) RETURN a.role,a2.role, n.form LIMIT 30;
+    
+5) simile alla query precedente, ma seleziono solo gli eventi in cui "murder" è soggetto
+   (N.B. se il ruolo dell'arco = null, vuol dire che il nodo parola è un verbo)
+    MATCH (w:words {form:"murder",POS:"N"})<-[a:args {role:"nsubj"}]-(e:events)-[a2:args]->(n) RETURN a2.role, n.form LIMIT 30;
+    
