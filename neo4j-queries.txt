@@ -18,3 +18,7 @@
    (N.B. se il ruolo dell'arco = null, vuol dire che il nodo parola è un verbo)
     MATCH (w:words {form:"murder",POS:"N"})<-[a:args {role:"nsubj"}]-(e:events)-[a2:args]->(n) RETURN a2.role, n.form LIMIT 30;
     
+    
+    
+6) MATCH (w:words {form:'murder', POS:'N'}) - [a:args {role: 'dobj'}] - (e:events) - [a2:args ] - (n:words) RETURN w.form, a.role, a.pmi, e.form, a2.role, n.form ORDER BY a.pmi DESC LIMIT 10
+    
