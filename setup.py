@@ -8,6 +8,7 @@ setup(
     version='0.1.0',
     license='MIT',
     packages=['sdm', 'sdm.logging_utils', 'sdm.utils', 'sdm.core'],
+    package_data={'sdm': ['logging_utils/*.yml']},
     include_package_data=True,
     entry_points={
         'console_scripts': [

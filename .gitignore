@@ -1,3 +1,6 @@
 # Project exclude paths
 /venv/
 todo
+/.idea/
+/sdm.egg-info/
+/prove/
