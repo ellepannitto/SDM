@@ -1,5 +1,31 @@
 import numpy as np
 
+def load_dataset(fpath):
+    dataset = []
+    with open(fpath) as fin:
+        for line in fpath:
+            ac_content = set()
+            item, object_relation = line.split("\t")
+            item = item.split()
+            elements = []
+            for el in item:
+                form, pos, rel = el.split("@")
+                ac_content.add(rel)
+                elements.append((form, pos, rel))
+            dataset.append([elements, object_relation, ac_content])
+
+    return dataset
+
+
+def load_mapping(fpath):
+    ret = {}
+    with open(fpath) as fin:
+        for line in fpath:
+            line = line.strip.split("\t")
+            ret[line[0]] = line[1].split()
+
+    return ret
+
 
 def load_vectors(model_fpath, noun_set=set()):
     noun_vectors = {}

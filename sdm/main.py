@@ -8,6 +8,9 @@ import argparse
 
 import sdm.utils.config as cutils
 import sdm.utils.graph_utils as gutils
+import sdm.utils.os_utils as outils
+
+import sdm.core.model as model
 
 config_dict = cutils.load(os.path.join(os.path.dirname(__file__), 'logging_utils', 'logging.yml'))
 logging.config.dictConfig( config_dict )
@@ -15,17 +18,20 @@ logging.config.dictConfig( config_dict )
 logger = logging.getLogger(__name__)
 
 def _build_representations(args):
-    output_path = args.output_dir
+    output_path = outils.check_dir(args.output_dir)
     uri = args.uri
     username = args.user
     password = args.password
+    relations_fpath = args.relations
+    data_fpaths = args.data
 
     graph = gutils.connect_to_graph(uri, username, password)
-    pass
+
+    model.build_representation(output_path, graph, relations_fpath, data_fpaths)
 
 
 def _extract_relations_list(args):
-    output_path = args.output_dir
+    output_path = outils.check_dir(args.output_dir)
     uri = args.uri
     username = args.user
     password = args.password
