@@ -1,0 +1,88 @@
+RELPRON Property Annotation Guidelines
+
+Used to produce the dataset described in:
+
+Laura Rimell, Jean Maillard, Tamara Polajnar and Stephen
+Clark. 2016. RELPRON: A Relative Clause Composition Dataset for
+Compositional Distributional Semantics. Computational Linguistics.
+
+Choosing Properties for a Term:
+
+1. Start from the top of the frequency-ordered list of SVO triples.
+Choose at most one property per verb per grammatical function.  Stop
+when you have reached 10 good properties.  Aim for about 5 object and
+5 subject properties, but if there aren't enough of one, choose more
+of the other.
+
+2. Identifying property: the property should distinguish the term from
+other hyponyms of the head noun. For example, "win tournament" does
+not distinguish a "golfer" from other kinds of players, but "use iron"
+does.  Aim for properties that distinguish the term from most examples
+of the head noun that come to mind (not only from the ten or so
+specific examples in this dataset).  However, it will never be
+possible to distinguish the term from *all* other nouns in the
+comparison class; for example, a property that applies to "traveler"
+may equally apply to "voyager", but such a property is still OK.
+
+3. The property should *mainly* and/or *canonically* apply to the
+term. For example, "person that tavern serve" is not a good property
+for "traveler", because many people may eat and drink at a tavern.
+Similarly, "person that government advise" is not a good property for
+"traveler"; although governments do issue travel advisories, they also
+issue health advisories and many other kinds of advice.  However,
+"person that hotel serve" is good for "traveler", because the *main*
+purpose of a hotel is for people who have traveled from their homes,
+even though someone could conceivably go to a hotel for a meal or a
+meeting if they live around the corner. As another example, "device
+that bomb have" is a good property for "timer"; although bombs include
+several (sub-)devices (so it can't be said that this property applies
+mainly to timers in a strict quantitative sense), a timer is a very
+*canonical* (iconic, recognizable) part of a bomb, and so the property
+is identifying.  Note that staying in a hotel is also a very
+canonical/iconic/recognizable thing for travelers to do.
+
+4. No proper noun arguments.
+
+5. No repetition of the term root (e.g. both of the following are
+disallowed for "golfer": "player that golfer beat", "player that play
+golf").
+
+6. The SVO structure must represent a simple transitive.  E.g. "person
+that airport allow" is bad, because an argument of the verb is missing
+(airports allow people to do something).  Be conservative: "person
+that steamboat take" should be disallowed for "traveler"; normally the
+verb "take" subcategorizes for a directional PP or adverb in this
+construction.
+
+7. Omit odd or awkward phrases, e.g. "person that interchange serve".
+
+8. Choose properties with lexical overlap when available; e.g. if
+properties for different terms share lemmas such as "team", "study, or
+"visit", which may be in different syntactic positions (even different
+parts of speech). This helps make the dataset challenging.
+
+
+Discarding a Candidate Term:
+
+The candidate terms have been randomly selected from among hyponyms of
+each head noun.  Inevitably, some will not be appropriate, in which
+case you will be given new, randomly selected ones.  We decide that a
+term cannot be used if one or more of the following holds:
+
+1. Impossible to find several identifying properties for the term
+among the candidate properties.  This may happen if the term is fairly
+abstract/general, or if insufficient candidates have been found in the
+corpus.
+
+2. Most candidates pertain to a sense in which the term is not a
+hyponym of the head noun (e.g. if "crane" is a hyponym of head noun
+"machine", but most candidates pertain to the 'bird' sense of crane.)
+
+3. In your judgement, the relationship between term and head noun is
+not really hypernymy in common usage, and sounds wrong in the relative
+clause context (e.g. WordNet has "Cognac" as a hyponym of "drug", but
+"Cognac: a drug that <V O>" does not sound natural).
+
+4. Insufficient lexical variety among the participants that make good
+properties (e.g. for "lease", if all good properties involved
+"landlord" or "tenant" as arguments with various verbs).

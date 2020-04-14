@@ -1,0 +1,3 @@
+organization@N@OBJ army@N@SBJ install@V@ROOT    OBJ
+organization@N@OBJ fort@N@SBJ house@V@ROOT OBJ
+organization@N@OBJ defend@V@ROOT castle@N@OBJ  SBJ
