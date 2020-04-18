@@ -1,3 +1,4 @@
-install@V@ROOT    OBJ
-house@V@ROOT OBJ
-defend@V@ROOT  SBJ
+item	target_relation
+install@V@ROOT	OBJ
+house@V@ROOT	OBJ
+defend@V@ROOT	SBJ

@@ -24,10 +24,11 @@ def _build_representations(args):
     password = args.password
     relations_fpath = args.relations
     data_fpaths = args.data
+    vector_fpath = args.vectors
 
     graph = gutils.connect_to_graph(uri, username, password)
 
-    model.build_representation(output_path, graph, relations_fpath, data_fpaths)
+    model.build_representation(output_path, graph, relations_fpath, data_fpaths, vector_fpath)
 
 
 def _extract_relations_list(args):
@@ -67,7 +68,13 @@ def main():
                               help="path to file containing mapping for relations")
     parser_build.add_argument("-d", "--data", nargs='+', required=True,
                               help='paths to files containing dataset')
+    parser_build.add_argument("-v", "--vectors", required=True,
+                              help='path to file containing vectors')
     parser_build.set_defaults(func=_build_representations)
 
     args = parser.parse_args()
     args.func(args)
+
+
+if __name__ == "__main__":
+    main()
