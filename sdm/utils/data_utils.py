@@ -34,7 +34,7 @@ def load_mapping(fpath):
     with open(fpath) as fin:
         for line in fin:
             line = line.strip().split()
-            ret[line[0]] = line[1].split()
+            ret[line[0]] = line[1].split(",")
 
     return ret
 

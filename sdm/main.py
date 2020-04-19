@@ -72,6 +72,11 @@ def main():
                               help='path to file containing vectors')
     parser_build.set_defaults(func=_build_representations)
 
+    # TODO: add these paramters graph=graph, relations_map=relations_map, vectors=vectors,
+    #                        weight_function=f_weight_function, rank_forward=rank_forward,
+    #                        rank_backward=rank_backward, N=N, M=M,
+    #                        include_same_relations=include_same_relations
+
     args = parser.parse_args()
     args.func(args)
 
