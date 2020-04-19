@@ -13,6 +13,13 @@ class LinguisticConditions:
     def update(self, rel, vector, label):
         self.content[rel].append((label, vector))
 
+    def get_vector(self, target_relation):
+        # TODO: get better representation
+
+        print(target_relation)
+        print(self.content)
+        input()
+        return self.content[target_relation][0][1]
 
 class ActiveContext:
     def __init__(self, sdm):
@@ -21,16 +28,22 @@ class ActiveContext:
 
     def update(self, rel, GEK_portion):
 
+        print("in active context update")
         for relation in self.content:
-            head_content = self.sdm.get_representation_function(self.content[relation], self.sdm.M)
-            head_GEK = self.sdm.get_representation_function([GEK_portion[relation]], self.sdm.M)
+            print("examining relation", relation)
 
-            if not head_content == 0:
+            head_content = self.sdm.get_representation_function(self.content[relation], self.sdm.M)
+            print("head_content computed: ", head_content)
+
+            head_GEK = self.sdm.get_representation_function([GEK_portion[relation]], self.sdm.M)
+            print("head_GEK computed: ", head_GEK)
+
+            if head_content is not None:
                 if self.sdm.rank_forward:
                     GEK_portion[relation] = self.rerank(GEK_portion[relation], head_content, self.sdm.weight_function)
 
-            if not head_GEK == 0:
-                if self.sdm.rank_backwards:
+            if head_GEK is not None:
+                if self.sdm.rank_backward:
                     new_content = []
                     for sublist in self.content[relation]:
                         new_content.append(self.rerank(sublist, head_GEK, self.sdm.weight_function))
@@ -39,12 +52,15 @@ class ActiveContext:
             self.content[relation].append(GEK_portion[relation])
 
 
-    def rerank(self, head_vector, weighted_list, ranking_function):
+    def rerank(self, weighted_list, head_vector, ranking_function):
 
         new_list = ranking_function(weighted_list, head_vector)
         new_list.sort(key=lambda x: -x[2])
 
         return new_list
+
+    def get_vector(self, target_relation):
+        return self.sdm.get_representation_function(self.content[target_relation], self.sdm.M)
 
 
 class StructuredDistributionalModel:
@@ -70,18 +86,19 @@ class StructuredDistributionalModel:
         self.LC = LinguisticConditions(self)
         self.AC = ActiveContext(self)
 
-    def process(self, form, pos, rel, K):
+    def process(self, form, pos, rel):
 
         print("processing", form, pos, rel)
         if form in self.vector_space:
 
-            GEK = self.extract_GEK(form, rel, pos, K)
+            GEK = self.extract_GEK(form, rel, pos)
 
             self.LC.update(rel, self.vector_space[form], form)
             self.AC.update(rel, GEK)
 
         else:
             print("word not in vector space", form)
+            input()
 
     def extract_GEK(self, form, rel, pos):
 
@@ -118,13 +135,6 @@ class StructuredDistributionalModel:
                 else:
                     query_str_middle += "AND (a2.role in $forms_out) "
 
-                # NOT EXISTS(a.role) OPPURE a.role is null
-                #     query = "MATCH (n:words {form:$form, POS:$pos}) - [a:args] - (e:events) - [a2:args] - (m:words) " \
-                #             "WHERE a.role IN $roles_in AND a2.role IN $roles_out" \
-                #             "RETURN n.form, a.role, e.form, a2.role, a2.pmi, m.form, m.POS " \
-                #             "ORDER BY a2.pmi DESC " \
-                #             "LIMIT 10"
-
                 query = query_str_prefix+query_str_middle+query_str_suffix
                 print(query)
                 data = self.graph.run(query,
@@ -141,12 +151,21 @@ class StructuredDistributionalModel:
                         GEK[box_relation].append((form, form_v, pmi))
                     else:
                         print("form not in vectors", form)
+                        input()
 
         return GEK
 
 
+    def get_vector(self, target_relation):
+
+        # TODO: handle sentence relation
+
+        LC_vector = self.LC.get_vector(target_relation)
+        AC_vector = self.AC.get_vector(target_relation)
+        return LC_vector + AC_vector
+
 def build_representation(output_path, graph, relations_fpath, data_fpaths, vector_fpath,
-                         weight_function='cosine', rank_forward=True, rank_backward=False,
+                         weight_function='cosine', rank_forward=True, rank_backward=True,
                          N=50, M=20, include_same_relations=True, representation_function='centroid'):
 
     f_weight_function = wutils.possible_functions[weight_function]
@@ -174,8 +193,8 @@ def build_representation(output_path, graph, relations_fpath, data_fpaths, vecto
             for word in elements:
                 form, pos, rel = word
 
-                sdm.process(form, pos, rel, 50)
+                sdm.process(form, pos, rel)
 
-            res.append(sdm.get_representation(object_relation))
+            res.append(sdm.get_vector(object_relation))
 
         dutils.dump_results(filename, res, out_fname)

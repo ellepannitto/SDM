@@ -4,6 +4,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+def dump_results(filename, res, out_fname):
+    pass
+
+
 def load_dataset(fpath):
     dataset = []
     with open(fpath) as fin:

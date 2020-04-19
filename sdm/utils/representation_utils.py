@@ -12,9 +12,14 @@ def _centroid(list_of_lists, n):
                 centroid = vector
             else:
                 centroid += vector
+        if centroid is not None:
+            centroids.append(centroid)
 
-        centroids.append(centroid)
 
-    return np.sum(centroids, axis=0)
+    if len(centroids)>0:
+        ret = np.sum(centroids, axis=0)
+    else:
+        ret = None
+    return ret
 
 possible_functions = {'centroid': _centroid}
