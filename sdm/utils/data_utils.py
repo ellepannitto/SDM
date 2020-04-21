@@ -4,8 +4,15 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def dump_results(filename, res, out_fname):
-    pass
+def dump_results(fpath, res, out_fpath):
+    with open(fpath) as fin, open(out_fpath, "w") as fout:
+        header = fin.readline().strip()
+        print(header+"\tLC_vector\tAC_vector", file=fout)
+        for i, line in enumerate(fin):
+            line = line.strip()
+            v1 = " ".join("{:.3f}".format(x) for x in res[i][0])
+            v2 = " ".join("{:.3f}".format(x) for x in res[i][1])
+            print(line+"\t{}\t{}".format(v1, v2), file=fout)
 
 
 def load_dataset(fpath):
