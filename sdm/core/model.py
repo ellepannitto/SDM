@@ -1,9 +1,10 @@
+import os
+import logging
+import numpy as np
+
 import sdm.utils.data_utils as dutils
 import sdm.utils.weight_utils as wutils
 import sdm.utils.representation_utils as rutils
-
-import os
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,14 @@ class LinguisticConditions:
         # TODO: get better representation
 
         logger.info("Returning LC vector for relation {}".format(target_relation))
-        if self.content[target_relation] is not None:
+
+        if target_relation == 'SENTENCE':
+            vectors = []
+            for relation in self.content:
+                if self.content[relation] is not None:
+                    vectors.append(self.content[relation][0][1])
+            return np.sum(vectors, axis=0)
+        elif self.content[target_relation] is not None:
             return self.content[target_relation][0][1]
         else:
             return "None"
@@ -79,7 +87,14 @@ class ActiveContext:
 
     def get_vector(self, target_relation):
         logger.info("Returning AC vector for relation {}".format(target_relation))
-        return self.sdm.get_representation_function(self.content[target_relation], self.sdm.M)
+
+        if target_relation == 'SENTENCE':
+            vectors = []
+            for relation in self.content:
+                vectors.append(self.sdm.get_representation_function(self.content[relation], self.sdm.M))
+            return np.sum(vectors, axis=0)
+        else:
+            return self.sdm.get_representation_function(self.content[target_relation], self.sdm.M)
 
 
 class StructuredDistributionalModel:
@@ -186,15 +201,13 @@ class StructuredDistributionalModel:
 
     def get_vector(self, target_relation):
 
-        # TODO: handle sentence relation
-
         LC_vector = self.LC.get_vector(target_relation)
         AC_vector = self.AC.get_vector(target_relation)
         return LC_vector, AC_vector
 
 def build_representation(output_path, graph, relations_fpath, data_fpaths, vector_fpath,
-                         weight_function='cosine', rank_forward=True, rank_backward=True,
-                         N=50, M=20, include_same_relations=True, representation_function='centroid'):
+                         weight_function, rank_forward, rank_backward, N, M,
+                         include_same_relations, representation_function):
 
     f_weight_function = wutils.possible_functions[weight_function]
     f_representation_function = rutils.possible_functions[representation_function]

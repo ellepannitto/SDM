@@ -26,9 +26,22 @@ def _build_representations(args):
     data_fpaths = args.data
     vector_fpath = args.vectors
 
+    weight_function = args.weight_function
+    rank_forward = args.not_rank_forward
+    rank_backward = args.not_rank_backward
+    _N = args.N_from_graph
+    _M = args.M_build_rep
+    representation_function = args.representation_function
+    include_same_relations = args.include_same_relations
+
+
     graph = gutils.connect_to_graph(uri, username, password)
 
-    model.build_representation(output_path, graph, relations_fpath, data_fpaths, vector_fpath)
+    model.build_representation(output_path=output_path, graph=graph, relations_fpath=relations_fpath,
+                               data_fpaths=data_fpaths, vector_fpath=vector_fpath,
+                               weight_function=weight_function, rank_forward=rank_forward, rank_backward=rank_backward,
+                               N=_N, M=_M, include_same_relations=include_same_relations,
+                               representation_function=representation_function)
 
 
 def _extract_relations_list(args):
@@ -70,12 +83,19 @@ def main():
                               help='paths to files containing dataset')
     parser_build.add_argument("-v", "--vectors", required=True,
                               help='path to file containing vectors')
+    parser_build.add_argument("--weight-function", default="cosine", choices=['cosine'],
+                              help='function used to rank weighted list against representation vector')
+    parser_build.add_argument("--not-rank-forward", action='store_false')
+    parser_build.add_argument("--not-rank-backward", action='store_false')
+    parser_build.add_argument("-N", "--N-from-graph", default=50, type=int,
+                              help='number of elements to be retrieved from graph for each query')
+    parser_build.add_argument("-M", "--M-build-rep", default=20, type=int,
+                              help='number of elements to be considered to build representation '
+                                   '(head of the weighted lists)')
+    parser_build.add_argument("--representation-function", default="centroid", choices=['centroid'],
+                              help='function used to build representation vector')
+    parser_build.add_argument("--include-same-relations", action="store_true")
     parser_build.set_defaults(func=_build_representations)
-
-    # TODO: add these paramters graph=graph, relations_map=relations_map, vectors=vectors,
-    #                        weight_function=f_weight_function, rank_forward=rank_forward,
-    #                        rank_backward=rank_backward, N=N, M=M,
-    #                        include_same_relations=include_same_relations
 
     args = parser.parse_args()
     args.func(args)
