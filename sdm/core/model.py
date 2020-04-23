@@ -26,7 +26,7 @@ class LinguisticConditions:
         if target_relation == 'SENTENCE':
             vectors = []
             for relation in self.content:
-                if self.content[relation] is not None:
+                if len(self.content[relation]) > 0:
                     vectors.append(self.content[relation][0][1])
             ret = np.sum(vectors, axis=0)
             return ret / np.linalg.norm(ret)
