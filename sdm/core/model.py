@@ -30,7 +30,7 @@ class LinguisticConditions:
                     vectors.append(self.content[relation][0][1])
             ret = np.sum(vectors, axis=0)
             return ret / np.linalg.norm(ret)
-        elif self.content[target_relation] is not None:
+        elif len(self.content[target_relation]) > 0:
             ret = self.content[target_relation][0][1]
             return ret/np.linalg.norm(ret)
         else:
