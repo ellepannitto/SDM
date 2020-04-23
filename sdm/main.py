@@ -11,11 +11,27 @@ import sdm.utils.graph_utils as gutils
 import sdm.utils.os_utils as outils
 
 import sdm.core.model as model
+import sdm.core.evaluation as evaluation
 
 config_dict = cutils.load(os.path.join(os.path.dirname(__file__), 'logging_utils', 'logging.yml'))
 logging.config.dictConfig( config_dict )
 
 logger = logging.getLogger(__name__)
+
+
+def _compute_evaluation(args):
+    output_path = outils.check_dir(args.output_dir)
+    data = args.data
+    odata = args.generated_data
+    vecs = args.vectors
+    mapfile = args.map
+    e = evaluation.Evaluation(data, odata, output_path, vecs, mapfile)
+    dataset_type = args.type
+    try:
+       e.eval_funcs[dataset_type.lower()]()
+    except KeyError:
+        logging.info("WARNING: No function for given dataset!")
+
 
 def _build_representations(args):
     output_path = outils.check_dir(args.output_dir)
@@ -68,6 +84,18 @@ def main():
     parser_build.add_argument("-d", "--data", nargs='+', required=True,
                               help='paths to files containing dataset')
     parser_build.set_defaults(func=_build_representations)
+
+    parser_eval = subparsers.add_parser('compute-evaluation',
+                                         help='compute evaluation over original dataset using obtained representations')
+    parser_eval.add_argument("-d", "--data", required=True, help="path to original dataset")
+    parser_eval.add_argument("-g", "--generated_data", required=True, help="path to output file")
+    parser_eval.add_argument("-o", "--output-dir", help="path to output dir")
+    parser_eval.add_argument("-m", "--map", help="path to mapping file")
+    parser_eval.add_argument("-t","--type", required=True, help="dataset type")
+    parser_eval.add_argument("-v", "--vectors", help='path to file containing vectors')
+
+    parser_eval.set_defaults(func=_compute_evaluation)
+
 
     args = parser.parse_args()
     args.func(args)
