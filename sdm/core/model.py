@@ -20,7 +20,6 @@ class LinguisticConditions:
         logger.info("Updating LC: {}".format(self.content[rel]))
 
     def get_vector(self, target_relation):
-        # TODO: get better representation
 
         logger.info("Returning LC vector for relation {}".format(target_relation))
 
@@ -29,9 +28,11 @@ class LinguisticConditions:
             for relation in self.content:
                 if self.content[relation] is not None:
                     vectors.append(self.content[relation][0][1])
-            return np.sum(vectors, axis=0)
+            ret = np.sum(vectors, axis=0)
+            return ret / np.linalg.norm(ret)
         elif self.content[target_relation] is not None:
-            return self.content[target_relation][0][1]
+            ret = self.content[target_relation][0][1]
+            return ret/np.linalg.norm(ret)
         else:
             return "None"
 
@@ -92,9 +93,11 @@ class ActiveContext:
             vectors = []
             for relation in self.content:
                 vectors.append(self.sdm.get_representation_function(self.content[relation], self.sdm.M))
-            return np.sum(vectors, axis=0)
+            ret = np.sum(vectors, axis=0)
+            return ret / np.linalg.norm(ret)
         else:
-            return self.sdm.get_representation_function(self.content[target_relation], self.sdm.M)
+            ret = self.sdm.get_representation_function(self.content[target_relation], self.sdm.M)
+            return ret / np.linalg.norm(ret)
 
 
 class StructuredDistributionalModel:
@@ -103,7 +106,7 @@ class StructuredDistributionalModel:
         pass
 
     def set_parameters(self, graph, relations_map, vectors, weight_function, rank_forward, rank_backward,
-                 N, M, include_same_relations, representation_function):
+                 N, M, include_same_relations, representation_function, weight_to_extract):
         logger.info("setting SDM global parameters") # TODO: add full dump of parameters
         self.graph = graph.session()
         self.rel_map = relations_map
@@ -116,6 +119,8 @@ class StructuredDistributionalModel:
         self.N = N
         self.M = M
         self.include_same_relations = include_same_relations
+
+        self.weight_to_extract = weight_to_extract
 
     def new_item(self, relations_list):
         logger.info("Initializing new SDM item")
@@ -159,9 +164,15 @@ class StructuredDistributionalModel:
 
                 query_str_prefix = "MATCH (n:words {form:$form, POS:$pos}) - [a:args] - (e:events) - [a2:args] - (m:words) "
                 query_str_middle = "WHERE NOT m.form IN ['LOCATION', 'PERSON', 'ORGANIZATION'] "
-                query_str_suffix = " RETURN n.form, a.role, a2.role, sum(a2.pmi) AS PMI, m.form, m.POS " \
-                                   " ORDER BY PMI DESC " \
-                                   " LIMIT $K "
+
+                if self.weight_to_extract == 'pmi':
+                    query_str_suffix = " RETURN n.form, a.role, a2.role, sum(a2.pmi) AS PMI, m.form, m.POS " \
+                                       " ORDER BY PMI DESC " \
+                                       " LIMIT $K "
+                elif self.weight_to_extract == "lmi":
+                    query_str_suffix = " RETURN n.form, a.role, a2.role, sum(a2.pmi*a2.freq) AS PMI, m.form, m.POS " \
+                                       " ORDER BY PMI DESC " \
+                                       " LIMIT $K "
 
                 if none_in_list_in:
                     query_str_middle += "AND (a.role in $forms_in OR a.role is null) "
@@ -183,7 +194,7 @@ class StructuredDistributionalModel:
                                       forms_in=list_in_wo_none, forms_out=list_out_wo_none,
                                       K=self.N)
 
-                # TODO: how to have N words if something is not in vector space
+                # TODO: how to have N words if something is not in vector space?
                 for el in data.data():
                     el_form = el["m.form"]
                     logger.info("extracted word {}".format(el_form))
@@ -207,7 +218,7 @@ class StructuredDistributionalModel:
 
 def build_representation(output_path, graph, relations_fpath, data_fpaths, vector_fpath,
                          weight_function, rank_forward, rank_backward, N, M,
-                         include_same_relations, representation_function):
+                         include_same_relations, representation_function, weight_to_extract):
 
     f_weight_function = wutils.possible_functions[weight_function]
     f_representation_function = rutils.possible_functions[representation_function]
@@ -220,7 +231,8 @@ def build_representation(output_path, graph, relations_fpath, data_fpaths, vecto
                        weight_function=f_weight_function, rank_forward=rank_forward,
                        rank_backward=rank_backward, N=N, M=M,
                        include_same_relations=include_same_relations,
-                       representation_function=f_representation_function)
+                       representation_function=f_representation_function,
+                       weight_to_extract=weight_to_extract)
 
     for filename in data_fpaths:
 

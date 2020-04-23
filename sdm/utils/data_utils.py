@@ -21,14 +21,15 @@ def load_dataset(fpath):
         header = fin.readline().strip().split()
 
         item_col = header.index("item")
-        target_col = header.index("target_relation")
+        target_col = header.index("target-relation")
 
         for line in fin:
             ac_content = set()
             linesplit = line.strip().split("\t")
             if len(linesplit):
                 item, object_relation = linesplit[item_col], linesplit[target_col]
-                ac_content.add(object_relation)
+                if not object_relation == 'SENTENCE':
+                    ac_content.add(object_relation)
                 item = item.split()
                 elements = []
                 for el in item:
