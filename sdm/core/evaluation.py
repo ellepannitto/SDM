@@ -25,7 +25,7 @@ class Evaluation(object):
 		self.res_data = res_data_fpath
 		self.out_fold =out_folder
 		self.mapping = mapping_fpath
-		if vector_fpath: self.vecs = dutils.load_vectors(vector_fpath, len_vectors=10)
+		if vector_fpath: self.vecs = dutils.load_vectors(vector_fpath, len_vectors=-1)
 		self.eval_funcs = {"ks":self.ks_evaluation, "dtfit":self.dtfit_evaluation}
 
 	def ks_evaluation(self):
@@ -61,16 +61,22 @@ class Evaluation(object):
 		sim_res = {}
 		for i in data.index:
 			v_target = np.array([float(x) for x in res["AC_vector"][i].split()])
-			v_original = self.vecs[data[res["target-relation"][i]][i]]
+			try:
+				v_original = self.vecs[data[res["target-relation"][i]][i]]
+				sim = sim_vecs(v_target, v_original)
+				sim_res[i] = sim
+			except KeyError:
+				pass
 
 		#spermancorr
-		scores = [data["score"][i] for i in sorted(sim_res.keys())]
+		scores = [data["mean_rat"][i] for i in sorted(sim_res.keys())]
 		sim_scores = [sim_res[i] for i in sorted(sim_res.keys())]
-		logger.info("Spearman's correlation: "+ spearmanr(scores, sim_scores))
-		print(spearmanr(scores, sim_scores))
+		logger.info("Spearman's correlation: {}".format(spearmanr(scores, sim_scores)[0])
+		#print(spearmanr(scores, sim_scores))
 
 		# write sims
-		data["sims"] = sim_scores
+		data_out = data.ix[sorted(sim_res.keys())]
+		data_out["sims"] = sim_scores
 		out_fname = os.path.join(self.out_fold, os.path.basename(self.dataset) + ".sims")
-		data.to_csv(out_fname, index=False)
+		data_out.to_csv(out_fname, index=False)
 #def nakov_evaluation():
