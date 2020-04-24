@@ -48,7 +48,7 @@ class Evaluation(object):
 		#spermancorr
 		scores = [data["score"][i] for i in sorted(sim_res.keys())]
 		sim_scores = [sim_res[i] for i in sorted(sim_res.keys())]
-		logger.info("Spearman's correlation: "+ spearmanr(scores, sim_scores))
+		logger.info("Spearman's correlation: {}".format(spearmanr(scores, sim_scores)))
 		print(spearmanr(scores, sim_scores))
 
 		# write sims
