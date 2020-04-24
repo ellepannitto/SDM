@@ -53,7 +53,7 @@ class Evaluation(object):
 
 		# write sims
 		data["sims"] = sim_scores
-		data.to_csv(os.path.join(self.out_fold, "{}.sims.csv".format(f)), index=False)
+		data.to_csv(os.path.join(self.out_fold, os.path.basename(self.dataset)+".sims"), index=False)
 
 	def dtfit_evaluation(self):
 		data = pd.read_csv(self.dataset, delimiter="\t")
