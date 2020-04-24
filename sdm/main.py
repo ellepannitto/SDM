@@ -33,6 +33,7 @@ def _build_representations(args):
     _M = args.M_build_rep
     representation_function = args.representation_function
     include_same_relations = args.include_same_relations
+    reduced_vec_len = args.reduced_vec_len
 
     weight_to_extract = args.weight_from_graph
 
@@ -43,7 +44,7 @@ def _build_representations(args):
                                weight_function=weight_function, rank_forward=rank_forward, rank_backward=rank_backward,
                                N=_N, M=_M, include_same_relations=include_same_relations,
                                representation_function=representation_function,
-                               weight_to_extract=weight_to_extract)
+                               weight_to_extract=weight_to_extract, reduced_vec_len=reduced_vec_len)
 
 
 def _extract_relations_list(args):
@@ -98,6 +99,7 @@ def main():
                               help='function used to build representation vector')
     parser_build.add_argument("--include-same-relations", action="store_true")
     parser_build.add_argument("--weight-from-graph", default='pmi', choices=['pmi', 'lmi'])
+    parser_build.add_argument("--reduced-vec-len", type=int, default=-1)
     parser_build.set_defaults(func=_build_representations)
 
     args = parser.parse_args()

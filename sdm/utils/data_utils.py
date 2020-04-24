@@ -10,8 +10,14 @@ def dump_results(fpath, res, out_fpath):
         print(header+"\tLC_vector\tAC_vector", file=fout)
         for i, line in enumerate(fin):
             line = line.strip()
-            v1 = " ".join("{:.3f}".format(x) for x in res[i][0])
-            v2 = " ".join("{:.3f}".format(x) for x in res[i][1])
+            if res[i][0]=="None":
+                v1 = "None"
+            else:
+                v1 = " ".join("{:.3f}".format(x) for x in res[i][0])
+            if res[i][1]=="None":
+                v2 = "None"
+            else:
+                v2 = " ".join("{:.3f}".format(x) for x in res[i][1])
             print(line+"\t{}\t{}".format(v1, v2), file=fout)
 
 
