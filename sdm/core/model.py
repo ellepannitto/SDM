@@ -9,6 +9,17 @@ import sdm.utils.representation_utils as rutils
 logger = logging.getLogger(__name__)
 
 
+def rerank(weighted_list, head_vector, ranking_function):
+    logger.info("list to re-rank: {}".format([x[0] for x in weighted_list]))
+
+    new_list = ranking_function(weighted_list, head_vector)
+    new_list.sort(key=lambda x: -x[2])
+
+    logger.info("new list: {}".format([x[0] for x in new_list]))
+
+    return new_list
+
+
 class LinguisticConditions:
     def __init__(self, sdm):
         self.sdm = sdm
@@ -39,19 +50,20 @@ class LinguisticConditions:
                     vectors.append(self.content[relation][0][1])
             ret = np.sum(vectors, axis=0)
             return ret / len(vectors)
-        elif len(self.content[target_relation])>0:
+        elif len(self.content[target_relation]) > 0:
             ret = self.content[target_relation][0][1]
             return ret
         else:
-            return "None"
+            return None
+
 
 class ActiveContext:
     def __init__(self, sdm):
-        self.sdm =  sdm
+        self.sdm = sdm
         self.content = {r: [] for r in self.sdm.relations}
         logger.info("Initializing AC: {}".format(self.content))
 
-    def update(self, rel, GEK_portion):
+    def update(self, GEK_portion):
 
         print("* previous AC:", file=self.sdm.log_file)
         for relation in self.content:
@@ -66,7 +78,6 @@ class ActiveContext:
         for relation in self.content:
             logger.info("Examining relation {}".format(relation))
 
-
             if self.sdm.rank_forward:
                 print("* computing centroid of AC content for relation {}".format(relation))
                 head_content = self.sdm.get_representation_function(self.content[relation], self.sdm.M)
@@ -74,7 +85,7 @@ class ActiveContext:
 
                 if head_content is not None:
                     logger.info("Re-ranking GEK_portion with respect to head_content")
-                    GEK_portion[relation] = self.rerank(GEK_portion[relation], head_content, self.sdm.weight_function)
+                    GEK_portion[relation] = rerank(GEK_portion[relation], head_content, self.sdm.weight_function)
 
             if self.sdm.rank_backward:
                 print("* computing centroid of GEK portion content for relation {}".format(relation))
@@ -85,14 +96,19 @@ class ActiveContext:
                     logger.info("Re-ranking AC content with respect to head_GEK")
                     new_content = []
                     for sublist in self.content[relation]:
-                        new_content.append(self.rerank(sublist, head_GEK, self.sdm.weight_function))
+                        new_content.append(rerank(sublist, head_GEK, self.sdm.weight_function))
                     self.content[relation] = new_content
 
                     logger.info("new content for relation {}: "
                                 "{}".format(relation, [[x[0] for x in sublist] for sublist in self.content[relation]]))
 
             logger.info("Appending GEK_portion to content for relation {}".format(relation))
-            self.content[relation].append(GEK_portion[relation])
+
+            if len(GEK_portion[relation]) > 0:
+                self.content[relation].append(GEK_portion[relation])
+            else:
+                logger.info("GEK portion empty")
+                # input()
 
         print("* current AC:", file=self.sdm.log_file)
         for relation in self.content:
@@ -102,25 +118,15 @@ class ActiveContext:
                 substr += " || "
             print("\t{} - {}".format(relation, substr), file=self.sdm.log_file)
 
-
-    def rerank(self, weighted_list, head_vector, ranking_function):
-
-        logger.info("list to re-rank: {}".format([x[0] for x in weighted_list]))
-
-        new_list = ranking_function(weighted_list, head_vector)
-        new_list.sort(key=lambda x: -x[2])
-
-        logger.info("new list: {}".format([x[0] for x in new_list]))
-
-        return new_list
-
     def get_vector(self, target_relation):
         logger.info("Returning AC vector for relation {}".format(target_relation))
 
         if target_relation == 'SENTENCE':
             vectors = []
             for relation in self.content:
-                vectors.append(self.sdm.get_representation_function(self.content[relation], self.sdm.M))
+                ret = self.sdm.get_representation_function(self.content[relation], self.sdm.M)
+                if ret is not None:
+                    vectors.append(ret)
             ret = np.sum(vectors, axis=0)
             return ret / len(vectors)
         else:
@@ -129,13 +135,12 @@ class ActiveContext:
 
 
 class StructuredDistributionalModel:
-    def __init__(self):
-        logger.info("Initializing new structured distributional model")
-        pass
-
-    def set_parameters(self, graph, relations_map, vectors, weight_function, rank_forward, rank_backward,
+    def __init__(self, graph, relations_map, vectors, weight_function, rank_forward, rank_backward,
                  N, M, include_same_relations, representation_function, weight_to_extract):
-        logger.info("setting SDM global parameters") # TODO: add full dump of parameters
+
+        logger.info("Initializing new structured distributional model")
+        logger.info("setting SDM global parameters")  # TODO: add full dump of parameters
+
         self.graph = graph.session()
         self.rel_map = relations_map
         self.vector_space = vectors
@@ -150,17 +155,18 @@ class StructuredDistributionalModel:
 
         self.weight_to_extract = weight_to_extract
 
+        self.log_file = None
+        self.relations = None
+        self.LC, self.AC = None, None
+
     def new_item(self, relations_list, log_fout_handler):
         logger.info("Initializing new SDM item")
 
         self.log_file = log_fout_handler
         self.relations = relations_list
-        print("RELATIONS: {}".format(self.relations), file= self.log_file)
+        print("RELATIONS: {}".format(self.relations), file=self.log_file)
         self.LC = LinguisticConditions(self)
         self.AC = ActiveContext(self)
-
-
-
 
     def process(self, form, pos, rel):
 
@@ -170,9 +176,9 @@ class StructuredDistributionalModel:
             print("[STEP1: EXTRACTING GEK for {}@{}@{}]".format(form, pos, rel), file=self.log_file)
             GEK = self.extract_GEK(form, rel, pos)
             print("[STEP2: UPDATING LC for {}@{}@{}]".format(form, pos, rel), file=self.log_file)
-            self.LC.update(rel, self.vector_space[form], form)
+            self.LC.update(rel, self.vector_space[(form, pos)], form)
             print("[STEP3: UPDATING AC for {}@{}@{}]".format(form, pos, rel), file=self.log_file)
-            self.AC.update(rel, GEK)
+            self.AC.update(GEK)
         else:
             logger.info("WARNING: element not in vector space")
             print("[WARNING]: element {} not in vector space".format(form), file=self.log_file)
@@ -191,7 +197,7 @@ class StructuredDistributionalModel:
                 logger.info("label {} is equal to relation {}".format(box_relation, rel))
                 if self.include_same_relations:
                     # TODO: do we normalize the PMI between 0 and 1 always?
-                    GEK[box_relation].append((form, self.vector_space[form], 1))
+                    GEK[box_relation].append((form, self.vector_space[(form, pos)], 1))
                     logger.info("Adding {} as GEK for label {}".format(form, box_relation))
             else:
                 none_in_list_in = 'None' in self.rel_map[rel]
@@ -202,6 +208,7 @@ class StructuredDistributionalModel:
 
                 query_str_prefix = "MATCH (n:words {form:$form, POS:$pos}) - [a:args] - (e:events) - [a2:args] - (m:words) "
                 query_str_middle = "WHERE NOT m.form IN ['LOCATION', 'PERSON', 'ORGANIZATION'] "
+                query_str_suffix = ""
 
                 if self.weight_to_extract == 'pmi':
                     query_str_suffix = " RETURN n.form, a.role, a2.role, sum(a2.pmi) AS PMI, m.form, m.POS " \
@@ -233,13 +240,13 @@ class StructuredDistributionalModel:
                                       forms_in=list_in_wo_none, forms_out=list_out_wo_none,
                                       K=self.N)
 
-
-                # TODO: how to have N words if something is not in vector space?
                 for el in data.data():
+                    # TODO: how to have N words if something is not in vector space?
                     el_form = el["m.form"]
+                    el_pos = el["m.POS"]
                     logger.info("extracted word {}".format(el_form))
                     if el_form in self.vector_space:
-                        el_form_v = self.vector_space[el_form]
+                        el_form_v = self.vector_space[(el_form, el_pos)]
                         pmi = el["PMI"]
                         GEK[box_relation].append((el_form, el_form_v, pmi))
                     else:
@@ -251,30 +258,29 @@ class StructuredDistributionalModel:
 
         return GEK
 
-
     def get_vector(self, target_relation):
 
         LC_vector = self.LC.get_vector(target_relation)
         AC_vector = self.AC.get_vector(target_relation)
         return LC_vector, AC_vector
 
-def build_representation(output_path, graph, relations_fpath, data_fpaths, vector_fpath,
+
+def build_representation(output_path, graph, relations_fpath, data_fpaths, vector_space,
                          weight_function, rank_forward, rank_backward, N, M,
-                         include_same_relations, representation_function, weight_to_extract, reduced_vec_len):
+                         include_same_relations, representation_function, weight_to_extract):
 
     f_weight_function = wutils.possible_functions[weight_function]
     f_representation_function = rutils.possible_functions[representation_function]
 
     relations_map = dutils.load_mapping(relations_fpath)
-    vectors = dutils.load_vectors(vector_fpath, len_vectors=reduced_vec_len)
+    vectors = vector_space
 
-    sdm = StructuredDistributionalModel()
-    sdm.set_parameters(graph=graph, relations_map=relations_map, vectors=vectors,
-                       weight_function=f_weight_function, rank_forward=rank_forward,
-                       rank_backward=rank_backward, N=N, M=M,
-                       include_same_relations=include_same_relations,
-                       representation_function=f_representation_function,
-                       weight_to_extract=weight_to_extract)
+    sdm = StructuredDistributionalModel(graph=graph, relations_map=relations_map, vectors=vectors,
+                                        weight_function=f_weight_function, rank_forward=rank_forward,
+                                        rank_backward=rank_backward, N=N, M=M,
+                                        include_same_relations=include_same_relations,
+                                        representation_function=f_representation_function,
+                                        weight_to_extract=weight_to_extract)
 
     for filename in data_fpaths:
         log_fname = output_path + os.path.basename(filename) + ".log"

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def _centroid(list_of_lists, n):
     centroids = []
 
@@ -20,12 +21,13 @@ def _centroid(list_of_lists, n):
             centroid = centroid / n_summed
             centroids.append(centroid)
 
-
-    if len(centroids)>0:
+    if len(centroids) > 0:
         ret = np.sum(centroids, axis=0)
         ret = ret / len(centroids)
     else:
         ret = None
+
     return ret
+
 
 possible_functions = {'centroid': _centroid}
