@@ -1,0 +1,141 @@
+script patrick:
+dati -> relazioni
+relazioni -> statistiche
+statistiche -> formato x grafo
+
+
+frequenza words - 50
+frequenza - 20
+
+
+## FORMATI FILE DA RIPRODURRE
+
+1. stats:
+lemma.pos.rel.ne.txt
+!       .       punct   O       1
+''      ''      punct   O       2
+,       ,       punct   O       41
+.       .       punct   O       50
+...     :       punct   O       1
+:       :       punct   O       1
+?       .       punct   O       1
+
+.       .       50
+,       ,       41
+a       DT      38
+book    NNS     35
+the     DT      28
+
+ne.txt
+O       789
+TITLE   9
+SET     4
+NUMBER  1
+LOCATION        1
+DATE    1
+
+pos.rel.txt
+DT      det     77
+.       punct   52
+IN      case    51
+,       punct   41
+JJ      amod    37
+RB      advmod  35
+PRP     nsubj   34
+
+
+rel.txt
+punct   98
+det     77
+nsubj   76
+case    56
+dobj    55
+ROOT    53
+advmod  43
+
+pos.txt
+NN      97
+NNS     83
+DT      82
+IN      69
+JJ      55
+.       52
+
+2. tokens:
+event_tokens.txt:
+LOCATION/N      1
+PERSON/N        14
+actual/J        1
+administrative/J        1
+amaze/V 1
+architect/N     1
+attention/N     1
+author/N        8
+bad/J   1
+bang/V  1
+bar/N   1
+be/V    34
+become/V        1
+better/J        1
+bigger/J        1
+
+event_tokens-3.txt
+be/V    34
+book/N  31
+read/V  16
+PERSON/N        14
+write/V 11
+library/N       10
+have/V  9
+author/N        8
+professor/N     5
+place/N 5
+world/N 5
+
+event_tokens-50.txt
+
+3. events
+folder 3:
+events-3.txt
+1       8       2
+1-      14-7    2
+1-      15-7    3
+1-      16-7    2
+1-      19-2    1
+1-2     21-     1
+1-29    15-     1
+1-33    5-      1
+1-4     10-18   1
+1-4     10-18   4-      1
+1-4     13-2    4
+1-4     2-      13
+1-4     2-      13-2    4
+1-4     2-      22-2    1
+
+events-3-3.txt
+1       13      4
+1       14      3
+1       15      4
+1       2       13
+1       4       11
+1-      15-7    3
+1-4     13-2    4
+1-4     2-      13
+1-4     2-      13-2    4
+1-4     4-      11
+2       13      4
+2-      13-2    4
+
+events-3-3.txt
+book/N  reader/N        4
+book/N  many/J  3
+book/N  mediocre/J      4
+book/N  read/V  13
+book/N  write/V 11
+book/N- mediocre/J-amod 3
+book/N-dobj     reader/N-nsubj  4
+book/N-dobj     read/V- 13
+book/N-dobj     read/V- reader/N-nsubj  4
+book/N-dobj     write/V-        11
+read/V  reader/N        4
+read/V- reader/N-nsubj  4
