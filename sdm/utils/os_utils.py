@@ -1,6 +1,5 @@
 import logging
 import os
-import glob
 
 logger = logging.getLogger(__name__)
 
