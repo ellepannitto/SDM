@@ -64,10 +64,13 @@ class VectorsDict(dict):
         self.withPoS = withPoS
 
     def __getitem__(self, item):
-        form, pos = item
+
         if self.withPoS:
+            form, pos = item
             # TODO: allow for different composition functions
             form = form+"/"+pos
+        else:
+            form = item
         return super().__getitem__(form)
 
 
@@ -127,6 +130,7 @@ def _load_vectors_from_text(vectors_fpath, withPoS, noun_set, len_vectors):
 
     logger.info("loaded {} vectors".format(len(noun_vectors)))
     return noun_vectors
+
 
 def load_vectors(vectors_fpath, withPoS=False, noun_set=set(), len_vectors=-1):
 
