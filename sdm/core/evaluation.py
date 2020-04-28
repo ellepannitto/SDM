@@ -19,6 +19,7 @@ def sim_vecs( v1, v2):
 		s = cosine_similarity(v1.reshape(1, -1), v2.reshape(1, -1))
 	return s[0][0]
 
+
 class Evaluation(object):
 	def __init__(self, data_fpath, res_data_fpath, out_folder, vector_fpath=None, mapping_fpath=None):
 		self.dataset = data_fpath
@@ -26,7 +27,7 @@ class Evaluation(object):
 		self.out_fold =out_folder
 		self.mapping = mapping_fpath
 		if vector_fpath: self.vecs = dutils.load_vectors(vector_fpath, len_vectors=-1)
-		self.eval_funcs = {"ks":self.ks_evaluation, "dtfit":self.dtfit_evaluation}
+		self.eval_funcs = {"ks": self.ks_evaluation, "dtfit": self.dtfit_evaluation, "tfit_mit": self.tfit_mit_evaluation}
 
 	def ks_evaluation(self):
 		# load mapping id
@@ -62,7 +63,9 @@ class Evaluation(object):
 		for i in data.index:
 			v_target = np.array([float(x) for x in res["AC_vector"][i].split()])
 			try:
-				v_original = self.vecs[data[res["target-relation"][i]][i]]
+				label = res["target-relation"][i]
+				if label == "OBJ": label = "OBJECT"
+				v_original = self.vecs[data[label][i]]
 				sim = sim_vecs(v_target, v_original)
 				sim_res[i] = sim
 			except KeyError:
@@ -71,7 +74,7 @@ class Evaluation(object):
 		#spermancorr
 		scores = [data["mean_rat"][i] for i in sorted(sim_res.keys())]
 		sim_scores = [sim_res[i] for i in sorted(sim_res.keys())]
-		logger.info("Spearman's correlation: {}".format(spearmanr(scores, sim_scores)[0])
+		logger.info("Spearman's correlation: {}".format(spearmanr(scores, sim_scores)[0]))
 		#print(spearmanr(scores, sim_scores))
 
 		# write sims
@@ -80,3 +83,15 @@ class Evaluation(object):
 		out_fname = os.path.join(self.out_fold, os.path.basename(self.dataset) + ".sims")
 		data_out.to_csv(out_fname, index=False)
 #def nakov_evaluation():
+
+	def tfit_mit_evaluation(self):
+		#todo
+		print(1)
+
+
+def compute_evaluation(original_data, results_data, out_dir, vector_file, mapping_file, data_type):
+	e = Evaluation(original_data, results_data, out_dir, vector_file, mapping_file)
+
+	e.eval_funcs[data_type]()
+
+

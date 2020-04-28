@@ -28,7 +28,7 @@ def _compute_evaluation(args):
     vecs = args.vectors
     mapfile = args.map
     data_type = args.type
-    evaluation.compute_evaluation(original_data, generated_data, vecs, mapfile, data_type)
+    evaluation.compute_evaluation(original_data, generated_data, output_path, vecs, mapfile, data_type)
 
 
 def _build_representations(args):
