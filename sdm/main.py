@@ -11,6 +11,7 @@ import sdm.utils.graph_utils as gutils
 import sdm.utils.os_utils as outils
 import sdm.utils.data_utils as dutils
 
+import sdm.core.datasets as datasets
 import sdm.core.model as model
 import sdm.core.evaluation as evaluation
 
@@ -22,17 +23,12 @@ logger = logging.getLogger(__name__)
 
 def _compute_evaluation(args):
     output_path = outils.check_dir(args.output_dir)
-    data = args.data
-    odata = args.generated_data
+    original_data = args.data
+    generated_data = args.generated_data
     vecs = args.vectors
     mapfile = args.map
-    e = evaluation.Evaluation(data, odata, output_path, vecs, mapfile)
-    dataset_type = args.type
-    try:
-       e.eval_funcs[dataset_type.lower()]()
-    except KeyError:
-        logging.info("WARNING: No function for given dataset!")
-
+    data_type = args.type
+    evaluation.compute_evaluation(original_data, generated_data, output_path, vecs, mapfile, data_type)
 
 
 def _build_representations(args):
@@ -69,6 +65,14 @@ def _build_representations(args):
                                weight_to_extract=weight_to_extract)
 
 
+def _prepare_input(args):
+    data = args.data
+    outfolder = outils.check_dir(args.output_dir)
+    datatype = args.type
+    outtype = args.sequence_order
+    datasets.prepare_input_files(data, outfolder, datatype, outtype)
+
+
 def _extract_relations_list(args):
     output_path = outils.check_dir(args.output_dir)
     uri = args.uri
@@ -94,6 +98,17 @@ def main():
     parser_relationlist.add_argument("-u", "--user", help="user to connect to the graph")
     parser_relationlist.add_argument("-p", "--password", help="password to connect to the graph")
     parser_relationlist.set_defaults(func=_extract_relations_list)
+
+    parser_prepareInputFile = subparsers.add_parser('prepare-input',
+                                                    help='take original dataset and convert in SDM accepted format')
+    parser_prepareInputFile.add_argument("-d", "--data", nargs='+', required=True,
+                                         help='paths to files containing dataset')
+    parser_prepareInputFile.add_argument("-o", "--output-dir",
+                              help="path to output dir, default is data/results/")
+    parser_prepareInputFile.add_argument("-t", "--type", required=True, choices=["ks", "dtfit", "tfit_mit"], help="dataset type")
+    parser_prepareInputFile.add_argument("--sequence-order", choices=["verbs_args", "head_verbs_args"],
+                                         help="output arguments order")
+    parser_prepareInputFile.set_defaults(func=_prepare_input)
 
     parser_build = subparsers.add_parser('build-representations',
                                          help='build representations over input files')
@@ -132,11 +147,10 @@ def main():
     parser_eval.add_argument("-g", "--generated_data", required=True, help="path to output file")
     parser_eval.add_argument("-o", "--output-dir", help="path to output dir")
     parser_eval.add_argument("-m", "--map", help="path to mapping file")
-    parser_eval.add_argument("-t","--type", required=True, help="dataset type")
+    parser_eval.add_argument("-t", "--type", required=True, choices=["ks", "dtfit", "tfit_mit"], help="dataset type")
     parser_eval.add_argument("-v", "--vectors", help='path to file containing vectors')
 
     parser_eval.set_defaults(func=_compute_evaluation)
-
 
     args = parser.parse_args()
     args.func(args)
