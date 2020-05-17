@@ -1,12 +1,5 @@
 import functools
-import tqdm
 import logging
-import uuid
-import collections
-import multiprocessing as mp
-
-import os
-import glob
 
 from sdm.utils import os_utils as outils
 from sdm.utils import data_utils as dutils
@@ -35,9 +28,9 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
         extract_patterns_stream(result_list)
 
 
-def CoNLLPipeline(output_dir, input_paths, list_of_workers = [2,2,2]):
+def CoNLLPipeline(output_dir, input_paths, delimiter, list_of_workers = [2,2,2]):
 
-    list_of_functions = [outils.get_filenames, cutils.CoNLLReader, cutils.DependencyBuilder]
+    list_of_functions = [outils.get_filenames, functools.partial(cutils.CoNLLReader, delimiter), cutils.DependencyBuilder]
     # outils.get_filenames: from directory to filenames
     # cutils.CoNLLReader: from filepath to list of sentences
     # cutils.DependencyBuilder: from sentence to representation head + deps
@@ -49,10 +42,3 @@ def CoNLLPipeline(output_dir, input_paths, list_of_workers = [2,2,2]):
 
     for result_list in dutils.grouper(pipeline.run(input_paths)):
         extract_patterns(result_list)
-
-
-if __name__ == "__main__":
-
-    extract_stats("/home/ludovica.pannitto/prova_multiprocessing/",
-                  ["/extra/corpora/corpora-en/ukWaC/3_UD/ukwac1/", "/extra/corpora/corpora-en/ukWaC/3_UD/ukwac2/"],
-                  [outils.get_filenames, CoNLLReader, functools.partial(build_dependencies, params)])

@@ -14,7 +14,7 @@ def StanzaReader(text, preprocessing_fn=None, nlp=None):
         yield sentence
 
 
-def CoNLLReader(filepath):
+def CoNLLReader(filepath, delimiter=" "):
     BASIC_FIELD_TO_IDX = {'id', 'text', 'lemma', 'upos', 'head', 'deprel'}
 
     with open(filepath) as fin:

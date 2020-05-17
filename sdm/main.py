@@ -23,10 +23,13 @@ logger = logging.getLogger(__name__)
 
 def _pipeline_extraction(args):
     output_path = outils.check_dir(args.output_dir)
+    delimiter = args.delimiter
+    input_parhs = args.input_dirs
+
     pipeline = args.pipeline
 
     if pipeline == "conll":
-        extraction.CoNLLPipeline(output_path)
+        extraction.CoNLLPipeline(output_path, delimiter)
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
 
@@ -107,6 +110,7 @@ def main():
     parser_pipelineExtraction.add_argument("-p", "--pipeline",
                                            help="type of pipeline to run",
                                            choices=["conll", "stream"], default="conll")
+    parser_pipelineExtraction.add_argument("--delimiter", default=" ")
     parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True)
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
