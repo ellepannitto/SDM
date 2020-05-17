@@ -93,5 +93,3 @@ def compute_evaluation(original_data, results_data, out_dir, vector_file, mappin
 	e = Evaluation(original_data, results_data, out_dir, vector_file, mapping_file)
 
 	e.eval_funcs[data_type]()
-
-

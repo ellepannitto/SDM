@@ -13,12 +13,22 @@ import sdm.utils.data_utils as dutils
 
 import sdm.core.datasets as datasets
 import sdm.core.model as model
-import sdm.core.evaluation as evaluation
+import sdm.core.extraction as extraction
 
 config_dict = cutils.load(os.path.join(os.path.dirname(__file__), 'logging_utils', 'logging.yml'))
 logging.config.dictConfig(config_dict)
 
 logger = logging.getLogger(__name__)
+
+
+def _pipeline_extraction(args):
+    output_path = outils.check_dir(args.output_dir)
+    pipeline = args.pipeline
+
+    if pipeline == "conll":
+        extraction.CoNLLPipeline(output_path)
+    elif pipeline == "stream":
+        extraction.StreamPipeline(output_path)
 
 
 def _compute_evaluation(args):
@@ -90,6 +100,23 @@ def main():
     parser = argparse.ArgumentParser(prog='sdm')
     subparsers = parser.add_subparsers()
 
+    # Building the Graph
+
+    parser_pipelineExtraction = subparsers.add_parser("pipeline-extraction",
+                                                      help='from text to events')
+    parser_pipelineExtraction.add_argument("-p", "--pipeline",
+                                           help="type of pipeline to run",
+                                           choices=["conll", "stream"], default="conll")
+    parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True)
+    parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
+
+    # TODO: from pipeline output to neo4j input format
+    # TODO: import in neo4j
+    # TODO: add weights
+    # TODO: vectors?
+
+    # SDM Model
+
     parser_relationlist = subparsers.add_parser('extract-possible-relations',
                                                 help='extract possible relations from graph')
     parser_relationlist.add_argument("-o", "--output-dir",
@@ -142,7 +169,7 @@ def main():
     parser_build.set_defaults(func=_build_representations)
 
     parser_eval = subparsers.add_parser('compute-evaluation',
-                                         help='compute evaluation over original dataset using obtained representations')
+                                        help='compute evaluation over original dataset using obtained representations')
     parser_eval.add_argument("-d", "--data", required=True, help="path to original dataset")
     parser_eval.add_argument("-g", "--generated_data", required=True, help="path to output file")
     parser_eval.add_argument("-o", "--output-dir", help="path to output dir")
