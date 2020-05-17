@@ -24,12 +24,10 @@ def check_dir(path):
 
 
 def get_filenames(input_paths):
-    ret = []
     for input_path in input_paths:
         if os.path.isfile(input_path):
-            ret.append(input_path)
+            yield input_path
         else:
             for filename in glob.glob(input_path+"/*"):
                 if os.path.isfile(filename):
-                    ret.append(filename)
-    return ret
+                    yield filename

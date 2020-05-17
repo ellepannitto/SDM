@@ -2,56 +2,57 @@ import functools
 import tqdm
 import logging
 import uuid
-from multiprocessing import Pool
+import collections
+import multiprocessing as mp
+
+import os
+import glob
 
 from sdm.utils import os_utils as outils
 from sdm.utils import data_utils as dutils
 from sdm.utils import corpus_utils as cutils
+from sdm.utils import pipeline_utils as putils
 
 logger = logging.getLogger(__name__)
 
 
-def sentences_generator(files_list):
-    for filename in files_list:
-        for sentence in cutils.ukWaCReader(filename):
-            yield sentence
+def extract_stats(list_of_sentences):
+    pass
+
+def extract_patterns_stream(list_of_sentences):
+    pass
+
+def extract_patterns(list_of_sentences):
+    pass
+
+def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
+
+    list_of_functions = [a, b, c]
+
+    pipeline = putils.Pipeline(list_of_functions, list_of_workers)
+
+    for result_list in dutils.grouper(pipeline.run(input_data)):
+        extract_patterns_stream(result_list)
 
 
-def parallel_process_sentences(output_path, list_of_sentences):
-    tmp_id = uuid.uuid4()
+def CoNLLPipeline(output_dir, input_paths, list_of_workers = [2,2,2]):
 
-    # TODO: move to file
-    accepted_ne = ["PERSON", "ORGANIZATION", "LOCATION", "COUNTRY", "CITY", "STATE_OR_PROVINCE"]
-    accepted_pos = ["N", "V", "J"]
-    accepted_synrels = []
+    list_of_functions = [outils.get_filenames, cutils.CoNLLReader, cutils.DependencyBuilder]
+    # outils.get_filenames: from directory to filenames
+    # cutils.CoNLLReader: from filepath to list of sentences
+    # cutils.DependencyBuilder: from sentence to representation head + deps
 
-    for sentence in list_of_sentences:
-        for token in sentence:
-            tokensplit = token.split()
-            try:
-                id, form, lemma, pos, ne, synrels = tokensplit
-                synrels = synrels.split(",")
-                split_synrels = []
-                for rel in synrels:
-                    label, head = rel.split("=")
-                    split_synrels.append((label, head))
-                # if pos in ["NNP", "NNPS"] and ne in accepted_ne:
+    pipeline = putils.Pipeline(list_of_functions, list_of_workers)
 
-            except:
-                print(token)
+    for result_list in dutils.grouper(pipeline.run(input_paths)):
+        extract_stats(result_list)
+
+    for result_list in dutils.grouper(pipeline.run(input_paths)):
+        extract_patterns(result_list)
 
 
-def extract_stats(output_dir, input_paths, n_workers, batch_size):
-    list_of_files = outils.get_filenames(input_paths)
+if __name__ == "__main__":
 
-    tmp_path = outils.add_tmp_folder(output_dir)
-
-    with Pool(n_workers) as p:
-        iterator = dutils.grouper(sentences_generator(list_of_files), batch_size)
-        imap_obj = p.imap(functools.partial(parallel_process_sentences, tmp_path), iterator)
-
-        for _ in tqdm.tqdm(imap_obj, total=len(list_of_files) // batch_size):
-            pass
-
-
-    outils.remove(tmp_path)
+    extract_stats("/home/ludovica.pannitto/prova_multiprocessing/",
+                  ["/extra/corpora/corpora-en/ukWaC/3_UD/ukwac1/", "/extra/corpora/corpora-en/ukWaC/3_UD/ukwac2/"],
+                  [outils.get_filenames, CoNLLReader, functools.partial(build_dependencies, params)])

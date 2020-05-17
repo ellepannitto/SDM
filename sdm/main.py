@@ -12,7 +12,6 @@ import sdm.utils.os_utils as outils
 import sdm.utils.data_utils as dutils
 
 import sdm.core.model as model
-import sdm.core.evaluation as evaluation
 import sdm.core.extraction as extraction
 
 config_dict = cutils.load(os.path.join(os.path.dirname(__file__), 'logging_utils', 'logging.yml'))
@@ -21,27 +20,15 @@ logging.config.dictConfig(config_dict)
 logger = logging.getLogger(__name__)
 
 
-def _extract_stats(args):
+def _pipeline_extraction(args):
     output_path = outils.check_dir(args.output_dir)
-    input_paths = args.input
-    num_workers = args.workers_num
-    batch_size = args.batch_size
 
-    extraction.extract_stats(output_path, input_paths, num_workers, batch_size)
+    pipeline = args.pipeline
 
-
-# def _compute_evaluation(args):
-#     output_path = outils.check_dir(args.output_dir)
-#     data = args.data
-#     odata = args.generated_data
-#     vecs = args.vectors
-#     mapfile = args.map
-#     e = evaluation.Evaluation(data, odata, output_path, vecs, mapfile)
-#     dataset_type = args.type
-#     try:
-#        e.eval_funcs[dataset_type.lower()]()
-#     except KeyError:
-#         logging.info("WARNING: No function for given dataset!")
+    if pipeline == "conll":
+        extraction.CoNLLPipeline(output_path)
+    elif pipeline == "stream":
+        extraction.StreamPipeline(output_path)
 
 
 def _build_representations(args):
@@ -95,16 +82,22 @@ def main():
     parser = argparse.ArgumentParser(prog='sdm')
     subparsers = parser.add_subparsers()
 
-    parser_extractstats = subparsers.add_parser("extract-stats",
-                                                help='step 1 of pipeline')
-    parser_extractstats.add_argument("-i", "--input", nargs='+', required=True,
-                                     help='can be either list of dirpaths or list of filepaths')
-    parser_extractstats.add_argument("-o", "--output-dir", required=True)
-    parser_extractstats.add_argument("-w", "--workers-num", type=int, default=1,
-                                     help='number of workers for multiprocessing')
-    parser_extractstats.add_argument("--batch-size", type=int, default=10000,
-                                     help='number of sentences to be processed by each worker')
-    parser_extractstats.set_defaults(func=_extract_stats)
+    # Building the Graph
+
+    parser_pipelineExtraction = subparsers.add_parser("pipeline-extraction",
+                                                      help='from text to events')
+    parser_pipelineExtraction.add_argument("-p", "--pipeline",
+                                           help="type of pipeline to run",
+                                           choices=["conll", "stream"], default="conll")
+    parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True)
+    parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
+
+    # TODO: from pipeline output to neo4j input format
+    # TODO: import in neo4j
+    # TODO: add weights
+    # TODO: vectors?
+
+    # SDM Model
 
     parser_relationlist = subparsers.add_parser('extract-possible-relations',
                                                 help='extract possible relations from graph')
@@ -147,16 +140,15 @@ def main():
     parser_build.set_defaults(func=_build_representations)
 
     parser_eval = subparsers.add_parser('compute-evaluation',
-                                         help='compute evaluation over original dataset using obtained representations')
+                                        help='compute evaluation over original dataset using obtained representations')
     parser_eval.add_argument("-d", "--data", required=True, help="path to original dataset")
     parser_eval.add_argument("-g", "--generated_data", required=True, help="path to output file")
     parser_eval.add_argument("-o", "--output-dir", help="path to output dir")
     parser_eval.add_argument("-m", "--map", help="path to mapping file")
-    parser_eval.add_argument("-t","--type", required=True, help="dataset type")
+    parser_eval.add_argument("-t", "--type", required=True, help="dataset type")
     parser_eval.add_argument("-v", "--vectors", help='path to file containing vectors')
 
     # parser_eval.set_defaults(func=_compute_evaluation)
-
 
     args = parser.parse_args()
     args.func(args)
