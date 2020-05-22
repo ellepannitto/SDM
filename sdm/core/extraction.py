@@ -30,9 +30,11 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
 
 def CoNLLPipeline(output_dir, input_paths, delimiter="\t", batch_size = 10000, list_of_workers = [2,2,2]):
 
+    accepted_pos, accepted_rels = dutils.load_parameter_from_file(file_passato_come_parametro)
+
     list_of_functions = [outils.get_filenames,
                          functools.partial(cutils.CoNLLReader, delimiter),
-                         cutils.DependencyBuilder]
+                         functools.partial(cutils.DependencyBuilder, accepted_pos, accepted_rels)]
 
     # outils.get_filenames: from directory to filenames
     # cutils.CoNLLReader: from filepath to list of sentences
