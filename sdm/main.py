@@ -24,12 +24,12 @@ logger = logging.getLogger(__name__)
 def _pipeline_extraction(args):
     output_path = outils.check_dir(args.output_dir)
     delimiter = args.delimiter
-    input_parhs = args.input_dirs
+    input_paths = args.input_dirs
 
     pipeline = args.pipeline
 
     if pipeline == "conll":
-        extraction.CoNLLPipeline(output_path, delimiter)
+        extraction.CoNLLPipeline(output_path, input_paths, delimiter)
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
 
