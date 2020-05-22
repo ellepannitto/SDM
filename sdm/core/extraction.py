@@ -28,7 +28,7 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
         extract_patterns_stream(result_list)
 
 
-def CoNLLPipeline(output_dir, input_paths, delimiter=delimiter, list_of_workers = [2,2,2]):
+def CoNLLPipeline(output_dir, input_paths, delimiter="\t", batch_size = 10000, list_of_workers = [2,2,2]):
 
     list_of_functions = [outils.get_filenames,
                          functools.partial(cutils.CoNLLReader, delimiter),
@@ -40,8 +40,8 @@ def CoNLLPipeline(output_dir, input_paths, delimiter=delimiter, list_of_workers 
 
     pipeline = putils.Pipeline(list_of_functions, list_of_workers)
 
-    for result_list in dutils.grouper(pipeline.run(input_paths)):
+    for result_list in dutils.grouper(pipeline.run(input_paths), batch_size):
         extract_stats(result_list)
 
-    for result_list in dutils.grouper(pipeline.run(input_paths)):
+    for result_list in dutils.grouper(pipeline.run(input_paths), batch_size):
         extract_patterns(result_list)
