@@ -10,6 +10,11 @@ The code in this repository is compatible with Python3.x and depends on these li
 
 We recommend to use a virtual environment and to install the specific versions of each library
 
+## Pipeline
+The pipeline is divided into two modules: 
+- the first module takes as input a (parsed) corpus, processes it and builds a GEK graph
+- the second module concerns the SDM computations
+
 $ sdm extract-possible-relations -U  bolt://127.0.0.1:7687  -u neo4j -p neo4j -o data/results/
 
 $ sdm build-representations -U  bolt://127.0.0.1:7687  -u neo4j -p neo4j -o data/results/ -r data/dataset/generated/dataset.relations -d data/dataset/generated/dataset.all -v path_to_vecs/model.txt

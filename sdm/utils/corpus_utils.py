@@ -49,6 +49,7 @@ def CoNLLReader(filepath, delimiter=" "):
         if len(sentence):
             yield sentence
 
+
 def ukWaCReader(filepath):
 
     with open(filepath) as fin:
@@ -65,6 +66,8 @@ def ukWaCReader(filepath):
 
         if len(sentence):
             yield sentence
+
+def DependencyBuilder()
 
 
 if __name__ == "__main__":

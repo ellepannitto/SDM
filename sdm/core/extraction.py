@@ -28,7 +28,7 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
         extract_patterns_stream(result_list)
 
 
-def CoNLLPipeline(output_dir, input_paths, delimiter=delimiter, list_of_workers = [2,2,2]):
+def CoNLLPipeline(output_dir, input_paths, delimiter=delimiter, list_of_workers=[2,2,2]):
 
     list_of_functions = [outils.get_filenames,
                          functools.partial(cutils.CoNLLReader, delimiter),
