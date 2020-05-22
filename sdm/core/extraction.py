@@ -43,5 +43,7 @@ def CoNLLPipeline(output_dir, input_paths, delimiter="\t", batch_size = 10000, l
     for result_list in dutils.grouper(pipeline.run(input_paths), batch_size):
         extract_stats(result_list)
 
+    # Load list of accepted words
+
     for result_list in dutils.grouper(pipeline.run(input_paths), batch_size):
         extract_patterns(result_list)
