@@ -25,7 +25,7 @@ def merge(filename_pattern, output_filename, mode=Mode.txt):
             f.writelines(heapq.merge(*files))
 
 
-def collapse(filename, output_filename, delimiter="\t"):
+def collapse(filename, output_filename, delimiter="\t", threshold=300):
 
     with gzip.open(filename, "rt") as fin, open(output_filename, "w") as fout:
 
@@ -38,8 +38,10 @@ def collapse(filename, output_filename, delimiter="\t"):
             if el == firstline:
                 firstfreq += freq
             else:
-                print("{}\t{}".format(firstline, firstfreq), file=fout)
+                if firstfreq > threshold:
+                    print("{}\t{}".format(firstline, firstfreq), file=fout)
                 firstline = el
                 firstfreq = freq
 
-        print("{}\t{}".format(firstline, firstfreq), file=fout)
+        if firstfreq > threshold:
+            print("{}\t{}".format(firstline, firstfreq), file=fout)

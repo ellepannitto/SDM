@@ -1,4 +1,5 @@
 import logging
+import string
 
 logger = logging.getLogger(__name__)
 
@@ -14,40 +15,53 @@ def StanzaReader(text, preprocessing_fn=None, nlp=None):
         yield sentence
 
 
-def CoNLLReader(filepath, delimiter=" "):
+def CoNLLReader(delimiter, filepath):
+
+    # print("[CONLL READER] - ", filepath)
+
+    accepted_chars = string.ascii_letters + "01234567890.-'"
     BASIC_FIELD_TO_IDX = {'id', 'text', 'lemma', 'upos', 'head', 'deprel'}
 
     with open(filepath) as fin:
         sentence = []
+        skip_sentence = False
 
         for line in fin:
             line = line.strip()
 
             if not len(line):
                 if len(sentence):
-                    yield sentence
+                    if not skip_sentence:
+                        yield sentence
                     sentence = []
+                    skip_sentence = False
             else:
-                linesplit = line.split(" ")
+                linesplit = line.split(delimiter)
 
                 id, text, lemma, upos, ne, deprels = linesplit
                 deprels = deprels.split(",")
 
-                # TODO: check if text is admitted (special chars etc...)
-                # TODO: check if substitution with NE is needed
+                if any(c in string.ascii_letters for c in lemma) and all(c in accepted_chars for c in lemma):
 
-                for head_plus_rel in deprels:
-                    rel_label, head = head_plus_rel.split("=")
-                    head = int(head)
+                    if upos in ["NNP", "NNPS"] and not ne == "O":
+                        text = ne
+                        lemma = ne
 
-                    # TODO: add only chosen deprels
+                    for head_plus_rel in deprels:
+                        try:
+                            rel_label, head = head_plus_rel.rsplit("=", 1)
+                            head = int(head)
 
-                    token_dict = {'id': id, 'text': text, 'lemma': lemma,
-                                  'upos': upos, 'head': head, 'deprel': rel_label}
-                    sentence.append(token_dict)
+                            token_dict = {'id': id, 'text': text, 'lemma': lemma,
+                                          'upos': upos, 'head': head, 'deprel': rel_label}
+                            sentence.append(token_dict)
+                        except:
+                            skip_sentence = True
+                            print("ILL FORMED LINE", line)
 
         if len(sentence):
-            yield sentence
+            if not skip_sentence:
+                yield sentence
 
 def ukWaCReader(filepath):
 
@@ -67,11 +81,14 @@ def ukWaCReader(filepath):
             yield sentence
 
 
+def DependencyBuilder(sentence):
+    yield sentence, True
+
 if __name__ == "__main__":
     import glob
     folder = "/home/ludovica/corpus/ukwac1/"
 
     for file in glob.glob(folder+"*"):
-        for el in CoNLLReader(file):
+        for el in CoNLLReader(file, delimiter=" "):
             print(el)
             input()

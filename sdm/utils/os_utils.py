@@ -6,9 +6,9 @@ import glob
 logger = logging.getLogger(__name__)
 
 
-def add_tmp_folder(path):
-    tmp_path = path+"/tmp"
-    os.makedirs(tmp_path)
+def add_tmp_folder(path, exist_ok=True):
+    tmp_path = path+"/tmp/"
+    os.makedirs(tmp_path, exist_ok=exist_ok)
     return tmp_path
 
 
@@ -23,11 +23,11 @@ def check_dir(path):
     return path
 
 
-def get_filenames(input_paths):
-    for input_path in input_paths:
-        if os.path.isfile(input_path):
-            yield input_path
-        else:
-            for filename in glob.glob(input_path+"/*"):
-                if os.path.isfile(filename):
-                    yield filename
+def get_filenames(input_path):
+
+    if os.path.isfile(input_path):
+        yield input_path
+    else:
+        for filename in glob.glob(input_path+"/*"):
+            if os.path.isfile(filename):
+                yield filename
