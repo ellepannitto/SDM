@@ -14,6 +14,7 @@ import sdm.utils.data_utils as dutils
 import sdm.core.datasets as datasets
 import sdm.core.model as model
 import sdm.core.extraction as extraction
+import sdm.core.evaluation as evaluation
 
 config_dict = cutils.load(os.path.join(os.path.dirname(__file__), 'logging_utils', 'logging.yml'))
 logging.config.dictConfig(config_dict)
@@ -25,11 +26,13 @@ def _pipeline_extraction(args):
     output_path = outils.check_dir(args.output_dir)
     delimiter = args.delimiter
     input_paths = args.input_dirs
+    acceptable_labels = args.labels
+    batch_size = args.batch_size
 
     pipeline = args.pipeline
 
     if pipeline == "conll":
-        extraction.CoNLLPipeline(output_path, input_paths, delimiter)
+        extraction.CoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size)
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
 
@@ -111,7 +114,14 @@ def main():
                                            help="type of pipeline to run",
                                            choices=["conll", "stream"], default="conll")
     parser_pipelineExtraction.add_argument("--delimiter", default=" ")
-    parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True)
+    parser_pipelineExtraction.add_argument("-i", "--input_dirs", required=True, nargs='+',
+                                         help='paths to folder(s) containing corpora')
+    parser_pipelineExtraction.add_argument("--labels", required=True,
+                                           help="path to file for filtering pos/roles")
+    parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True,
+                                           help="path to output dir")
+    parser_pipelineExtraction.add_argument("--batch-size", default=1000, type=int,
+                                           help="")
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
     # TODO: from pipeline output to neo4j input format
