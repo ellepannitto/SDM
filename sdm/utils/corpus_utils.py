@@ -82,7 +82,19 @@ def ukWaCReader(filepath):
 
 
 def DependencyBuilder(sentence):
-    yield sentence, True
+    d = {}
+    deps = {}
+    for tok in sentence:
+        ide = int(tok["id"])
+        d[ide] = tok
+        head = int(tok["head"])
+        if head not in deps:
+            deps[head] = []
+        deps[head].append((ide, tok["deprel"]))
+
+        if head == 0:
+            d[0] = tok
+    yield d, deps
 
 if __name__ == "__main__":
     import glob

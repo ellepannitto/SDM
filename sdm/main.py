@@ -28,10 +28,11 @@ def _pipeline_extraction(args):
     pipeline = args.pipeline
 
     delimiter = args.delimiter
-    batch_size = args.batch_size
+    batch_size_stats = args.batch_size_stats
+    batch_size_events = args.batch_size_events
 
     if pipeline == "conll":
-        extraction.CoNLLPipeline(output_path, input_paths, delimiter, batch_size)
+        extraction.CoNLLPipeline(output_path, input_paths, delimiter, batch_size_stats, batch_size_events)
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
 
@@ -115,7 +116,8 @@ def main():
     parser_pipelineExtraction.add_argument("-i", "--input-dirs", nargs="+")
     parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True)
     parser_pipelineExtraction.add_argument("--delimiter", default=" ")
-    parser_pipelineExtraction.add_argument("--batch-size", type=int, default=1000)
+    parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=1000)
+    parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=50)
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
     # TODO: from pipeline output to neo4j input format

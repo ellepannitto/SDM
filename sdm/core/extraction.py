@@ -14,15 +14,6 @@ from sdm.utils import filesmerger as futils
 logger = logging.getLogger(__name__)
 
 
-def extract_stats(list_of_sentences):
-    pass
-
-def extract_patterns_stream(list_of_sentences):
-    pass
-
-def extract_patterns(list_of_sentences):
-    pass
-
 def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
 
     list_of_functions = [a, b, c]
@@ -30,10 +21,11 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
     pipeline = putils.Pipeline(list_of_functions, list_of_workers)
 
     for result_list in dutils.grouper(pipeline.run(input_data)):
-        extract_patterns_stream(result_list)
+        # extract_patterns_stream(result_list)
+        pass
 
 
-def CoNLLPipeline(output_dir, input_paths, delimiter, batch_size, list_of_workers = [1,1,1]):
+def CoNLLPipeline(output_dir, input_paths, delimiter, batch_size_stats, batch_size_events, list_of_workers = [1,1,1]):
 
     # accepted_pos, accepted_rels = dutils.load_parameter_from_file(file_passato_come_parametro)
     # print("CONLL PIPELINE", input_paths)
@@ -47,10 +39,10 @@ def CoNLLPipeline(output_dir, input_paths, delimiter, batch_size, list_of_worker
     # cutils.CoNLLReader: from filepath to list of sentences
     # cutils.DependencyBuilder: from sentence to representation head + deps
 
-    pipeline = putils.Pipeline(list_of_functions, list_of_workers, batch_size)
+    pipeline = putils.Pipeline(list_of_functions, list_of_workers, batch_size_stats)
 
     tmp_folder = outils.add_tmp_folder(output_dir)
-    for result_list in dutils.grouper(pipeline.run(input_paths), batch_size):
+    for result_list in dutils.grouper(pipeline.run(input_paths), batch_size_stats):
         prefix_to_merge = extract_stats(tmp_folder, result_list)
 
 
@@ -60,21 +52,26 @@ def CoNLLPipeline(output_dir, input_paths, delimiter, batch_size, list_of_worker
                      tmp_folder+"{}-merged".format(prefix),
                      mode=futils.Mode.txt)
         futils.collapse(tmp_folder+"{}-merged".format(prefix),
-                        output_dir+"{}-freqs.txt".format(prefix), threshold=50)
+                        output_dir+"{}-freqs.txt".format(prefix), threshold=2)
 
     outils.remove(tmp_folder)
 
     # Load list of accepted words
+    accepted_lemmas = dutils.load_set_freqs(output_dir+"lemma-freqs.txt")
+    # print(accepted_lemmas)
+    # input()
 
     tmp_folder = outils.add_tmp_folder(output_dir)
-    for result_list in dutils.grouper(pipeline.run(input_paths), batch_size):
-        prefix = extract_patterns(tmp_folder, result_list)
+    for result_list in dutils.grouper(pipeline.run(input_paths), batch_size_events):
+        # prefix_to_merge = extract_patterns(tmp_folder, result_list)
+        prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
 
-    futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
-                 tmp_folder+"{}-merged".format(prefix),
-                 mode=futils.Mode.txt)
-    futils.collapse(tmp_folder+"{}-merged".format(prefix),
-                    output_dir+"{}-freqs.txt".format(prefix), threshold=5)
+    for prefix in prefix_to_merge:
+        futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
+                     tmp_folder+"{}-merged".format(prefix),
+                     mode=futils.Mode.txt)
+        futils.collapse(tmp_folder+"{}-merged".format(prefix),
+                        output_dir+"{}-freqs.txt".format(prefix), threshold=5)
 
 
 def powerset(iterable):
@@ -91,20 +88,38 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
     for sentence, dependencies in filter(lambda x: x is not None, list_of_sentences):
 
         for head in dependencies:
-            group = ["{}@{}@{}".format(sentence[head].lemma, sentence[head].upos, "HEAD")]
-            for dep in dependencies[head]:
-                ide = dep[0]
-                synrel = dep[1]
-                token = sentence[ide]
-                if not len(accepted_lemmas) or token.lemma in accepted_lemmas:
-                    group.append("{}@{}@{}".format(token.lemma, token.upos, synrel))
+            if head in sentence:
+                group = set()
+                if not len(accepted_lemmas) or sentence[head]["lemma"] in accepted_lemmas:
+                    group.add("{}@{}@{}".format(sentence[head]["lemma"], sentence[head]["upos"], "HEAD"))
+                # print(dependencies[head])
+                # input()
 
-        groups.append(list(sorted(group)))
+                for dep in dependencies[head]:
+                    ide = dep[0]
+                    synrel = dep[1]
+                    if ide in sentence:
+                        token = sentence[ide]
+                        if not len(accepted_lemmas) or token["lemma"] in accepted_lemmas:
+                            # print("ADDING TOKEN", token)
+                            group.add("{}@{}@{}".format(token["lemma"], token["upos"], synrel))
+                    else:
+                        print("NOT FOUND IDE", ide)
+                        # print("SENTENCE:", sentence)
+
+                groups.append(list(sorted(group)))
+                # print("GROUP ADDED", groups)
+
+            else:
+                print("HEAD NOT IN SENTENCE", head)
+                # print("SENTENCE:", sentence)
 
     for group in groups:
         subsets = powerset(group)
         for subset in subsets:
             events_freqdict[subset] += 1
+            # print(events_freqdict)
+            # input()
 
     if associative_relations:
         for group1, group2 in itertools.combinations(groups, r=2):
@@ -115,9 +130,11 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
     sorted_freqdict = sorted(events_freqdict.items(), key=lambda x: x[0])
     with open(tmp_folder + "events-freqs-{}".format(file_id), "w") as fout:
         for tup, freq in sorted_freqdict:
+            # print(tup, freq)
+            # input()
             print("{}\t{}".format(" ".join(tup), freq), file=fout)
 
-    if associative_events_freqdict:
+    if associative_relations:
         sorted_freqdict = sorted(associative_events_freqdict.items(), key=lambda x: x[0])
         with open(tmp_folder + "associative-events-freqs-{}".format(file_id), "w") as fout:
             for tup, freq in sorted_freqdict:
@@ -144,9 +161,9 @@ def extract_stats(tmp_folder, list_of_sentences):
 
             lemma_pos_rel_freqdict[(lemma, pos, rel)] += 1
             pos_rel_freqdict[(pos, rel)] += 1
-            pos_freqdict[(pos)] += 1
-            rel_freqdict[(rel)] += 1
-            lemma_freqdict[(lemma)] += 1
+            pos_freqdict[(pos,)] += 1
+            rel_freqdict[(rel,)] += 1
+            lemma_freqdict[(lemma,)] += 1
 
 
     dict_of_dicts = {"lemma-pos-rel":lemma_pos_rel_freqdict,
