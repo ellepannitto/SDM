@@ -161,6 +161,15 @@ def load_set(filepath):
     return ret
 
 
+def load_set_freqs(filepath):
+    ret = set()
+    with open(filepath) as fin:
+        for line in fin:
+            line = line.strip().split("\t")
+            ret.add(line[0])
+    return ret
+
+
 def grouper(iterable, n, fillvalue=None):
     """Collect data into fixed-length chunks or blocks"
     # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"""

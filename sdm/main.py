@@ -24,15 +24,20 @@ logger = logging.getLogger(__name__)
 
 def _pipeline_extraction(args):
     output_path = outils.check_dir(args.output_dir)
-    delimiter = args.delimiter
     input_paths = args.input_dirs
     acceptable_labels = args.labels
     batch_size = args.batch_size
 
     pipeline = args.pipeline
 
+    delimiter = args.delimiter
+    batch_size_stats = args.batch_size_stats
+    batch_size_events = args.batch_size_events
+
     if pipeline == "conll":
-        extraction.CoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size)
+
+        extraction.CoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size_stats, batch_size_events)
+
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
 
@@ -44,7 +49,7 @@ def _compute_evaluation(args):
     vecs = args.vectors
     mapfile = args.map
     data_type = args.type
-    evaluation.compute_evaluation(original_data, generated_data, output_path, vecs, mapfile, data_type)
+    # evaluation.compute_evaluation(original_data, generated_data, output_path, vecs, mapfile, data_type)
 
 
 def _build_representations(args):
@@ -113,15 +118,16 @@ def main():
     parser_pipelineExtraction.add_argument("-p", "--pipeline",
                                            help="type of pipeline to run",
                                            choices=["conll", "stream"], default="conll")
-    parser_pipelineExtraction.add_argument("--delimiter", default=" ")
+
     parser_pipelineExtraction.add_argument("-i", "--input_dirs", required=True, nargs='+',
                                          help='paths to folder(s) containing corpora')
+    parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True)
+    parser_pipelineExtraction.add_argument("--delimiter", default=" ")
     parser_pipelineExtraction.add_argument("--labels", required=True,
                                            help="path to file for filtering pos/roles")
-    parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True,
-                                           help="path to output dir")
-    parser_pipelineExtraction.add_argument("--batch-size", default=1000, type=int,
-                                           help="")
+    parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=1000)
+    parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=50)
+
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
     # TODO: from pipeline output to neo4j input format
@@ -145,8 +151,9 @@ def main():
     parser_prepareInputFile.add_argument("-d", "--data", nargs='+', required=True,
                                          help='paths to files containing dataset')
     parser_prepareInputFile.add_argument("-o", "--output-dir",
-                              help="path to output dir, default is data/results/")
-    parser_prepareInputFile.add_argument("-t", "--type", required=True, choices=["ks", "dtfit", "tfit_mit"], help="dataset type")
+                                         help="path to output dir, default is data/results/")
+    parser_prepareInputFile.add_argument("-t", "--type", required=True, choices=["ks", "dtfit", "tfit_mit"],
+                                         help="dataset type")
     parser_prepareInputFile.add_argument("--sequence-order", choices=["verbs_args", "head_verbs_args"],
                                          help="output arguments order")
     parser_prepareInputFile.set_defaults(func=_prepare_input)
@@ -194,6 +201,9 @@ def main():
     parser_eval.set_defaults(func=_compute_evaluation)
 
     args = parser.parse_args()
+    if "func" not in args:
+        parser.print_usage()
+        exit()
     args.func(args)
 
 
