@@ -25,11 +25,11 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
         pass
 
 
-def CoNLLPipeline(output_dir, input_paths, delimiter, batch_size_stats, batch_size_events, list_of_workers = [1,1,1]):
 
-    # accepted_pos, accepted_rels = dutils.load_parameter_from_file(file_passato_come_parametro)
-    # print("CONLL PIPELINE", input_paths)
-    # input()
+def CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events, list_of_workers = [1,1,1]):
+
+    accepted_pos, accepted_rels = dutils.load_acceptable_labels_from_file(acceptable_path)
+
 
     list_of_functions = [outils.get_filenames,
                          functools.partial(cutils.CoNLLReader, delimiter),
@@ -38,6 +38,7 @@ def CoNLLPipeline(output_dir, input_paths, delimiter, batch_size_stats, batch_si
     # outils.get_filenames: from directory to filenames
     # cutils.CoNLLReader: from filepath to list of sentences
     # cutils.DependencyBuilder: from sentence to representation head + deps
+
 
     pipeline = putils.Pipeline(list_of_functions, list_of_workers, batch_size_stats)
 

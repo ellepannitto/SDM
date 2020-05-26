@@ -15,5 +15,5 @@ setup(
             'sdm = sdm.main:main'
         ],
     },
-    install_requires=['pyyaml>=4.2b1', 'neo4j>=1.7.6', 'numpy>=1.18.3', 'scipy>=1.3.0', 'pandas>=0.24.2', 'tqdm>=4.45'],
+    install_requires=['pyyaml>=4.2b1', 'neo4j>=1.7.6', 'numpy>=1.18.3', 'scipy>=1.3.0', 'pandas>=0.24.2', 'tqdm>=4.45', 'scikit-learn>=0.23.1'],
 )

@@ -14,6 +14,7 @@ import sdm.utils.data_utils as dutils
 import sdm.core.datasets as datasets
 import sdm.core.model as model
 import sdm.core.extraction as extraction
+import sdm.core.evaluation as evaluation
 
 config_dict = cutils.load(os.path.join(os.path.dirname(__file__), 'logging_utils', 'logging.yml'))
 logging.config.dictConfig(config_dict)
@@ -24,6 +25,8 @@ logger = logging.getLogger(__name__)
 def _pipeline_extraction(args):
     output_path = outils.check_dir(args.output_dir)
     input_paths = args.input_dirs
+    acceptable_labels = args.labels
+    batch_size = args.batch_size
 
     pipeline = args.pipeline
 
@@ -32,7 +35,9 @@ def _pipeline_extraction(args):
     batch_size_events = args.batch_size_events
 
     if pipeline == "conll":
-        extraction.CoNLLPipeline(output_path, input_paths, delimiter, batch_size_stats, batch_size_events)
+
+        extraction.CoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size_stats, batch_size_events)
+
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
 
@@ -113,11 +118,16 @@ def main():
     parser_pipelineExtraction.add_argument("-p", "--pipeline",
                                            help="type of pipeline to run",
                                            choices=["conll", "stream"], default="conll")
-    parser_pipelineExtraction.add_argument("-i", "--input-dirs", nargs="+")
+
+    parser_pipelineExtraction.add_argument("-i", "--input_dirs", required=True, nargs='+',
+                                         help='paths to folder(s) containing corpora')
     parser_pipelineExtraction.add_argument("-o", "--output-dir", required=True)
     parser_pipelineExtraction.add_argument("--delimiter", default=" ")
+    parser_pipelineExtraction.add_argument("--labels", required=True,
+                                           help="path to file for filtering pos/roles")
     parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=1000)
     parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=50)
+
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
     # TODO: from pipeline output to neo4j input format

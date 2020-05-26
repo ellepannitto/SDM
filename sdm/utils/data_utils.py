@@ -59,6 +59,15 @@ def load_mapping(fpath):
 
     return ret
 
+def load_acceptable_labels_from_file(fpath):
+    """
+    :param fpath: a file for filtering annotated texts (1st line lists accepted Pos, 2nd lists accepted relations)
+    :returns 2 lists
+    """
+    lines = open(fpath, "r").readlines()
+    pos_list = lines[0].strip().split(" ")
+    rel_list = lines[1].strip().split(" ")
+    return pos_list, rel_list
 
 class VectorsDict(dict):
 
