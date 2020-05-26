@@ -30,6 +30,12 @@ class SmartQueue:
 
 
 class Pipeline:
+    """
+    This class is used for multiprocessing.
+    It takes as parameter n functions (and the number of workers to assign to each function)
+      and creates n+1 queues, so that each function works in parallel by taking the input data
+      from one queue and putting the output in the next.
+    """
 
     def __init__(self, list_of_functions, list_of_workers, list_of_batches):
         self.functions = list_of_functions

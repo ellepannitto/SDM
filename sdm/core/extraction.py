@@ -28,9 +28,9 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
         extract_patterns_stream(result_list)
 
 
-def CoNLLPipeline(output_dir, input_paths, delimiter="\t", batch_size = 10000, list_of_workers = [2,2,2]):
+def CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter="\t", batch_size = 1000, list_of_workers = [2,2,2]):
 
-    accepted_pos, accepted_rels = dutils.load_parameter_from_file(file_passato_come_parametro)
+    accepted_pos, accepted_rels = dutils.load_acceptable_labels_from_file(acceptable_path)
 
     list_of_functions = [outils.get_filenames,
                          functools.partial(cutils.CoNLLReader, delimiter),
@@ -40,7 +40,7 @@ def CoNLLPipeline(output_dir, input_paths, delimiter="\t", batch_size = 10000, l
     # cutils.CoNLLReader: from filepath to list of sentences
     # cutils.DependencyBuilder: from sentence to representation head + deps
 
-    pipeline = putils.Pipeline(list_of_functions, list_of_workers)
+    pipeline = putils.Pipeline(list_of_functions, list_of_workers, batch_size)
 
     for result_list in dutils.grouper(pipeline.run(input_paths), batch_size):
         extract_stats(result_list)
