@@ -30,8 +30,7 @@ def CoNLLReader(delimiter, filepath):
 
         for line in fin:
             line = line.strip()
-            print(line)
-            ss
+
             if not len(line):
                 if len(sentence):
                     if not skip_sentence:
@@ -53,7 +52,7 @@ def CoNLLReader(delimiter, filepath):
                     for head_plus_rel in deprels:
                         try:
                             rel_label, head = head_plus_rel.rsplit("=", 1)
-                            head = int(head)
+                            #head = int(head)
 
                             token_dict = {'id': id, 'text': text, 'lemma': lemma,
                                           'upos': upos, 'head': head, 'deprel': rel_label}
@@ -63,8 +62,8 @@ def CoNLLReader(delimiter, filepath):
                             print("ILL FORMED LINE", line)
 
         if len(sentence):
-            if not skip_sentence:
-                yield sentence
+           if not skip_sentence:
+               yield sentence
 
 
 def ukWaCReader(filepath):
@@ -84,7 +83,7 @@ def ukWaCReader(filepath):
         if len(sentence):
             yield sentence
 
-def DependencyBuilder(sentence, accepted_pos, accepted_rel, refine=True):
+def DependencyBuilder(accepted_pos, accepted_rel, sentence, refine=True):
 
     """
     :param sentence: a list of dictionaries, each dictionary represent a tokens with the following keys:
@@ -119,9 +118,12 @@ def DependencyBuilder(sentence, accepted_pos, accepted_rel, refine=True):
             for dep_tup in deps_dict[head_id]:
                 # 1: phrasal verbs
                 if "prt" in dep_tup[1]:
-                    if w_dict[dep_tup[0]]["upos"] == "RP" and w_dict[head_id]["upos"] == "VERB":
-                        w_dict[head_id]["lemma"] = "{}_{}".format(w_dict[head_id]["lemma"],
+                    try:
+                        if w_dict[dep_tup[0]]["upos"] == "RP" and w_dict[head_id]["upos"] == "VERB":
+                            w_dict[head_id]["lemma"] = "{}_{}".format(w_dict[head_id]["lemma"],
                                                                       w_dict[dep_tup[0]]["lemma"])
+                    except KeyError:
+                        pass
         # 2: personal pronouns
         for w_id in w_dict.keys():
             word = w_dict[w_id]
@@ -133,10 +135,14 @@ def DependencyBuilder(sentence, accepted_pos, accepted_rel, refine=True):
     words_dict = {} # {token_id : {lemma,upos}}
     deps_ids_dict = defaultdict(list) # {head_id:[(dep_id, role)]}
     for token in sentence:
-        deps_ids_dict[token["head"]].append((token["id"], relation_standardization(token["deprel"])))
-        if token["id"] not in words_dict:
-            words_dict[token["id"]] = {'lemma': token["lemma"], 'upos':pos_standardization(token["upos"])}
-    #if refine: refine_lemmas(words_dict, deps_ids_dict)
+        pos = pos_standardization(token["upos"])
+        # take only words with a given PoS
+        if pos in accepted_pos:
+            deps_ids_dict[token["head"]].append((token["id"], relation_standardization(token["deprel"])))
+            if token["id"] not in words_dict:
+                words_dict[token["id"]] = {'lemma': token["lemma"], 'upos': pos}
+
+    if refine: refine_lemmas(words_dict, deps_ids_dict)
 
     # filter
     deps_ids_dict_copy = copy.deepcopy(deps_ids_dict)
@@ -144,18 +150,15 @@ def DependencyBuilder(sentence, accepted_pos, accepted_rel, refine=True):
         if h_id not in words_dict.keys():
             del deps_ids_dict_copy[h_id]
         else:
-            if words_dict[h_id]["upos"] in accepted_pos:
-                for i, dep in enumerate(deps):
-                    dep_id, rel = dep
-                    if words_dict[dep_id]["upos"] in accepted_pos and rel in accepted_rel:
-                        pass
-                    else:
-                        del words_dict[dep_id]
-                        del deps_ids_dict_copy[h_id][i]
-            else:
-                del words_dict[h_id]
+            for i, dep in enumerate(deps):
+                dep_id, rel = dep
+                if not rel.startswith(tuple(accepted_rel)):
+                    deps_ids_dict_copy[h_id][i] = None
+            # if no relations are attested for the head after filtering, remove the key
+            deps_ids_dict_copy[h_id] = [i for i in deps_ids_dict_copy[h_id] if i is not None]
+            if len(deps_ids_dict_copy[h_id]) == 0:
                 del deps_ids_dict_copy[h_id]
-            if len(deps_ids_dict_copy[h_id]) == 0: del deps_ids_dict_copy[h_id]
+
     yield words_dict, deps_ids_dict_copy
 
 if __name__ == "__main__":
