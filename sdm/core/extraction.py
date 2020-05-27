@@ -131,6 +131,7 @@ def CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_siz
                      mode=futils.Mode.txt)
         futils.collapse(tmp_folder+"{}-merged".format(prefix),
                         output_dir+"{}-freqs.txt".format(prefix), threshold=5)
+"""
 
 
 def powerset(iterable):
