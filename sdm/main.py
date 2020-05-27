@@ -25,18 +25,23 @@ logger = logging.getLogger(__name__)
 def _pipeline_extraction(args):
     output_path = outils.check_dir(args.output_dir)
     input_paths = args.input_dirs
+    delimiter = args.delimiter
     acceptable_labels = args.labels
-    batch_size_stat = args.batch_size_stats
-    batch_size_ev = args.batch_size_events
+    batch_size_s = args.batch_size_stats
+    batch_size_e = args.batch_size_events
+    workers = args.workers
+    w_thresh = args.word_thresh
+    e_thresh = args.event_thresh
 
     pipeline = args.pipeline
 
-    delimiter = args.delimiter
-    batch_size_stats = args.batch_size_stats
-    batch_size_events = args.batch_size_events
+    stats = args.s
+    events = args.e
+    if (not stats) and (not events):
+        stats = events = True
 
     if pipeline == "conll":
-        extraction.CoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size_stats, batch_size_events)
+        extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size_s, batch_size_e, w_thresh, e_thresh, stats, events, workers)
 
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
@@ -127,7 +132,11 @@ def main():
                                            help="path to file for filtering pos/roles")
     parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=1000)
     parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=50)
-
+    parser_pipelineExtraction.add_argument("--word-thresh", type=int, default=100)
+    parser_pipelineExtraction.add_argument("--event-thresh", type=int, default=20)
+    parser_pipelineExtraction.add_argument('-s', action='store_true')
+    parser_pipelineExtraction.add_argument('-e', action='store_true')
+    parser_pipelineExtraction.add_argument('--workers', nargs='+', type=int, default=[1,1,1])
 
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
