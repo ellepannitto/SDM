@@ -48,6 +48,8 @@ def CoNLLReader(delimiter, filepath):
                     if upos in ["NNP", "NNPS"] and not ne == "O":
                         text = ne
                         lemma = ne
+                    else:
+                        lemma = lemma.lower()
 
                     for head_plus_rel in deprels:
                         try:
