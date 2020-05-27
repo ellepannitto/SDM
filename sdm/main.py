@@ -26,7 +26,8 @@ def _pipeline_extraction(args):
     output_path = outils.check_dir(args.output_dir)
     input_paths = args.input_dirs
     acceptable_labels = args.labels
-    batch_size = args.batch_size
+    batch_size_stat = args.batch_size_stats
+    batch_size_ev = args.batch_size_events
 
     pipeline = args.pipeline
 
@@ -35,7 +36,6 @@ def _pipeline_extraction(args):
     batch_size_events = args.batch_size_events
 
     if pipeline == "conll":
-
         extraction.CoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size_stats, batch_size_events)
 
     elif pipeline == "stream":
@@ -127,6 +127,7 @@ def main():
                                            help="path to file for filtering pos/roles")
     parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=1000)
     parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=50)
+
 
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
