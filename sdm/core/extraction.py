@@ -206,30 +206,14 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
 def extract_stats(tmp_folder, list_of_sentences):
 
     file_id = uuid.uuid4()
-
-    lemma_pos_rel_freqdict = collections.defaultdict(int)
-    pos_rel_freqdict = collections.defaultdict(int)
-    pos_freqdict = collections.defaultdict(int)
-    rel_freqdict = collections.defaultdict(int)
     lemma_freqdict = collections.defaultdict(int)
-
     for sentence, _ in filter(lambda x: x is not None, list_of_sentences):
         for token_id in sentence:
             token = sentence[token_id]
-            lemma, pos, rel = token["lemma"], token["upos"], token["deprel"]
+            lemma, pos = token["lemma"], token["upos"]#, token["deprel"]
+            lemma_freqdict[(lemma,pos)] += 1
 
-            lemma_pos_rel_freqdict[(lemma, pos, rel)] += 1
-            pos_rel_freqdict[(pos, rel)] += 1
-            pos_freqdict[(pos,)] += 1
-            rel_freqdict[(rel,)] += 1
-            lemma_freqdict[(lemma,)] += 1
-
-
-    dict_of_dicts = {"lemma-pos-rel":lemma_pos_rel_freqdict,
-                     "pos-rel": pos_rel_freqdict,
-                     "pos": pos_freqdict,
-                     "rel": rel_freqdict,
-                     "lemma": lemma_freqdict}
+    dict_of_dicts = {"lemma": lemma_freqdict}
 
     for prefix, dic in dict_of_dicts.items():
         sorted_freqdict = sorted(dic.items(), key = lambda x: x[0])
