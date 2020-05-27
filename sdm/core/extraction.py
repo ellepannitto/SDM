@@ -24,9 +24,66 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
         # extract_patterns_stream(result_list)
         pass
 
+class CoNLLPipeline:
+    def __init__(self, output_dir, input_paths, acceptable_path, delimiter, batch_size=100, list_of_workers=[1,1,1]):
+        self.input_paths = input_paths
+        self.output_dir = output_dir
+        self.delimiter = delimiter
+        self.accepted_pos, self.accepted_rels = dutils.load_acceptable_labels_from_file(acceptable_path)
 
+        self.list_of_functions = [outils.get_filenames,
+                         functools.partial(cutils.CoNLLReader, self.delimiter),
+                         functools.partial(cutils.DependencyBuilder, self.accepted_pos, self.accepted_rels)]
+        self.pipeline = putils.Pipeline(self.list_of_functions, list_of_workers, batch_size)
+        # outils.get_filenames: from directory to filenames
+        # cutils.CoNLLReader: from filepath to list of sentences
+        # cutils.DependencyBuilder: from sentence to representation head + deps
 
-def CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events, list_of_workers = [1,1,1]):
+    def stats(self, batch_size_stats, w_thresh):
+
+        tmp_folder = outils.add_tmp_folder(self.output_dir)
+        for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_stats):
+            prefix_to_merge = extract_stats(tmp_folder, result_list)
+
+        for prefix in prefix_to_merge:
+
+            futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
+                         tmp_folder+"{}-merged".format(prefix),
+                         mode=futils.Mode.txt)
+            futils.collapse(tmp_folder+"{}-merged".format(prefix),
+                            self.output_dir+"{}-freqs.txt".format(prefix), threshold=w_thresh)
+
+        outils.remove(tmp_folder)
+
+    def events(self, batch_size_events, e_thresh):
+        # Load list of accepted words
+        accepted_lemmas = dutils.load_set_freqs(self.output_dir+"lemma-freqs.txt")
+        accepted_lemmas = [tuple(i.split(" ")) for i in accepted_lemmas]
+        # print(accepted_lemmas)
+        # input()
+
+        tmp_folder = outils.add_tmp_folder(self.output_dir)
+        for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events):
+            # prefix_to_merge = extract_patterns(tmp_folder, result_list)
+            prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
+
+        for prefix in prefix_to_merge:
+            futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
+                         tmp_folder+"{}-merged".format(prefix),
+                         mode=futils.Mode.txt)
+            futils.collapse(tmp_folder+"{}-merged".format(prefix),
+                            self.output_dir+"{}-freqs.txt".format(prefix), threshold=e_thresh)
+
+def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events,
+                        w_thres, e_thres, stats=True, events=True, list_of_workers = [1,1,1]):
+    conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, list_of_workers)
+
+    if stats:
+        conll_pip.stats(batch_size_stats, w_thres)
+    if events:
+        conll_pip.events(batch_size_events, e_thres)
+"""
+def CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events, stats=True, events=True, list_of_workers = [1,1,1]):
 
     accepted_pos, accepted_rels = dutils.load_acceptable_labels_from_file(acceptable_path)
 
