@@ -162,6 +162,7 @@ def load_set(filepath):
 
 
 def load_set_freqs(filepath):
+    # It returns the vocabulary of the frequency file (WARNING: returning items are space-separated)
     ret = set()
     with open(filepath) as fin:
         for line in fin:
@@ -169,6 +170,14 @@ def load_set_freqs(filepath):
             ret.add(line[0])
     return ret
 
+def load_freqs(filepath):
+    # It returns the tuple (item, freq)
+    items = set()
+    with open(filepath) as fin:
+        for line in fin:
+            item, freq = line.strip().split("\t")
+            items.add((item, freq))
+    return items
 
 def grouper(iterable, n, fillvalue=None):
     """Collect data into fixed-length chunks or blocks"
