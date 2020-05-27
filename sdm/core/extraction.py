@@ -116,6 +116,7 @@ def CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_siz
 
     # Load list of accepted words
     accepted_lemmas = dutils.load_set_freqs(output_dir+"lemma-freqs.txt")
+    accepted_lemmas = [tuple(i.split(" ")) for i in accepted_lemmas]
     # print(accepted_lemmas)
     # input()
 
@@ -148,7 +149,7 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
         for head in dependencies:
             if head in sentence:
                 group = set()
-                if not len(accepted_lemmas) or sentence[head]["lemma"] in accepted_lemmas:
+                if not len(accepted_lemmas) or (sentence[head]["lemma"], sentence[head]["upos"]) in accepted_lemmas:
                     group.add("{}@{}@{}".format(sentence[head]["lemma"], sentence[head]["upos"], "HEAD"))
                 # print(dependencies[head])
                 # input()
@@ -158,7 +159,7 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
                     synrel = dep[1]
                     if ide in sentence:
                         token = sentence[ide]
-                        if not len(accepted_lemmas) or token["lemma"] in accepted_lemmas:
+                        if not len(accepted_lemmas) or (token["lemma"], token["upos"]) in accepted_lemmas:
                             # print("ADDING TOKEN", token)
                             group.add("{}@{}@{}".format(token["lemma"], token["upos"], synrel))
                     else:
