@@ -90,7 +90,7 @@ def CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_siz
 
     list_of_functions = [outils.get_filenames,
                          functools.partial(cutils.CoNLLReader, delimiter),
-                         functools.partial(cutils.DependencyBuilder)]
+                         functools.partial(cutils.DependencyBuilder, accepted_pos, accepted_rels)]
 
     # outils.get_filenames: from directory to filenames
     # cutils.CoNLLReader: from filepath to list of sentences
