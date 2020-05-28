@@ -29,7 +29,7 @@ def get_filenames(input_path):
         logger.info("Reading input: {}".format(input_path))
         yield input_path
     else:
-        for filename in glob.glob(input_path+"/*"):
+        for filename in glob.glob(input_path+"/*"): # TODO: make so that it goes recursively into folder
             if os.path.isfile(filename):
                 logger.info("Reading input: {}".format(filename))
                 yield filename

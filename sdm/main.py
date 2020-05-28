@@ -41,7 +41,9 @@ def _pipeline_extraction(args):
         stats = events = True
 
     if pipeline == "conll":
-        extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size_s, batch_size_e, w_thresh, e_thresh, stats, events, workers)
+        extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels,
+                                       delimiter, batch_size_s, batch_size_e,
+                                       w_thresh, e_thresh, stats, events, workers)
 
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
@@ -141,8 +143,11 @@ def main():
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
     # TODO: from pipeline output to neo4j input format
+
     # TODO: import in neo4j
+
     # TODO: add weights
+
     # TODO: vectors?
 
     # SDM Model
