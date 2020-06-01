@@ -41,7 +41,9 @@ def _pipeline_extraction(args):
         stats = events = True
 
     if pipeline == "conll":
-        extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels, delimiter, batch_size_s, batch_size_e, w_thresh, e_thresh, stats, events, workers)
+        extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels,
+                                       delimiter, batch_size_s, batch_size_e,
+                                       w_thresh, e_thresh, stats, events, workers)
 
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
@@ -116,10 +118,10 @@ def main():
     parser = argparse.ArgumentParser(prog='sdm')
     subparsers = parser.add_subparsers()
 
-    # Building the Graph
-
+    # Building the Graph (GEK 2.0)
+    # 1. Extract important statistics from dependency-parsed corpora
     parser_pipelineExtraction = subparsers.add_parser("pipeline-extraction",
-                                                      help='from text to events')
+                                                      help='From dependency-parsed text(s) extract lemmas and/or events frequencies')
     parser_pipelineExtraction.add_argument("-p", "--pipeline",
                                            help="type of pipeline to run",
                                            choices=["conll", "stream"], default="conll")
@@ -134,15 +136,22 @@ def main():
     parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=50)
     parser_pipelineExtraction.add_argument("--word-thresh", type=int, default=100)
     parser_pipelineExtraction.add_argument("--event-thresh", type=int, default=20)
-    parser_pipelineExtraction.add_argument('-s', action='store_true')
-    parser_pipelineExtraction.add_argument('-e', action='store_true')
+    parser_pipelineExtraction.add_argument('-s', action='store_true', help='flag to launch lemmas freqs extraction')
+    parser_pipelineExtraction.add_argument('-e', action='store_true', help='flag to launch events freqs extraction')
     parser_pipelineExtraction.add_argument('--workers', nargs='+', type=int, default=[1,1,1])
 
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
     # TODO: from pipeline output to neo4j input format
+    parser_buildGraph = subparsers.add_parser("build-graph", help="Write neo4j database files for GEK graph")
+    parser_buildGraph.add_argument("-o", "--output-dir", help="path to output dir, default is data/graph/")
+    parser_buildGraph.add_argument("--lemmas-f", required=True, help="path to lemma frequencies file")
+    parser_buildGraph.add_argument("--events-f", required=True, help="path to event frequencies file")
+    parser_buildGraph.add_argument("--n-events-f", required=True, help="path to n-event frequencies file")
     # TODO: import in neo4j
+
     # TODO: add weights
+
     # TODO: vectors?
 
     # SDM Model
