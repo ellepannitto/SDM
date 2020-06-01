@@ -27,7 +27,7 @@ def connect_to_graph(uri, user, password):
     return driver
 
 
-def write_graph(stats_path, events_path, n_events_path, output_path):
+def write_graph(stats_path, events_path, output_path):
     lemmas = dutils.load_freqs(stats_path)
     events = dutils.load_freqs(events_path)
 
@@ -35,7 +35,7 @@ def write_graph(stats_path, events_path, n_events_path, output_path):
     events_idx = {}
 
     N_lemmas = dutils.count_absolute_freq(stats_path)
-    n_events_dic = dutils.load_n_events_freq(n_events_path)
+    n_events_dic = dutils.load_n_events_freq(events_path)
 
     # write word nodes
     output_file = os.path.join(output_path, "words_nodes.csv")

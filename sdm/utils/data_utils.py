@@ -1,6 +1,7 @@
 import numpy as np
 import logging
 import itertools
+from collections import defaultdict
 
 
 logger = logging.getLogger(__name__)
@@ -191,11 +192,13 @@ def count_absolute_freq(filepath):
 
 
 def load_n_events_freq(filepath):
-    n_events = {}
+    n_events = defaultdict(int)
     with open(filepath) as fin:
         for line in fin:
-            n, freq = line.strip().split("\t")
-            n_events[int(n)] = float(freq)
+            event, freq = line.strip().split("\t")
+            n = len(event.split(" "))
+            n_events[n] += float(freq)
+    #print(n_events)
     return n_events
 
 def grouper(iterable, n, fillvalue=None):

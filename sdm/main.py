@@ -53,8 +53,7 @@ def _build_graph(args):
     output_path = outils.check_dir(args.output_dir)
     lemma_f_path = args.lemmas_f
     event_f_path = args.events_f
-    n_event_f_path = args.n_events_f
-    gutils.write_graph(lemma_f_path, event_f_path, n_event_f_path, output_path)
+    gutils.write_graph(lemma_f_path, event_f_path, output_path)
 
 
 def _import_graph(args):
@@ -162,11 +161,10 @@ def main():
     parser_buildGraph.add_argument("-o", "--output-dir", help="path to output dir, default is data/graph/")
     parser_buildGraph.add_argument("-l", "--lemmas-f", required=True, help="path to lemma frequencies file")
     parser_buildGraph.add_argument("-e", "--events-f", required=True, help="path to event frequencies file")
-    parser_buildGraph.add_argument("-n", "--n-events-f", required=True, help="path to n-event frequencies file")
 
     parser_buildGraph.set_defaults(func=_build_graph)
 
-    # TODO: import in neo4j
+    # 3. Import database in neo4j
     parser_importGraph = subparsers.add_parser("import-graph", help="Import graph (.csv files) in neo4j")
     parser_importGraph.add_argument("-d","--data", required=True)
     parser_importGraph.add_argument("-n", "--neo", required=True)

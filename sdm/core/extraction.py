@@ -144,7 +144,7 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
 
     file_id = uuid.uuid4()
     events_freqdict = collections.defaultdict(int)
-    events_participant_n = collections.defaultdict(int)
+
     if associative_relations:
         associative_events_freqdict = collections.defaultdict(int)
 
@@ -182,7 +182,6 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
         subsets = powerset(group)
         for subset in subsets:
             events_freqdict[subset] += 1
-            events_participant_n[str(len(subset))] += 1
             # print(events_freqdict)
             # input()
 
@@ -199,22 +198,15 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
             # input()
             print("{}\t{}".format(" ".join(tup), freq), file=fout)
 
-    sorted_freqdict_n = sorted(events_participant_n.items(), key=lambda x: x[0])
-    with open(tmp_folder + "n-events-freqs-{}".format(file_id), "w") as fout:
-        for n, freq in sorted_freqdict_n:
-            # print(tup, freq)
-            # input()
-            print("{}\t{}".format(n, freq), file=fout)
-
     if associative_relations:
         sorted_freqdict = sorted(associative_events_freqdict.items(), key=lambda x: x[0])
         with open(tmp_folder + "associative-events-freqs-{}".format(file_id), "w") as fout:
             for tup, freq in sorted_freqdict:
                 print("{}\t{}".format(" ".join(tup), freq), file=fout)
 
-        return ["events", "n-events", "associative-events"]
+        return ["events", "associative-events"]
 
-    return ["events", "n-events"]
+    return ["events"]
 
 def extract_stats(tmp_folder, list_of_sentences):
 
