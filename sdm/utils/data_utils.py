@@ -180,13 +180,15 @@ def load_freqs(filepath):
             items.add((item, freq))
     return items
 
+
 def count_absolute_freq(filepath):
     N = 0.0
     with open(filepath) as fin:
         for line in fin:
-            freq = int(line.strip().split("\t")[1])
+            freq = float(line.strip().split("\t")[1])
             N += freq
     return N
+
 
 def load_n_events_freq(filepath):
     n_events = {}
