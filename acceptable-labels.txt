@@ -1,0 +1,2 @@
+V N
+nsubj dobj iobj nmod obl xcomp
