@@ -49,6 +49,21 @@ def _pipeline_extraction(args):
         extraction.StreamPipeline(output_path)
 
 
+def _build_graph(args):
+    output_path = outils.check_dir(args.output_dir)
+    lemma_f_path = args.lemmas_f
+    event_f_path = args.events_f
+    n_event_f_path = args.n_events_f
+    gutils.write_graph(lemma_f_path, event_f_path, n_event_f_path, output_path)
+
+
+def _import_graph(args):
+    neo_folder = args.neo
+    data_folder = args.data
+    cp = args.copy
+    gutils.import_graph(neo_folder, data_folder, cp)
+
+
 def _compute_evaluation(args):
     output_path = outils.check_dir(args.output_dir)
     original_data = args.data
@@ -142,14 +157,23 @@ def main():
 
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 
-    # TODO: from pipeline output to neo4j input format
+    # 2. From pipeline output to neo4j input format
     parser_buildGraph = subparsers.add_parser("build-graph", help="Write neo4j database files for GEK graph")
     parser_buildGraph.add_argument("-o", "--output-dir", help="path to output dir, default is data/graph/")
-    parser_buildGraph.add_argument("--lemmas-f", required=True, help="path to lemma frequencies file")
-    parser_buildGraph.add_argument("--events-f", required=True, help="path to event frequencies file")
-    parser_buildGraph.add_argument("--n-events-f", required=True, help="path to n-event frequencies file")
-    # TODO: import in neo4j
+    parser_buildGraph.add_argument("-l", "--lemmas-f", required=True, help="path to lemma frequencies file")
+    parser_buildGraph.add_argument("-e", "--events-f", required=True, help="path to event frequencies file")
+    parser_buildGraph.add_argument("-n", "--n-events-f", required=True, help="path to n-event frequencies file")
 
+    parser_buildGraph.set_defaults(func=_build_graph)
+
+    # TODO: import in neo4j
+    parser_importGraph = subparsers.add_parser("import-graph", help="Import graph (.csv files) in neo4j")
+    parser_importGraph.add_argument("-d","--data", required=True)
+    parser_importGraph.add_argument("-n", "--neo", required=True)
+    parser_importGraph.add_argument("--copy", default=True,
+                                    help='param to copy csv files into neo4j_folder/import (they are already there!)')
+
+    parser_importGraph.set_defaults(func=_import_graph)
     # TODO: add weights
 
     # TODO: vectors?
