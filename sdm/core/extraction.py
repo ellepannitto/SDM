@@ -74,6 +74,9 @@ class CoNLLPipeline:
             futils.collapse(tmp_folder+"{}-merged".format(prefix),
                             self.output_dir+"{}-freqs.txt".format(prefix), threshold=e_thresh)
 
+        outils.remove(tmp_folder)
+
+
 def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events,
                         w_thres, e_thres, stats=True, events=True, list_of_workers = [1,1,1]):
     conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, list_of_workers)
@@ -179,7 +182,7 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
         subsets = powerset(group)
         for subset in subsets:
             events_freqdict[subset] += 1
-            events_participant_n[len(subset)] += 1
+            events_participant_n[str(len(subset))] += 1
             # print(events_freqdict)
             # input()
 
