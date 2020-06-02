@@ -61,11 +61,13 @@ def CoNLLReader(delimiter, filepath):
                             sentence.append(token_dict)
                         except:
                             skip_sentence = True
-                            print("ILL FORMED LINE", line)
+                            logger.info("ILL FORMED LINE:{} (in {})".format(line,filepath))
 
         if len(sentence):
            if not skip_sentence:
                yield sentence
+
+    logger.info("Finish reading: {}".format(filepath))
 
 
 def ukWaCReader(filepath):
@@ -86,13 +88,15 @@ def ukWaCReader(filepath):
             yield sentence
 
 def DependencyBuilder(accepted_pos, accepted_rel, sentence, refine=True):
-
     """
-    :param sentence: a list of dictionaries, each dictionary represent a tokens with the following keys:
-    'id', 'text', 'lemma', 'upos', 'head', 'deprel'
-    Take care:
-    1) there may be a token who is dependent from another not attested in the list -> pass
-    2) in case of enhanced deps, a token is repeated more times in the list, one per relation
+    :param list accepted_pos: filter out lemmas with pos out of this list
+    :param list accepted_rel: filter out relations out of that list
+    :param list sentence: a list of dictionaries, each dictionary represent a tokens with the following keys: 'id', 'text', 'lemma', 'upos', 'head', 'deprel'
+    :param boolean refine: a flag that indicates if applying morpho-syntactic refinements or not
+    :returns:
+            -words_dict (:py:class:`dict`) - a words dictionary {token_id : {lemma,upos}}
+            -deps_ids_dict_copy () - a dependencies dictionary {head_id:[(dep_id, role)]}
+
     """
     def relation_standardization(role):
         if role == "nsubjpass":
