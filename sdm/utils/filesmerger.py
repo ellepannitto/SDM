@@ -18,8 +18,6 @@ class Mode(Enum):
 
 def merge(filename_pattern, output_filename, mode=Mode.txt, batch=20):
 
-    # _temp_out_filename = "/tmp/remove_me_"
-
     openfunc = lambda fname: open(fname)
     openfunc_write = lambda fname: open(fname, "wt")
     if mode == Mode.gzip:

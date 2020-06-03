@@ -1,6 +1,7 @@
 import copy
 import logging
 import string
+import tqdm
 from collections import defaultdict
 
 logger = logging.getLogger(__name__)
@@ -29,6 +30,7 @@ def CoNLLReader(delimiter, filepath):
         skip_sentence = False
 
         for line in fin:
+        # for line in tqdm.tqdm(fin, desc="CoNLLReader"):
             line = line.strip()
 
             if not len(line):

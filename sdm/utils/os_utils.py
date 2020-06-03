@@ -2,6 +2,7 @@ import logging
 import os
 import shutil
 import glob
+import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +26,11 @@ def check_dir(path):
 
 def get_filenames(input_path):
     if os.path.isfile(input_path):
-        logger.info("Reading input: {}".format(input_path))
+        # logger.info("Reading input: {}".format(input_path))
         yield input_path
     else:
-        for filename in glob.glob(input_path+"/*"):
+        for filename in tqdm.tqdm(glob.iglob(input_path+"/*"), desc="GET FILENAMES"):
             # WARNING: it does not deal with subdirectories!
             if os.path.isfile(filename):
-                logger.info("Reading input: {}".format(filename))
+                # logger.info("Reading input: {}".format(filename))
                 yield filename

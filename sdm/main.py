@@ -147,13 +147,13 @@ def main():
     parser_pipelineExtraction.add_argument("--delimiter", default=" ")
     parser_pipelineExtraction.add_argument("--labels", required=True,
                                            help="path to file for filtering pos/roles")
-    parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=1000)
-    parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=50)
+    parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=5000)
+    parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=1000)
     parser_pipelineExtraction.add_argument("--word-thresh", type=int, default=100)
     parser_pipelineExtraction.add_argument("--event-thresh", type=int, default=20)
     parser_pipelineExtraction.add_argument('-s', action='store_true', help='flag to launch lemmas freqs extraction')
     parser_pipelineExtraction.add_argument('-e', action='store_true', help='flag to launch events freqs extraction')
-    parser_pipelineExtraction.add_argument('--workers', nargs='+', type=int, default=[1,1,1])
+    parser_pipelineExtraction.add_argument('--workers', nargs='+', type=int, default=[1,1,1,1])
 
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
 

@@ -161,13 +161,13 @@ def load_set(filepath):
     return ret
 
 
-def load_set_freqs(filepath):
+def load_lemmapos_freqs(filepath, delimiter="\t"):
     # It returns the vocabulary of the frequency file (WARNING: returning items are space-separated)
     ret = set()
     with open(filepath) as fin:
         for line in fin:
-            line = line.strip().split("\t")
-            ret.add(line[0])
+            line = line.strip().split(delimiter)
+            ret.add(tuple(line[0].split(" ")))
     return ret
 
 
