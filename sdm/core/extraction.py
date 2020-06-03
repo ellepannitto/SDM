@@ -1,3 +1,8 @@
+"""
+extraction.py: a python module for extracting lemmas frequencies and syntactic patterns from texts
+(using multiprocessing technique).
+"""
+
 import functools
 import logging
 import uuid
@@ -5,7 +10,6 @@ import tqdm
 import collections
 import itertools
 import multiprocessing as mp
-
 
 from sdm.utils import os_utils as outils
 from sdm.utils import data_utils as dutils
@@ -26,8 +30,20 @@ def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
         # extract_patterns_stream(result_list)
         pass
 
+
 class CoNLLPipeline:
+    """
+    A class used to parse CONLL texts and extract some statistics.
+    """
     def __init__(self, output_dir, input_paths, acceptable_path, delimiter, batch_size=100, list_of_workers=[1,1,1]):
+        """
+        :param str output_dir: path/to/folder
+        :param List[] input_paths:
+        :param str: acceptable_path:
+        :param str delimiter:
+        :param batch_size
+        :param list_of_workers
+        """
         self.input_paths = input_paths
         self.output_dir = output_dir
         self.delimiter = delimiter
@@ -41,7 +57,14 @@ class CoNLLPipeline:
         # cutils.CoNLLReader: from filepath to list of sentences
         # cutils.DependencyBuilder: from sentence to representation head + deps
 
+        
     def stats(self, batch_size_stats, w_thresh, workers):
+
+        """
+        :param int batch_size_stats:
+        :param int w_thresh:
+        :param int workers:
+        """
 
         tmp_folder = outils.add_tmp_folder(self.output_dir)
 
@@ -64,7 +87,17 @@ class CoNLLPipeline:
 
         outils.remove(tmp_folder)
 
+
     def events(self, batch_size_events, e_thresh, workers):
+        """
+        :param int batch_size_events:
+        :param int e_thresh:
+        :param int workers:
+        :return:
+        :rtype:
+        """
+    
+
         # Load list of accepted words
         accepted_lemmas = dutils.load_lemmapos_freqs(self.output_dir+"lemma-freqs.txt")
         # accepted_lemmas = [tuple(i.split(" ")) for i in accepted_lemmas]
@@ -99,72 +132,48 @@ class CoNLLPipeline:
 
 def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events,
                         w_thres, e_thres, stats, events, list_of_workers):
-    conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, list_of_workers[:-1])
+    """
 
+    :param str output_dir: path to output dir
+    :param list input_paths: paths to input files/folders
+    :param str acceptable_path: path to file containing acceptable pos in the 1st line and roles in the 2nd (space separated)
+    :param str delimiter:
+    :param int batch_size_stats:
+    :param int batch_size_events:
+    :param int w_thres:
+    :param int e_thres:
+    :param boolean stats:
+    :param boolean events:
+    :param list list_of_workers:
+    """    
+    
+    conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, list_of_workers[:-1])
+    
+   
     if stats:
         conll_pip.stats(batch_size_stats, w_thres, list_of_workers[-1])
     if events:
         conll_pip.events(batch_size_events, e_thres, list_of_workers[-1])
-"""
-def CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events, stats=True, events=True, list_of_workers = [1,1,1]):
-
-    accepted_pos, accepted_rels = dutils.load_acceptable_labels_from_file(acceptable_path)
-
-
-    list_of_functions = [outils.get_filenames,
-                         functools.partial(cutils.CoNLLReader, delimiter),
-                         functools.partial(cutils.DependencyBuilder, accepted_pos, accepted_rels)]
-
-    # outils.get_filenames: from directory to filenames
-    # cutils.CoNLLReader: from filepath to list of sentences
-    # cutils.DependencyBuilder: from sentence to representation head + deps
-
-
-    pipeline = putils.Pipeline(list_of_functions, list_of_workers, batch_size_stats)
-
-    tmp_folder = outils.add_tmp_folder(output_dir)
-    for result_list in dutils.grouper(pipeline.run(input_paths), batch_size_stats):
-        prefix_to_merge = extract_stats(tmp_folder, result_list)
-
-
-    for prefix in prefix_to_merge:
-
-        futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
-                     tmp_folder+"{}-merged".format(prefix),
-                     mode=futils.Mode.txt)
-        futils.collapse(tmp_folder+"{}-merged".format(prefix),
-                        output_dir+"{}-freqs.txt".format(prefix), threshold=2)
-
-    outils.remove(tmp_folder)
-
-    # Load list of accepted words
-    accepted_lemmas = dutils.load_set_freqs(output_dir+"lemma-freqs.txt")
-    accepted_lemmas = [tuple(i.split(" ")) for i in accepted_lemmas]
-    # print(accepted_lemmas)
-    # input()
-
-    tmp_folder = outils.add_tmp_folder(output_dir)
-    for result_list in dutils.grouper(pipeline.run(input_paths), batch_size_events):
-        # prefix_to_merge = extract_patterns(tmp_folder, result_list)
-        prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
-
-    for prefix in prefix_to_merge:
-        futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
-                     tmp_folder+"{}-merged".format(prefix),
-                     mode=futils.Mode.txt)
-        futils.collapse(tmp_folder+"{}-merged".format(prefix),
-                        output_dir+"{}-freqs.txt".format(prefix), threshold=5)
-"""
 
 
 def powerset(iterable):
     return itertools.chain.from_iterable(itertools.combinations(iterable, r) for r in range(2, len(iterable) + 1))
 
+  
 def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of_sentences):
+    """
 
+    :param str tmp_folder: path to temporary folder
+    :param list_of_sentences: a tuple containing two objects: a words dictionary {token_id : {"lemma":lemma,"upos":pos}} and a dependencies dictionary {head_id:[(dep_id, role)]}
+    :type list_of_sentences: (dict[str,dict], dict[str,list[tuple]])
+    :param set accepted_lemmas: a list of accepted lemmas in the form {token_ID : {'lemma': lemma, 'upos': pos}..}
+    :param boolean associative_relations:
+    :return list: list
+
+    """
     file_id = uuid.uuid4()
     events_freqdict = collections.defaultdict(int)
-    events_participant_n = collections.defaultdict(int)
+
     if associative_relations:
         associative_events_freqdict = collections.defaultdict(int)
 
@@ -206,7 +215,6 @@ def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of
         subsets = powerset(group)
         for subset in subsets:
             events_freqdict[subset] += 1
-            events_participant_n[str(len(subset))] += 1
             # print(events_freqdict)
             # input()
 
@@ -223,31 +231,32 @@ def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of
             # input()
             print("{}\t{}".format(" ".join(tup), freq), file=fout)
 
-    sorted_freqdict_n = sorted(events_participant_n.items(), key=lambda x: x[0])
-    with open(tmp_folder + "n-events-freqs-{}".format(file_id), "w") as fout:
-        for n, freq in sorted_freqdict_n:
-            # print(tup, freq)
-            # input()
-            print("{}\t{}".format(n, freq), file=fout)
-
     if associative_relations:
         sorted_freqdict = sorted(associative_events_freqdict.items(), key=lambda x: x[0])
         with open(tmp_folder + "associative-events-freqs-{}".format(file_id), "w") as fout:
             for tup, freq in sorted_freqdict:
                 print("{}\t{}".format(" ".join(tup), freq), file=fout)
 
+
         # return ["events", "n-events", "associative-events"]
 
     # return ["events", "n-events"]
 
 def extract_stats(tmp_folder, list_of_sentences):
+    """
+
+    :param str tmp_folder: path to temporary folder
+    :param list_of_sentences: a tuple containing two objects: a words dictionary {token_id : {"lemma":lemma,"upos":pos}} and a dependencies dictionary {head_id:[(dep_id, role)]}
+    :type list_of_sentences: (dict[str,dict], dict[str,list[tuple]])
+    :return dictionary: dictionary of dictionaries {"lemma": { (lemma, pos): freq ..}}
+    """
 
     file_id = uuid.uuid4()
     lemma_freqdict = collections.defaultdict(int)
     for sentence, _ in filter(lambda x: x is not None, list_of_sentences):
         for token_id in sentence:
             token = sentence[token_id]
-            lemma, pos = token["lemma"], token["upos"]#, token["deprel"]
+            lemma, pos = token["lemma"], token["upos"]
             lemma_freqdict[(lemma,pos)] += 1
 
     dict_of_dicts = {"lemma": lemma_freqdict}
