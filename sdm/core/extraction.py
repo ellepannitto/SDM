@@ -6,8 +6,10 @@ extraction.py: a python module for extracting lemmas frequencies and syntactic p
 import functools
 import logging
 import uuid
+import tqdm
 import collections
 import itertools
+import multiprocessing as mp
 
 from sdm.utils import os_utils as outils
 from sdm.utils import data_utils as dutils
@@ -55,14 +57,25 @@ class CoNLLPipeline:
         # cutils.CoNLLReader: from filepath to list of sentences
         # cutils.DependencyBuilder: from sentence to representation head + deps
 
-    def stats(self, batch_size_stats, w_thresh):
+        
+    def stats(self, batch_size_stats, w_thresh, workers):
+
         """
         :param int batch_size_stats:
         :param int w_thresh:
+        :param int workers:
         """
+
         tmp_folder = outils.add_tmp_folder(self.output_dir)
-        for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_stats):
-            prefix_to_merge = extract_stats(tmp_folder, result_list)
+
+        with mp.Pool(workers) as pool:
+            iterator = dutils.grouper(self.pipeline.run(self.input_paths), batch_size_stats)
+            pool_imap = pool.imap(functools.partial(extract_stats, tmp_folder), iterator)
+
+            for _ in tqdm.tqdm(pool_imap):
+                pass
+
+        prefix_to_merge = ["lemma"]
 
         for prefix in prefix_to_merge:
 
@@ -74,24 +87,38 @@ class CoNLLPipeline:
 
         outils.remove(tmp_folder)
 
-    def events(self, batch_size_events, e_thresh):
-        """
 
+    def events(self, batch_size_events, e_thresh, workers):
+        """
         :param int batch_size_events:
         :param int e_thresh:
+        :param int workers:
         :return:
         :rtype:
         """
+    
+
         # Load list of accepted words
-        accepted_lemmas = dutils.load_set_freqs(self.output_dir+"lemma-freqs.txt")
-        accepted_lemmas = [tuple(i.split(" ")) for i in accepted_lemmas]
+        accepted_lemmas = dutils.load_lemmapos_freqs(self.output_dir+"lemma-freqs.txt")
+        # accepted_lemmas = [tuple(i.split(" ")) for i in accepted_lemmas]
         # print(accepted_lemmas)
         # input()
+        associative_relations = False
 
         tmp_folder = outils.add_tmp_folder(self.output_dir)
-        for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events):
+
+        with mp.Pool(workers) as pool:
+            iterator = dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events)
+            pool_imap = pool.imap(functools.partial(extract_patterns, tmp_folder,
+                                                    accepted_lemmas, associative_relations), iterator)
+
+            for _ in tqdm.tqdm(pool_imap):
+                pass
+
+        prefix_to_merge = ["events", "n-events"]
+        # for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events):
             # prefix_to_merge = extract_patterns(tmp_folder, result_list)
-            prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
+            # prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
 
         for prefix in prefix_to_merge:
             futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
@@ -104,7 +131,7 @@ class CoNLLPipeline:
 
 
 def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events,
-                        w_thres, e_thres, stats=True, events=True, list_of_workers = [1,1,1]):
+                        w_thres, e_thres, stats, events, list_of_workers):
     """
 
     :param str output_dir: path to output dir
@@ -118,20 +145,22 @@ def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, bat
     :param boolean stats:
     :param boolean events:
     :param list list_of_workers:
-    """
-    conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, list_of_workers)
-
+    """    
+    
+    conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, list_of_workers[:-1])
+    
+   
     if stats:
-        conll_pip.stats(batch_size_stats, w_thres)
+        conll_pip.stats(batch_size_stats, w_thres, list_of_workers[-1])
     if events:
-        conll_pip.events(batch_size_events, e_thres)
+        conll_pip.events(batch_size_events, e_thres, list_of_workers[-1])
 
 
 def powerset(iterable):
     return itertools.chain.from_iterable(itertools.combinations(iterable, r) for r in range(2, len(iterable) + 1))
 
-
-def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), associative_relations=False):
+  
+def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of_sentences):
     """
 
     :param str tmp_folder: path to temporary folder
@@ -142,7 +171,6 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
     :return list: list
 
     """
-
     file_id = uuid.uuid4()
     events_freqdict = collections.defaultdict(int)
 
@@ -172,7 +200,9 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
                         print("NOT FOUND IDE", ide)
                         # print("SENTENCE:", sentence)
 
-                groups.append(list(sorted(group)))
+                group = list(sorted(group))
+                if len(group) < 16:
+                    groups.append(group)
                 # print("GROUP ADDED", groups)
 
             else:
@@ -180,6 +210,8 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
                 # print("SENTENCE:", sentence)
 
     for group in groups:
+        # if len(group)>10:
+        #     print(len(group), "-", group)
         subsets = powerset(group)
         for subset in subsets:
             events_freqdict[subset] += 1
@@ -205,10 +237,10 @@ def extract_patterns(tmp_folder, list_of_sentences, accepted_lemmas=set(), assoc
             for tup, freq in sorted_freqdict:
                 print("{}\t{}".format(" ".join(tup), freq), file=fout)
 
-        return ["events", "associative-events"]
 
-    return ["events"]
+        # return ["events", "n-events", "associative-events"]
 
+    # return ["events", "n-events"]
 
 def extract_stats(tmp_folder, list_of_sentences):
     """
@@ -236,4 +268,4 @@ def extract_stats(tmp_folder, list_of_sentences):
             for tup, freq in sorted_freqdict:
                 print("{}\t{}".format(" ".join(tup), freq), file=fout)
 
-    return dict_of_dicts.keys()
+    # return dict_of_dicts.keys()
