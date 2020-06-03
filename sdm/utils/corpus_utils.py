@@ -166,10 +166,10 @@ def DependencyBuilder(accepted_pos, accepted_rel, sentence, refine=True):
     deps_ids_dict_res = defaultdict(list)
     for h_id, deps in deps_ids_dict.items():
         for dep in deps:
-            try:
-                deps_ids_dict_res[h_id].append(dep)
-            except KeyError:
-                pass
+            if h_id in words_dict.keys() and dep[0] in words_dict.keys():
+                if abs(int(h_id)-int(dep[0])) <=10:
+
+                    deps_ids_dict_res[h_id].append(dep)
 
 
     yield words_dict, deps_ids_dict_res
