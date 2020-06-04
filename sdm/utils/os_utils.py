@@ -29,7 +29,7 @@ def get_filenames(input_path):
         # logger.info("Reading input: {}".format(input_path))
         yield input_path
     else:
-        for filename in tqdm.tqdm(glob.iglob(input_path+"/*"), desc="GET FILENAMES"):
+        for filename in glob.iglob(input_path+"/*"):
             # WARNING: it does not deal with subdirectories!
             if os.path.isfile(filename):
                 # logger.info("Reading input: {}".format(filename))

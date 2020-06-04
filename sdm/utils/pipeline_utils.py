@@ -1,36 +1,48 @@
 import multiprocessing as mp
 from collections import namedtuple
+import logging
+import tqdm
+
+logger = logging.getLogger(__name__)
 
 Task = namedtuple("Task", ["done", "data"])
 
 
 class SmartQueue:
 
-    def __init__(self, nworker_in, nworker_out, ide, maxsize=0):
+    def __init__(self, nworker_in, nworker_out, ide, maxsize=0, debug=False):
         self._q = mp.Queue(maxsize)
         self.ide = ide
 
         self._nworker_in = nworker_in
         self._nworker_out = nworker_out
         self.received_eos = mp.Value('i', 0)
+        self._debug = debug
 
     def put(self, obj: Task):
         if obj.done:
             with self.received_eos.get_lock():
                 self.received_eos.value += 1
-                # print ("Queue({},{}) received {} EOS so far".format(self._nworker_in, self._nworker_out, self.received_eos.value))
+
+                if self._debug:
+                    logger.debug ("Queue({}) received {} EOS so far".format(self.ide, self.received_eos.value))
+
                 if self.received_eos.value == self._nworker_in:
-                    # print("Queue({},{}) Finished".format(self._nworker_in, self._nworker_out))
+
                     for _ in range(self._nworker_out):
-                        # print("[QUEUE - ", self.ide, "]: put EOS")
                         self._q.put(Task(True, None))
+
+                    if self._debug:
+                        logger.debug("Queue({}) Finished".format(self.ide))
         else:
-            # print("[QUEUE - ", self.ide, "]: put", obj)
+            if self._debug:
+                logger.debug ("Queue({}) put {} ".format(self.ide, obj)[:50])
             self._q.put(obj)
 
     def get(self):
         ret = self._q.get()
-        # print("[QUEUE - ", self.ide, "]: get", ret)
+        if self._debug:
+            logger.debug("Queue({}) get {}".format(self.ide, ret)[:50])
         return ret
 
 
@@ -64,10 +76,14 @@ class Pipeline:
         nworker_in = 1
         ide = 0
         for _, nworker_out in zip(self.functions, self.workers):
-            queues.append(SmartQueue(nworker_in, nworker_out, ide=ide, maxsize=2*nworker_out))
+            maxsize = 4 * nworker_out
+            if ide==0:
+                maxsize = 0
+            queues.append(SmartQueue(nworker_in, nworker_out, ide=ide, maxsize=maxsize))
             ide += 1
             nworker_in = nworker_out
-        queues.append(SmartQueue(nworker_in, 1, ide=ide, maxsize=2*self.batch_size))
+        # queues.append(SmartQueue(nworker_in, 1, ide=ide))
+        queues.append(SmartQueue(nworker_in, 1, ide=ide, maxsize=10*self.batch_size, debug=True))
 
         pool_list = []
         i = 0
@@ -77,7 +93,7 @@ class Pipeline:
                                      initargs=(func, queues[i], queues[i+1])))
             i += 1
 
-        for x in iterable_input:
+        for x in tqdm.tqdm(iterable_input, desc="pipeline input"):
             queues[0].put(Task(False, x))
         queues[0].put(Task(True, None))
 
