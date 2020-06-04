@@ -28,6 +28,7 @@ def CoNLLReader(delimiter, filepath):
     """
 
     # print("[CONLL READER] - ", filepath)
+    # logger.info("CONLL READER parsing {}".format(filepath))
 
     accepted_chars = string.ascii_letters + "01234567890.-'"
     BASIC_FIELD_TO_IDX = {'id', 'text', 'lemma', 'upos', 'head', 'deprel'}
@@ -107,6 +108,7 @@ def DependencyBuilder(accepted_pos, accepted_rel, sentence, refine=True):
             -deps_ids_dict_copy () - a dependencies dictionary {head_id:[(dep_id, role)]}
 
     """
+    # logger.info("Processing sentence: {}".format(sentence))
     def relation_standardization(role):
         if role == "nsubjpass":
             role = "dobj"

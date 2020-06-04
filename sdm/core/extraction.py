@@ -72,7 +72,7 @@ class CoNLLPipeline:
             iterator = dutils.grouper(self.pipeline.run(self.input_paths), batch_size_stats)
             pool_imap = pool.imap(functools.partial(extract_stats, tmp_folder), iterator)
 
-            for _ in tqdm.tqdm(pool_imap):
+            for _ in tqdm.tqdm(pool_imap, desc="STATS"):
                 pass
 
         prefix_to_merge = ["lemma"]
@@ -87,7 +87,6 @@ class CoNLLPipeline:
 
         outils.remove(tmp_folder)
 
-
     def events(self, batch_size_events, e_thresh, workers):
         """
         :param int batch_size_events:
@@ -96,7 +95,6 @@ class CoNLLPipeline:
         :return:
         :rtype:
         """
-    
 
         # Load list of accepted words
         accepted_lemmas = dutils.load_lemmapos_freqs(self.output_dir+"lemma-freqs.txt")
@@ -117,8 +115,8 @@ class CoNLLPipeline:
 
         prefix_to_merge = ["events", "n-events"]
         # for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events):
-            # prefix_to_merge = extract_patterns(tmp_folder, result_list)
-            # prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
+        # prefix_to_merge = extract_patterns(tmp_folder, result_list)
+        # prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
 
         for prefix in prefix_to_merge:
             futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
@@ -147,9 +145,9 @@ def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, bat
     :param list list_of_workers:
     """    
     
-    conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, list_of_workers[:-1])
-    
-   
+    conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path,
+                              delimiter, batch_size_stats, list_of_workers[:-1])
+
     if stats:
         conll_pip.stats(batch_size_stats, w_thres, list_of_workers[-1])
     if events:
@@ -236,7 +234,6 @@ def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of
         with open(tmp_folder + "associative-events-freqs-{}".format(file_id), "w") as fout:
             for tup, freq in sorted_freqdict:
                 print("{}\t{}".format(" ".join(tup), freq), file=fout)
-
 
         # return ["events", "n-events", "associative-events"]
 
