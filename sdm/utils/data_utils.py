@@ -162,13 +162,16 @@ def load_set(filepath):
     return ret
 
 
-def load_lemmapos_freqs(filepath, delimiter="\t"):
+def load_lemmapos_freqs(filepath, thresh, delimiter="\t"):
     # It returns the vocabulary of the frequency file (WARNING: returning items are space-separated)
     ret = set()
     with open(filepath) as fin:
         for line in fin:
             line = line.strip().split(delimiter)
-            ret.add(tuple(line[0].split(" ")))
+            lemma, freq = line
+            freq = float(freq)
+            if freq > thresh:
+                ret.add(tuple(line[0].split(" ")))
     return ret
 
 

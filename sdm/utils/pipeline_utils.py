@@ -2,6 +2,7 @@ import multiprocessing as mp
 from collections import namedtuple
 import logging
 import tqdm
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -35,14 +36,15 @@ class SmartQueue:
                     if self._debug:
                         logger.debug("Queue({}) Finished".format(self.ide))
         else:
-            if self._debug:
-                logger.debug ("Queue({}) put {} ".format(self.ide, obj)[:50])
+            # if self._debug:
+            #     logger.debug ("Queue({}) put {} ".format(self.ide, obj)[:50])
             self._q.put(obj)
 
     def get(self):
+
         ret = self._q.get()
-        if self._debug:
-            logger.debug("Queue({}) get {}".format(self.ide, ret)[:50])
+        # if self._debug:
+        #     logger.debug("Queue({}) get {}".format(self.ide, ret)[:50])
         return ret
 
 
@@ -59,7 +61,10 @@ class Pipeline:
         self.workers = list_of_workers
         self.batch_size = batch_size
 
-    def parallel_process(self, func, in_q, out_q):
+    def parallel_process(self, func, in_q, out_q, stage):
+
+        logger.debug("Process(stage: {}, pid: {}) started".format(stage, os.getpid()))
+
         x = in_q.get()
 
         while not x.done:
@@ -67,8 +72,11 @@ class Pipeline:
                 out_q.put(Task(False, y))
 
             x = in_q.get()
+
+        logger.debug("Process(stage: {}, pid: {}) finished, propagating EOS...".format(stage, os.getpid()))
         out_q.put(Task(True, None))
 
+        logger.debug("Process(stage: {}, pid: {}) exit.".format(stage, os.getpid()))
 
     def run(self, iterable_input):
 
@@ -79,7 +87,7 @@ class Pipeline:
             maxsize = 4 * nworker_out
             if ide==0:
                 maxsize = 0
-            queues.append(SmartQueue(nworker_in, nworker_out, ide=ide, maxsize=maxsize))
+            queues.append(SmartQueue(nworker_in, nworker_out, ide=ide, maxsize=maxsize, debug=True))
             ide += 1
             nworker_in = nworker_out
         # queues.append(SmartQueue(nworker_in, 1, ide=ide))
@@ -90,7 +98,7 @@ class Pipeline:
         for func, n_workers in zip(self.functions, self.workers):
             pool_list.append(mp.Pool(n_workers,
                                      initializer=self.parallel_process,
-                                     initargs=(func, queues[i], queues[i+1])))
+                                     initargs=(func, queues[i], queues[i+1], i)))
             i += 1
 
         for x in tqdm.tqdm(iterable_input, desc="pipeline input"):
@@ -102,9 +110,15 @@ class Pipeline:
             yield y.data
             y = queues[-1].get()
 
+        logger.debug("Pipeline.run() done, joining threads")
+
         for i, pool in enumerate(pool_list):
-            pool.close()
+            logger.debug("terminating pool for stage {}".format(i))
+            pool.terminate()
+            logger.debug("joining pool for stage {}".format(i))
             pool.join()
+
+        logger.debug("Pipeline.run() exiting")
 
 
 if __name__ == "__main__":

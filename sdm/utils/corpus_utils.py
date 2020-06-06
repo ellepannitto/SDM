@@ -155,26 +155,41 @@ def DependencyBuilder(accepted_pos, accepted_rel, sentence, refine=True):
         pos = pos_standardization(token["upos"])
         # take only words with a given PoS
         if pos in accepted_pos:
+            deps_ids_dict[token["head"]].append((token["id"], relation_standardization(token["deprel"])))
             # take only dependencies with a given label
-            role = relation_standardization(token["deprel"])
-            if role.startswith(tuple(accepted_rel)):
-                deps_ids_dict[token["head"]].append((token["id"], role))
+            # role = relation_standardization(token["deprel"])
+            # if role.startswith(tuple(accepted_rel)):
+            #     deps_ids_dict[token["head"]].append((token["id"], role))
             if token["id"] not in words_dict:
                 words_dict[token["id"]] = {'lemma': token["lemma"], 'upos': pos}
 
     if refine: refine_lemmas(words_dict, deps_ids_dict)
 
     # filter
-    deps_ids_dict_res = defaultdict(list)
+    deps_ids_dict_copy = copy.deepcopy(deps_ids_dict)
+    # deps_ids_dict_res = defaultdict(list)
     for h_id, deps in deps_ids_dict.items():
-        for dep in deps:
-            if h_id in words_dict.keys() and dep[0] in words_dict.keys():
-                if abs(int(h_id)-int(dep[0])) <=10:
+        if h_id not in words_dict.keys():
+            del deps_ids_dict_copy[h_id]
+        else:
+            for i, dep in enumerate(deps):
+                dep_id, rel = dep
+                if not rel.startswith(tuple(accepted_rel)):
+                    deps_ids_dict_copy[h_id][i] = None
+            # if no relations are attested for the head after filtering, remove the key
+            deps_ids_dict_copy[h_id] = [i for i in deps_ids_dict_copy[h_id] if i is not None]
+            if len(deps_ids_dict_copy[h_id]) == 0:
+                del deps_ids_dict_copy[h_id]
 
-                    deps_ids_dict_res[h_id].append(dep)
-
-
-    yield words_dict, deps_ids_dict_res
+    yield words_dict, deps_ids_dict_copy
+    #     for dep in deps:
+    #         if h_id in words_dict.keys() and dep[0] in words_dict.keys():
+    #             if abs(int(h_id)-int(dep[0])) <=10:
+    #
+    #                 deps_ids_dict_res[h_id].append(dep)
+    #
+    #
+    # yield words_dict, deps_ids_dict_res
 
 if __name__ == "__main__":
     import glob

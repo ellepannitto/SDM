@@ -72,8 +72,10 @@ class CoNLLPipeline:
             iterator = dutils.grouper(self.pipeline.run(self.input_paths), batch_size_stats)
             pool_imap = pool.imap(functools.partial(extract_stats, tmp_folder), iterator)
 
-            for _ in tqdm.tqdm(pool_imap, desc="STATS"):
+            for _ in tqdm.tqdm(pool_imap, desc="STATS", disable=False):
                 pass
+
+        logger.info ("DONE Pipeline.run()")
 
         prefix_to_merge = ["lemma"]
 
@@ -87,7 +89,7 @@ class CoNLLPipeline:
 
         outils.remove(tmp_folder)
 
-    def events(self, batch_size_events, e_thresh, workers):
+    def events(self, batch_size_events, w_thresh, e_thresh, workers):
         """
         :param int batch_size_events:
         :param int e_thresh:
@@ -97,7 +99,7 @@ class CoNLLPipeline:
         """
 
         # Load list of accepted words
-        accepted_lemmas = dutils.load_lemmapos_freqs(self.output_dir+"lemma-freqs.txt")
+        accepted_lemmas = dutils.load_lemmapos_freqs(self.output_dir+"lemma-freqs.txt", w_thresh)
         # accepted_lemmas = [tuple(i.split(" ")) for i in accepted_lemmas]
         # print(accepted_lemmas)
         # input()
@@ -110,10 +112,12 @@ class CoNLLPipeline:
             pool_imap = pool.imap(functools.partial(extract_patterns, tmp_folder,
                                                     accepted_lemmas, associative_relations), iterator)
 
-            for _ in tqdm.tqdm(pool_imap):
+            for _ in tqdm.tqdm(pool_imap, desc="EVENT EXTRACTION", disable=True):
                 pass
 
-        prefix_to_merge = ["events", "n-events"]
+        logger.info("Finished pipeline.run() and extract_patterns")
+
+        prefix_to_merge = ["events"]
         # for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events):
         # prefix_to_merge = extract_patterns(tmp_folder, result_list)
         # prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
@@ -151,7 +155,7 @@ def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, bat
     if stats:
         conll_pip.stats(batch_size_stats, w_thres, list_of_workers[-1])
     if events:
-        conll_pip.events(batch_size_events, e_thres, list_of_workers[-1])
+        conll_pip.events(batch_size_events, w_thres, e_thres, list_of_workers[-1])
 
 
 def powerset(iterable):
@@ -169,6 +173,9 @@ def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of
     :return list: list
 
     """
+
+    logger.info ("extract patterns called")
+
     file_id = uuid.uuid4()
     events_freqdict = collections.defaultdict(int)
 

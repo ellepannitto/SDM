@@ -15,12 +15,12 @@ loggers:
   sdm.main:
     level: INFO
     handlers: [console]
-  sdm.utils:
-    level: INFO
-    handlers: [console]
+#  sdm.utils:
+#    level: WARN
+#    handlers: [console]
   sdm.utils.corpus_utils:
     level: WARN
     handlers: [console]
-#  sdm.utils.pipeline_utils:
-#    level: DEBUG
-#    handlers: [console]
+  sdm.utils.pipeline_utils:
+    level: DEBUG
+    handlers: [console]
