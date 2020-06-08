@@ -67,8 +67,8 @@ class Pipeline:
             queues.append(SmartQueue(nworker_in, nworker_out, ide=ide, maxsize=2*nworker_out))
             ide += 1
             nworker_in = nworker_out
-        queues.append(SmartQueue(nworker_in, 1, ide=ide, maxsize=2*self.batch_size))
-
+        #queues.append(SmartQueue(nworker_in, 1, ide=ide))
+        queues.append(SmartQueue(nworker_in, 1, ide=ide, maxsize=10*self.batch_size))
         pool_list = []
         i = 0
         for func, n_workers in zip(self.functions, self.workers):

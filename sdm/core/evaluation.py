@@ -10,7 +10,7 @@ import sdm.utils.data_utils as dutils
 logger = logging.getLogger(__name__)
 
 
-def sim_vecs( v1, v2):
+def sim_vecs(v1, v2):
 	try:
 		s = cosine_similarity(v1.reshape(1, -1), v2.reshape(1, -1))
 	except ValueError:

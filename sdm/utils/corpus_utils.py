@@ -168,7 +168,6 @@ def DependencyBuilder(accepted_pos, accepted_rel, sentence, refine=True):
         for dep in deps:
             if h_id in words_dict.keys() and dep[0] in words_dict.keys():
                 if abs(int(h_id)-int(dep[0])) <=10:
-
                     deps_ids_dict_res[h_id].append(dep)
 
 

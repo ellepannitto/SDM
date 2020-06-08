@@ -62,7 +62,7 @@ def load_mapping(fpath):
 
 def load_acceptable_labels_from_file(fpath):
     """
-    :param fpath: a file for filtering annotated texts (1st line lists accepted Pos, 2nd lists accepted relations)
+    :param str fpath: a file for filtering annotated texts (1st line lists accepted Pos, 2nd lists accepted relations)
     :returns 2 lists
     """
     lines = open(fpath, "r").readlines()
@@ -76,13 +76,12 @@ class VectorsDict(dict):
         self.withPoS = withPoS
 
     def __getitem__(self, item):
-
+        form, pos = item
         if self.withPoS:
-            form, pos = item
             # TODO: allow for different composition functions
             form = form+"/"+pos
         else:
-            form = item
+            form = form
         return super().__getitem__(form)
 
 
@@ -122,6 +121,7 @@ def _load_vectors_from_text(vectors_fpath, withPoS, noun_set, len_vectors):
     noun_vectors = VectorsDict(withPoS)
 
     with open(vectors_fpath) as fin_model:
+
         n_words, len_from_file = fin_model.readline().strip().split()
         len_from_file = int(len_from_file)
 
@@ -200,6 +200,14 @@ def load_n_events_freq(filepath):
             n_events[n] += float(freq)
     #print(n_events)
     return n_events
+
+def load_metonymy_dataset(fpath):
+    data_dict = dict()
+    with open(fpath, 'r') as f:
+        for line in f:
+            s,v,o,e, r =line.strip().split("\t")
+            data_dict[(s,v,o,e)] = r
+    return data_dict
 
 def grouper(iterable, n, fillvalue=None):
     """Collect data into fixed-length chunks or blocks"

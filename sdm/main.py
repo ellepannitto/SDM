@@ -202,7 +202,7 @@ def main():
                                          help="paths to files containing dataset")
     parser_prepareInputFile.add_argument("-o", "--output-dir",
                                          help="path to output dir, default is data/results/")
-    parser_prepareInputFile.add_argument("-t", "--type", required=True, choices=["ks", "dtfit", "tfit_mit"],
+    parser_prepareInputFile.add_argument("-t", "--type", required=True, choices=["ks", "dtfit", "tfit_mit", "meton"],
                                          help="dataset type")
     parser_prepareInputFile.add_argument("--sequence-order", choices=["verbs_args", "head_verbs_args"],
                                          help="output arguments order")
@@ -234,7 +234,7 @@ def main():
                               help="function used to build representation vector")
     parser_build.add_argument("--include-same-relations", action="store_true")
     parser_build.add_argument("--weight-from-graph", default="pmi", choices=["pmi", "lmi"])
-    parser_build.add_argument("--reduced-vec-len", type=int, default=-1)
+    parser_build.add_argument("--reduced-vec-len", type=int, default=100)
     parser_build.add_argument("--vectors_with_PoS", action="store_true")
 
     parser_build.set_defaults(func=_build_representations)

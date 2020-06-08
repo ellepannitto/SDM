@@ -16,7 +16,7 @@ class Mode(Enum):
     gzip = 2
 
 
-def merge(filename_pattern, output_filename, mode=Mode.txt, batch=20):
+def merge(filename_pattern, output_filename, mode=Mode.txt, batch=200):
 
     openfunc = lambda fname: open(fname)
     openfunc_write = lambda fname: open(fname, "wt")

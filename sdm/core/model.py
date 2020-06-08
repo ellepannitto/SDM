@@ -1,3 +1,6 @@
+"""
+model.py the core architecture for Structured Distributional Model (SDM).
+"""
 import os
 import logging
 import numpy as np
@@ -239,8 +242,10 @@ class StructuredDistributionalModel:
                                       form=form, pos=pos, role=rel,
                                       forms_in=list_in_wo_none, forms_out=list_out_wo_none,
                                       K=self.N)
-
-                for el in data.data():
+                #for record in data: print(record.data())
+                #for el in data.data():
+                for el in data:
+                    el = el.data()
                     # TODO: how to have N words if something is not in vector space?
                     el_form = el["m.form"]
                     el_pos = el["m.POS"]
@@ -306,3 +311,15 @@ def build_representation(output_path, graph, relations_fpath, data_fpaths, vecto
                 res.append((lc_vector, ac_vector))
 
         dutils.dump_results(filename, res, out_fname)
+
+if __name__ == '__main__':
+    from sdm.utils import graph_utils as gutils
+    graph=gutils.connect_to_graph("bolt://127.0.0.1:7687", "neo4j", "neo4j")
+    v=dutils.load_vectors('/home/giulia/CORPORA/fastText-SGNS-w10-d300.txt', withPoS=False,
+                        len_vectors=100)
+    build_representation(output_path='data/lme/results', graph=graph, relations_fpath='home/giulia/PhD_projects/SDM/data/lme/metonymy.relations',
+                         data_fpaths=['data/lme/generated/traxler.head_verbs_args'], vector_space=v,
+                         weight_function='cosine', rank_forward=True, rank_backward=True,
+                         N=50, M=20, include_same_relations=False,
+                         representation_function='centroid',
+                         weight_to_extract='pmi')

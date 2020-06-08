@@ -1,6 +1,8 @@
 import os, sys
 import pandas as pd
 
+from sdm.utils import data_utils as dutils
+
 
 class Datasets(object):
 
@@ -9,9 +11,20 @@ class Datasets(object):
         self.datafile = infile
         self.name = os.path.basename(infile).split(".")[0]
         self.outfolder = outfolder
-        self.eval_funcs = {"ks": self.ks, "dtfit": self.dtfit, "tfit_mit": self.tfit_mit}
+        self.eval_funcs = {"ks": self.ks, "dtfit": self.dtfit, "tfit_mit": self.tfit_mit, "meton":self.metonymy}
         if args_order is None: args_order = "head_verbs_args"
         self.args_order = args_order
+
+    def metonymy(self):
+        self.data = dutils.load_metonymy_dataset(self.datafile)
+        items = []
+        for s, v, o, e in self.data.keys():
+            sbj = s[:-2]+"@N@SBJ"
+            obj = o[:-2]+"@N@OBJ"
+            items.append("{} {}".format(sbj, obj))
+        # write generated file
+        df = pd.DataFrame(data={"item": items, "target-relation": ["ROOT" for i in range(0, len(items))]})
+        df.to_csv(os.path.join(self.outfolder, "{}.{}".format(self.name, self.args_order)), sep="\t", index=False)
 
     def ks(self):
         """

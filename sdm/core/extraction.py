@@ -109,13 +109,13 @@ class CoNLLPipeline:
 
         with mp.Pool(workers) as pool:
             iterator = dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events)
-            pool_imap = pool.imap(functools.partial(extract_patterns, tmp_folder,
+            pool_imap = pool.imap(functools.partial(extract_tuples, tmp_folder,
                                                     accepted_lemmas, associative_relations), iterator)
 
             for _ in tqdm.tqdm(pool_imap):
                 pass
 
-        prefix_to_merge = ["events", "n-events"]
+        prefix_to_merge = ["events"]#, "n-events"]
         # for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events):
             # prefix_to_merge = extract_patterns(tmp_folder, result_list)
             # prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
@@ -159,7 +159,50 @@ def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, bat
 def powerset(iterable):
     return itertools.chain.from_iterable(itertools.combinations(iterable, r) for r in range(2, len(iterable) + 1))
 
-  
+def extract_tuples(tmp_folder, accepted_lemmas, associative_relations, list_of_sentences):
+    file_id = uuid.uuid4()
+    events_freqdict = collections.defaultdict(int)
+
+    accepted_patterns = [("V", "N"), ("V", "RB"), ("J", "V")]
+
+    for sentence, dependencies in filter(lambda x: x is not None, list_of_sentences):
+
+        for head in dependencies:
+            if head in sentence:
+
+                if not len(accepted_lemmas) or (sentence[head]["lemma"], sentence[head]["upos"]) in accepted_lemmas:
+                    t1 = "{}@{}".format(sentence[head]["lemma"], sentence[head]["upos"])
+                # print(dependencies[head])
+                # input()
+
+                    for dep in dependencies[head]:
+                        ide = dep[0]
+                        synrel = dep[1]
+                        if ide in sentence:
+                            token = sentence[ide]
+                            if not len(accepted_lemmas) or (token["lemma"], token["upos"]) in accepted_lemmas:
+                                # print("ADDING TOKEN", token)
+                                if (sentence[head]["upos"], token["upos"]) in accepted_patterns:
+                                    t2 = "{}@{}".format(token["lemma"], token["upos"])
+                                    tup = (t1, t2, synrel)
+                                    events_freqdict[tup] +=1
+                    else:
+                        print("NOT FOUND IDE", ide)
+                        # print("SENTENCE:", sentence)
+
+
+                # print("GROUP ADDED", groups)
+
+            else:
+                print("HEAD NOT IN SENTENCE", head)
+                # print("SENTENCE:", sentence)
+    sorted_freqdict = sorted(events_freqdict.items(), key=lambda x: x[0])
+    with open(tmp_folder + "events-freqs-{}".format(file_id), "w") as fout:
+        for tup, freq in sorted_freqdict:
+            # print(tup, freq)
+            # input()
+            print("{}\t{}".format(" ".join(tup), freq), file=fout)
+
 def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of_sentences):
     """
 
