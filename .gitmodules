@@ -1,0 +1,3 @@
+[submodule "sdm/utils/Pipeline"]
+	path = sdm/utils/Pipeline
+	url = https://github.com/ellepannitto/Pipeline.git
