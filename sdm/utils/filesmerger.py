@@ -53,7 +53,7 @@ def merge(filename_pattern, output_filename, mode=Mode.txt, batch=20):
         files = next_iterable
 
     if not tempfiles:
-        raise ValueError ("no files to merge")
+        raise ValueError ("Merging {} into {} failed: no files to merge".format(filename_pattern, output_filename))
 
     for tmpfile in tempfiles[:-1]:
         os.remove(tmpfile)

@@ -20,22 +20,23 @@ from sdm.utils import filesmerger as futils
 logger = logging.getLogger(__name__)
 
 
-def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
-
-    list_of_functions = [a, b, c]
-
-    pipeline = putils.Pipeline(list_of_functions, list_of_workers)
-
-    for result_list in dutils.grouper(pipeline.run(input_data)):
-        # extract_patterns_stream(result_list)
-        pass
+# def StreamPipeline(output_dir, input_data, list_of_workers=[2,2,2]):
+#
+#     list_of_functions = [a, b, c]
+#
+#     pipeline = putils.Pipeline(list_of_functions, list_of_workers)
+#
+#     for result_list in dutils.grouper(pipeline.run(input_data)):
+#         # extract_patterns_stream(result_list)
+#         pass
 
 
 class CoNLLPipeline:
     """
     A class used to parse CONLL texts and extract some statistics.
     """
-    def __init__(self, output_dir, input_paths, acceptable_path, delimiter, batch_size=100, list_of_workers=[1,1,1]):
+    def __init__(self, output_dir, input_paths, acceptable_path, delimiter, accepted_lemmas,
+                 batch_size, list_of_workers):
         """
         :param str output_dir: path/to/folder
         :param List[] input_paths:
@@ -51,7 +52,9 @@ class CoNLLPipeline:
 
         self.list_of_functions = [outils.get_filenames,
                          functools.partial(cutils.CoNLLReader, self.delimiter),
-                         functools.partial(cutils.DependencyBuilder, self.accepted_pos, self.accepted_rels)]
+                         functools.partial(cutils.DependencyBuilder, self.accepted_pos, self.accepted_rels),
+                         functools.partial(extract_patterns, outils.add_tmp_folder(self.output_dir), accepted_lemmas, False)]
+
         self.pipeline = putils.Pipeline(self.list_of_functions, list_of_workers, batch_size)
         # outils.get_filenames: from directory to filenames
         # cutils.CoNLLReader: from filepath to list of sentences
@@ -65,6 +68,7 @@ class CoNLLPipeline:
         :param int w_thresh:
         :param int workers:
         """
+
 
         tmp_folder = outils.add_tmp_folder(self.output_dir)
 
@@ -89,7 +93,8 @@ class CoNLLPipeline:
 
         outils.remove(tmp_folder)
 
-    def events(self, batch_size_events, w_thresh, e_thresh, workers):
+    def events(self, e_thresh):
+    # def events(self, batch_size_events, w_thresh, e_thresh, workers):
         """
         :param int batch_size_events:
         :param int e_thresh:
@@ -99,21 +104,23 @@ class CoNLLPipeline:
         """
 
         # Load list of accepted words
-        accepted_lemmas = dutils.load_lemmapos_freqs(self.output_dir+"lemma-freqs.txt", w_thresh)
-        # accepted_lemmas = [tuple(i.split(" ")) for i in accepted_lemmas]
-        # print(accepted_lemmas)
-        # input()
-        associative_relations = False
+        # accepted_lemmas = dutils.load_lemmapos_freqs(self.output_dir+"lemma-freqs.txt", w_thresh)
+
+        # associative_relations = False
 
         tmp_folder = outils.add_tmp_folder(self.output_dir)
 
-        with mp.Pool(workers) as pool:
-            iterator = dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events)
-            pool_imap = pool.imap(functools.partial(extract_patterns, tmp_folder,
-                                                    accepted_lemmas, associative_relations), iterator)
+        for _ in self.pipeline.run(self.input_paths):
+            pass
 
-            for _ in tqdm.tqdm(pool_imap, desc="EVENT EXTRACTION", disable=True):
-                pass
+        # with mp.Pool(workers) as pool:
+        #     iterator = self.pipeline.run(self.input_paths)
+            # iterator = dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events)
+            # pool_imap = pool.imap(functools.partial(extract_patterns, tmp_folder,
+            #                                         accepted_lemmas, associative_relations), iterator)
+
+            # for _ in tqdm.tqdm(pool_imap, desc="EVENT EXTRACTION", disable=False):
+            #     pass
 
         logger.info("Finished pipeline.run() and extract_patterns")
 
@@ -122,40 +129,107 @@ class CoNLLPipeline:
         # prefix_to_merge = extract_patterns(tmp_folder, result_list)
         # prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
 
-        for prefix in prefix_to_merge:
-            futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
-                         tmp_folder+"{}-merged".format(prefix),
-                         mode=futils.Mode.txt)
-            futils.collapse(tmp_folder+"{}-merged".format(prefix),
-                            self.output_dir+"{}-freqs.txt".format(prefix), threshold=e_thresh)
+        # for prefix in prefix_to_merge:
+        #     futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
+        #                  tmp_folder+"{}-merged".format(prefix),
+        #                  mode=futils.Mode.txt)
+        #     futils.collapse(tmp_folder+"{}-merged".format(prefix),
+        #                     self.output_dir+"{}-freqs.txt".format(prefix), threshold=e_thresh)
 
         outils.remove(tmp_folder)
 
 
-def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events,
-                        w_thres, e_thres, stats, events, list_of_workers):
-    """
+# def launchCoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter, batch_size_stats, batch_size_events,
+#                         w_thres, e_thres, stats, events, list_of_workers):
+#     """
 
-    :param str output_dir: path to output dir
-    :param list input_paths: paths to input files/folders
-    :param str acceptable_path: path to file containing acceptable pos in the 1st line and roles in the 2nd (space separated)
-    :param str delimiter:
-    :param int batch_size_stats:
-    :param int batch_size_events:
-    :param int w_thres:
-    :param int e_thres:
-    :param boolean stats:
-    :param boolean events:
-    :param list list_of_workers:
-    """    
-    
-    conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path,
-                              delimiter, batch_size_stats, list_of_workers[:-1])
+    # :param str output_dir: path to output dir
+    # :param list input_paths: paths to input files/folders
+    # :param str acceptable_path: path to file containing acceptable pos in the 1st line and roles in the 2nd (space separated)
+    # :param str delimiter:
+    # :param int batch_size_stats:
+    # :param int batch_size_events:
+    # :param int w_thres:
+    # :param int e_thres:
+    # :param boolean stats:
+    # :param boolean events:
+    # :param list list_of_workers:
+    # """
+    # accepted_lemmas = dutils.load_lemmapos_freqs(output_dir + "lemma-freqs.txt", w_thres)
+    #
+    # conll_pip = CoNLLPipeline(output_dir, input_paths, acceptable_path, delimiter,
+    #                           accepted_lemmas, batch_size_stats, list_of_workers)
+    #
+    # if stats:
+    #     conll_pip.stats(batch_size_stats, w_thres, list_of_workers[-1])
+    # if events:
+    #     conll_pip.events(e_thres)
+        # conll_pip.events(batch_size_events, w_thres, e_thres, list_of_workers[-1])
 
-    if stats:
-        conll_pip.stats(batch_size_stats, w_thres, list_of_workers[-1])
-    if events:
-        conll_pip.events(batch_size_events, w_thres, e_thres, list_of_workers[-1])
+def events_manager(output_dir, input_paths, acceptable_labels, delimiter, batch_size_list, e_thresh, w_thresh,
+                   lemmas_freqs_file, workers, associative_relations):
+
+    tmp_folder = outils.add_tmp_folder(output_dir)
+    accepted_pos, accepted_rels = dutils.load_acceptable_labels_from_file(acceptable_labels)
+
+    accepted_lemmas = dutils.load_lemmapos_freqs(lemmas_freqs_file, w_thresh)
+
+    list_of_functions = [outils.get_filenames,
+                         functools.partial(cutils.CoNLLReader, delimiter, batch_size_list[2]),
+                         functools.partial(cutils.DependencyBuilder, accepted_pos, accepted_rels),
+                         functools.partial(extract_patterns, tmp_folder, accepted_lemmas, associative_relations)]
+
+    conll_pip = putils.Pipeline(list_of_functions, workers, batch_size_list)
+
+    for _ in conll_pip.run(input_paths):
+        pass
+
+    logger.info("Finished pipeline.run() and extract_patterns")
+
+    prefix = "events"
+    # for result_list in dutils.grouper(self.pipeline.run(self.input_paths), batch_size_events):
+    # prefix_to_merge = extract_patterns(tmp_folder, result_list)
+    # prefix_to_merge = extract_patterns(tmp_folder, result_list, accepted_lemmas=accepted_lemmas)
+
+    futils.merge(tmp_folder+"{}-freqs-*".format(prefix),
+                 tmp_folder+"{}-merged".format(prefix),
+                 mode=futils.Mode.txt)
+    futils.collapse(tmp_folder+"{}-merged".format(prefix),
+                    output_dir+"{}-freqs.txt".format(prefix), threshold=e_thresh)
+
+    outils.remove(tmp_folder)
+
+
+def stats_manager(output_dir, input_paths, acceptable_labels, delimiter, batch_size_list, w_thresh, workers):
+
+    tmp_folder = outils.add_tmp_folder(output_dir)
+
+    accepted_pos, accepted_rels = dutils.load_acceptable_labels_from_file(acceptable_labels)
+
+    list_of_functions = [outils.get_filenames,
+                         functools.partial(cutils.CoNLLReader, delimiter, batch_size_list[2]),
+                         functools.partial(cutils.DependencyBuilder, accepted_pos, accepted_rels),
+                         functools.partial(extract_stats, tmp_folder)]
+
+    conll_pip = putils.Pipeline(list_of_functions, workers, batch_size_list)
+
+    for _ in conll_pip.run(input_paths):
+        pass
+
+    logger.info("Finished pipeline.run() and extract_stats")
+
+    prefix = "lemma"
+
+    # for prefix in prefix_to_merge:
+    futils.merge(tmp_folder + "{}-freqs-*".format(prefix),
+                 tmp_folder + "{}-merged".format(prefix),
+                 mode=futils.Mode.txt)
+    futils.collapse(tmp_folder + "{}-merged".format(prefix),
+                    output_dir + "{}-freqs.txt".format(prefix), threshold=w_thresh)
+
+    outils.remove(tmp_folder)
+
+    return output_dir + "{}-freqs.txt".format(prefix)
 
 
 def powerset(iterable):
@@ -245,6 +319,8 @@ def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of
         # return ["events", "n-events", "associative-events"]
 
     # return ["events", "n-events"]
+    yield []
+    # yield [None]
 
 def extract_stats(tmp_folder, list_of_sentences):
     """
@@ -271,5 +347,8 @@ def extract_stats(tmp_folder, list_of_sentences):
         with open(tmp_folder+"{}-freqs-{}".format(prefix, file_id), "w") as fout:
             for tup, freq in sorted_freqdict:
                 print("{}\t{}".format(" ".join(tup), freq), file=fout)
+
+    yield []
+    # yield [None]
 
     # return dict_of_dicts.keys()

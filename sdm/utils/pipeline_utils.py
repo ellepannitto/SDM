@@ -3,15 +3,15 @@ from collections import namedtuple
 import logging
 import tqdm
 import os
+from timeit import default_timer as timer
 
 logger = logging.getLogger(__name__)
 
 Task = namedtuple("Task", ["done", "data"])
 
-
 class SmartQueue:
 
-    def __init__(self, nworker_in, nworker_out, ide, maxsize=0, debug=False):
+    def __init__(self, nworker_in, nworker_out, ide, maxsize=0, batch_size=10, debug=False):
         self._q = mp.Queue(maxsize)
         self.ide = ide
 
@@ -20,8 +20,14 @@ class SmartQueue:
         self.received_eos = mp.Value('i', 0)
         self._debug = debug
 
+        self.batch_size = batch_size
+        self.tasks = []
+
     def put(self, obj: Task):
         if obj.done:
+            if len(self.tasks):
+                self._q.put(Task(False, self.tasks))
+
             with self.received_eos.get_lock():
                 self.received_eos.value += 1
 
@@ -38,7 +44,13 @@ class SmartQueue:
         else:
             # if self._debug:
             #     logger.debug ("Queue({}) put {} ".format(self.ide, obj)[:50])
-            self._q.put(obj)
+
+            self.tasks.extend(obj.data)
+            while len(self.tasks)>self.batch_size:
+                self._q.put(Task(False, self.tasks[:self.batch_size]))
+                self.tasks = self.tasks[self.batch_size:]
+
+            # self._q.put(obj)
 
     def get(self):
 
@@ -56,10 +68,11 @@ class Pipeline:
       from one queue and putting the output in the next.
     """
 
-    def __init__(self, list_of_functions, list_of_workers, batch_size):
+    def __init__(self, list_of_functions, list_of_workers, batches):
         self.functions = list_of_functions
         self.workers = list_of_workers
-        self.batch_size = batch_size
+        # self.batch_size = last_batch_size
+        self.batches = batches
 
     def parallel_process(self, func, in_q, out_q, stage):
 
@@ -67,15 +80,25 @@ class Pipeline:
 
         x = in_q.get()
 
+        total_time = 0
+
         while not x.done:
-            for y in func(x.data):
+
+            start = timer()
+            for y in func (x.data):
+                end = timer()
+
                 out_q.put(Task(False, y))
+
+                total_time += end - start
+                start = timer()
 
             x = in_q.get()
 
         logger.debug("Process(stage: {}, pid: {}) finished, propagating EOS...".format(stage, os.getpid()))
         out_q.put(Task(True, None))
 
+        logger.debug("Process(stage: {}, pid: {}) total time {}".format(stage, os.getpid(), total_time))
         logger.debug("Process(stage: {}, pid: {}) exit.".format(stage, os.getpid()))
 
     def run(self, iterable_input):
@@ -83,15 +106,14 @@ class Pipeline:
         queues = []
         nworker_in = 1
         ide = 0
-        for _, nworker_out in zip(self.functions, self.workers):
+        for _, nworker_out, batch_size in zip(self.functions, self.workers, self.batches[:-1]):
             maxsize = 4 * nworker_out
             if ide==0:
                 maxsize = 0
-            queues.append(SmartQueue(nworker_in, nworker_out, ide=ide, maxsize=maxsize, debug=True))
+            queues.append(SmartQueue(nworker_in, nworker_out, ide=ide, maxsize=maxsize, batch_size=batch_size, debug=True))
             ide += 1
             nworker_in = nworker_out
-        # queues.append(SmartQueue(nworker_in, 1, ide=ide))
-        queues.append(SmartQueue(nworker_in, 1, ide=ide, maxsize=10*self.batch_size, debug=True))
+        queues.append(SmartQueue(nworker_in, 1, ide=ide, maxsize=2*self.batches[-1], debug=True))
 
         pool_list = []
         i = 0
@@ -102,23 +124,24 @@ class Pipeline:
             i += 1
 
         for x in tqdm.tqdm(iterable_input, desc="pipeline input"):
-            queues[0].put(Task(False, x))
+            queues[0].put(Task(False, [x]))
         queues[0].put(Task(True, None))
 
         y = queues[-1].get()
         while not y.done:
+            # logger.debug ("Pipeline yielding {}".format(y.data)[:50])
             yield y.data
             y = queues[-1].get()
 
-        logger.debug("Pipeline.run() done, joining threads")
+        # logger.debug("Pipeline.run() done, joining threads")
 
         for i, pool in enumerate(pool_list):
-            logger.debug("terminating pool for stage {}".format(i))
+            # logger.debug("terminating pool for stage {}".format(i))
             pool.terminate()
-            logger.debug("joining pool for stage {}".format(i))
+            # logger.debug("joining pool for stage {}".format(i))
             pool.join()
 
-        logger.debug("Pipeline.run() exiting")
+        # logger.debug("Pipeline.run() exiting")
 
 
 if __name__ == "__main__":

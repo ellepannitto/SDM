@@ -32,11 +32,13 @@ def _pipeline_extraction(args):
     input_paths = args.input_dirs
     delimiter = args.delimiter
     acceptable_labels = args.labels
-    batch_size_s = args.batch_size_stats
-    batch_size_e = args.batch_size_events
+    batch_size_list = args.batch_sizes
+    # batch_size_e = args.batch_size_events
     workers = args.workers
     w_thresh = args.word_thresh
     e_thresh = args.event_thresh
+    lemmas_freqs_file = args.lemmas_freqs_filepath
+    associative_events = False
 
     pipeline = args.pipeline
 
@@ -46,9 +48,18 @@ def _pipeline_extraction(args):
         stats = events = True
 
     if pipeline == "conll":
-        extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels,
-                                       delimiter, batch_size_s, batch_size_e,
-                                       w_thresh, e_thresh, stats, events, workers)
+        if stats:
+            logger.info("Extracting stats")
+            lemmas_freqs_file = extraction.stats_manager(output_path, input_paths, acceptable_labels, delimiter,
+                                                         batch_size_list, w_thresh, workers)
+        if events:
+            logger.info("Extracting events")
+            extraction.events_manager(output_path, input_paths, acceptable_labels, delimiter,
+                                      batch_size_list, e_thresh, w_thresh, lemmas_freqs_file, workers, associative_events)
+
+        # extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels,
+        #                                delimiter, batch_size_s, batch_size_e,
+        #                                w_thresh, e_thresh, stats, events, workers)
 
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
@@ -154,10 +165,12 @@ def main():
     parser_pipelineExtraction.add_argument("--delimiter", default=" ")
     parser_pipelineExtraction.add_argument("--labels", required=True,
                                            help="path to file for filtering pos/roles")
+    parser_pipelineExtraction.add_argument("--batch-sizes", nargs='+', type=int, default=[1, 10, 30000, 30000, 30000])
     parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=5000)
     parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=1000)
     parser_pipelineExtraction.add_argument("--word-thresh", type=int, default=100)
     parser_pipelineExtraction.add_argument("--event-thresh", type=int, default=20)
+    parser_pipelineExtraction.add_argument("--lemmas-freqs-filepath")
 
     parser_pipelineExtraction.add_argument('-s', action='store_true', help='flag to launch lemmas freqs extraction')
     parser_pipelineExtraction.add_argument('-e', action='store_true', help='flag to launch events freqs extraction')

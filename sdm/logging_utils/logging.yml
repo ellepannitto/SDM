@@ -10,7 +10,7 @@ handlers:
     formatter: simple
 loggers:
   sdm.core:
-    level: DEBUG
+    level: WARN
     handlers: [console]
   sdm.main:
     level: INFO
