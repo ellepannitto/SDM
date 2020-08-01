@@ -16,7 +16,12 @@ class Mode(Enum):
     gzip = 2
 
 
-def merge(filename_pattern, output_filename, mode=Mode.txt, batch=20):
+def merge_and_collapse_iterable (files, output_filename=None, mode=Mode.txt, batch=1024):
+
+    init_files = files
+
+    if output_filename is None:
+        _, output_filename = tempfile.mkstemp(text=True)
 
     openfunc = lambda fname: open(fname)
     openfunc_write = lambda fname: open(fname, "wt")
@@ -24,12 +29,9 @@ def merge(filename_pattern, output_filename, mode=Mode.txt, batch=20):
         openfunc = lambda fname: gzip.open(fname, "rt")
         openfunc_write = lambda fname: gzip.open(fname, "wt")
 
-    files = glob.iglob(filename_pattern)
-
     first = True
     total_files_produced = 0
     tempfiles = []
-    # next_file_id = 0
 
     while first or len(files) > 1:
 
@@ -52,21 +54,28 @@ def merge(filename_pattern, output_filename, mode=Mode.txt, batch=20):
 
         files = next_iterable
 
-    if not tempfiles:
-        raise ValueError ("Merging {} into {} failed: no files to merge".format(filename_pattern, output_filename))
-
     for tmpfile in tempfiles[:-1]:
         os.remove(tmpfile)
         print("REMOVING", tmpfile)
-        # os.remove(_temp_out_filename+str(i))
-        #print ("to be removed: {}".format(_temp_out_filename+str(i)))
 
-    print("MOVING", tempfiles[-1])
+    for file in init_files:
+        os.remove(file)
+
+    # print("MOVING", tempfiles[-1])
     shutil.move (tempfiles[-1], output_filename)
-    #print ("file to keep: ", total_files_produced-1)
+
+    collapse(output_filename, output_filename+".collapsed")
+    os.remove(output_filename)
+
+    return output_filename+".collapsed"
 
 
-def collapse(filename, output_filename, delimiter="\t", threshold=300, mode=Mode.txt):
+def merge_pattern (filename_pattern, output_filename=None, mode=Mode.txt, batch=1024):
+    files = glob.iglob(filename_pattern)
+    return merge_and_collapse_iterable(files, output_filename, mode, batch)
+
+
+def collapse(filename, output_filename, delimiter="\t", threshold=0, mode=Mode.txt):
 
     openfunc = lambda fname: open(fname)
     openfunc_write = lambda fname: open(fname, "wt")
@@ -92,3 +101,17 @@ def collapse(filename, output_filename, delimiter="\t", threshold=300, mode=Mode
 
         if firstfreq > threshold:
             print("{}\t{}".format(firstline, firstfreq), file=fout)
+
+
+class FileMergerForPipeline:
+
+    def __init__(self):
+        self.result_file = None
+
+    def merge_files (self, mode, batch, filename_list):
+        print("merging {} files".format(len(filename_list)))
+        if self.result_file is not None:
+            filename_list.append (self.result_file)
+        self.result_file = merge_and_collapse_iterable(filename_list, mode=mode, batch=batch)
+        print("yielding {}".format(self.result_file))
+        yield [self.result_file]

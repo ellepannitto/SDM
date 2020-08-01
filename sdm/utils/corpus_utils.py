@@ -18,7 +18,7 @@ def StanzaReader(text, preprocessing_fn=None, nlp=None):
         yield sentence
 
 
-def CoNLLReader(delimiter, batch_size, filepaths):
+def CoNLLReader(delimiter, filepaths):
     """
 
     :param str delimiter: character that separates CONLL file's columns (" " or "\t")
@@ -48,9 +48,9 @@ def CoNLLReader(delimiter, batch_size, filepaths):
                     if len(sentence):
                         if not skip_sentence:
                             current_batch.append (sentence)
-                            if len(current_batch) >= batch_size:
-                                yield current_batch
-                                current_batch = []
+                            # if len(current_batch) >= batch_size:
+                            #     yield current_batch
+                            #     current_batch = []
                         sentence = []
                         skip_sentence = False
                 else:
@@ -83,10 +83,10 @@ def CoNLLReader(delimiter, batch_size, filepaths):
                if not skip_sentence:
                    current_batch.append(sentence)
 
-            if len(current_batch):
-                yield current_batch
+    if len(current_batch):
+        yield current_batch
 
-        logger.info("Finish reading: {}".format(filepath))
+    logger.info("Finish reading: {}".format(filepath))
 
 
 def ukWaCReader(filepath):
@@ -157,9 +157,10 @@ def DependencyBuilder(accepted_pos, accepted_rel, sentences, refine=True):
                 word["lemma"] = "PERSON"
                 word["upos"] = "N"
 
+    accepted_rel = tuple(accepted_rel)
     current_batch = []
-    for sentence in sentences:
 
+    for sentence in sentences:
         # read input sentence
         words_dict = {} # {token_id : {lemma,upos}}
         deps_ids_dict = defaultdict(list) # {head_id:[(dep_id, role)]}
@@ -177,33 +178,21 @@ def DependencyBuilder(accepted_pos, accepted_rel, sentences, refine=True):
 
         if refine: refine_lemmas(words_dict, deps_ids_dict)
 
-        # filter
-        deps_ids_dict_copy = copy.deepcopy(deps_ids_dict)
-        # deps_ids_dict_res = defaultdict(list)
+        # new filter
+        deps_ids_dict_copy = {}
         for h_id, deps in deps_ids_dict.items():
-            if h_id not in words_dict.keys():
-                del deps_ids_dict_copy[h_id]
-            else:
+            if h_id in words_dict:
+                tmp_rels = []
                 for i, dep in enumerate(deps):
                     dep_id, rel = dep
-                    if not rel.startswith(tuple(accepted_rel)):
-                        deps_ids_dict_copy[h_id][i] = None
-                # if no relations are attested for the head after filtering, remove the key
-                deps_ids_dict_copy[h_id] = [i for i in deps_ids_dict_copy[h_id] if i is not None]
-                if len(deps_ids_dict_copy[h_id]) == 0:
-                    del deps_ids_dict_copy[h_id]
+                    if rel.startswith(accepted_rel):
+                        tmp_rels.append(deps_ids_dict[h_id][i])
+                if len(tmp_rels) > 0:
+                    deps_ids_dict_copy[h_id] = tmp_rels
 
         current_batch.append ((words_dict, deps_ids_dict_copy))
 
     yield current_batch
-    #     for dep in deps:
-    #         if h_id in words_dict.keys() and dep[0] in words_dict.keys():
-    #             if abs(int(h_id)-int(dep[0])) <=10:
-    #
-    #                 deps_ids_dict_res[h_id].append(dep)
-    #
-    #
-    # yield words_dict, deps_ids_dict_res
 
 if __name__ == "__main__":
     import glob

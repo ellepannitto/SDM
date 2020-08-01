@@ -24,7 +24,7 @@ def check_dir(path):
     return path
 
 
-def get_filenames(input_paths):
+def get_filenames_for_pipeline(input_paths):
     for input_path in input_paths:
         if os.path.isfile(input_path):
             # logger.info("Reading input: {}".format(input_path))
@@ -37,3 +37,15 @@ def get_filenames(input_paths):
                     yield [filename]
 
 
+def get_filenames(input_paths):
+    for input_path in input_paths:
+        if os.path.isfile(input_path):
+            # logger.info("Reading input: {}".format(input_path))
+            yield input_path
+        else:
+            # for filename in tqdm.tqdm(glob.iglob(input_path+"/*"), desc=input_path):
+            for filename in glob.iglob(input_path+"/*"):
+                # WARNING: it does not deal with subdirectories!
+                if os.path.isfile(filename):
+                    # logger.info("Reading input: {}".format(filename))
+                    yield filename

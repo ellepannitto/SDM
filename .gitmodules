@@ -1,3 +1,6 @@
 [submodule "sdm/utils/Pipeline"]
 	path = sdm/utils/Pipeline
 	url = https://github.com/ellepannitto/Pipeline.git
+[submodule "sdm/utils/FileMerger"]
+	path = sdm/utils/FileMerger
+	url = https://github.com/ellepannitto/FileMerger.git
