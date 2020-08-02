@@ -16,9 +16,9 @@ loggers:
     level: INFO
     handlers: [console]
   sdm.utils.FileMerger.filesmerger.HierarchicalMerger:
-    level: DEBUG
+    level: WARN
     handlers: [console]
-  sdm.utils.FileMerger.filesmerge.corer:
+  sdm.utils.FileMerger.filesmerge.core:
     level: WARN
     handlers: [console]
   sdm.utils.corpus_utils:

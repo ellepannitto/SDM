@@ -14,8 +14,8 @@ import sdm.utils.data_utils as dutils
 
 import sdm.core.datasets as datasets
 import sdm.core.model as model
-import sdm.core.extraction as extraction
-import sdm.core.seq_extraction as seq_extraction
+import sdm.core.extraction_w_pipeline as extraction
+import sdm.core.extraction_w_farm as seq_extraction
 import sdm.core.evaluation as evaluation
 
 config_dict = cutils.load(os.path.join(os.path.dirname(__file__), "logging_utils", "logging.yml"))
@@ -58,10 +58,6 @@ def _sequential_extraction(args):
             seq_extraction.events_manager(output_path, input_paths, acceptable_labels, delimiter,
                                           batch_size_farm, batch_size_merge, e_thresh, w_thresh, lemmas_freqs_file, workers,
                                           associative_events)
-
-        # extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels,
-        #                                delimiter, batch_size_s, batch_size_e,
-        #                                w_thresh, e_thresh, stats, events, workers)
 
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)

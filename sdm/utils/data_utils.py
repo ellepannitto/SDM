@@ -1,6 +1,7 @@
 import numpy as np
 import logging
 import itertools
+import gzip
 from collections import defaultdict
 
 
@@ -165,7 +166,7 @@ def load_set(filepath):
 def load_lemmapos_freqs(filepath, thresh, delimiter="\t"):
     # It returns the vocabulary of the frequency file (WARNING: returning items are space-separated)
     ret = set()
-    with open(filepath) as fin:
+    with gzip.open(filepath, "rt") as fin:
         for line in fin:
             line = line.strip().split(delimiter)
             lemma, freq = line

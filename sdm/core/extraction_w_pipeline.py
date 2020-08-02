@@ -1,5 +1,5 @@
 """
-extraction.py: a python module for extracting lemmas frequencies and syntactic patterns from texts
+extraction_w_pipeline.py: a python module for extracting lemmas frequencies and syntactic patterns from texts
 (using multiprocessing technique).
 """
 
