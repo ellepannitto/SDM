@@ -1,0 +1,1170 @@
+## Processing dataset item: [[('agent', 'N', 'SBJ'), ('sell', 'V', 'ROOT'), ('property', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for agent@N@SBJ]
+* GEK for label OBJ:
+	information, agent, authority, effect, contract, action, property, office, activity, role, house, home, group, part
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree
+[STEP2: UPDATING LC for agent@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - agent
+	ROOT - 
+[STEP3: UPDATING AC for agent@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - information, agent, authority, effect, contract, action, property, office, activity, role, house, home, group, part || 
+	SBJ -  || 
+	ROOT - arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree || 
+[STEP1: EXTRACTING GEK for sell@V@ROOT]
+* GEK for label OBJ:
+	copy, share, product, station, land, property, unit, house, stake, estate, rights, business, album, interest, asset, company, building, goods, ticket, download, clothing, paper, painting, brand, item, manor, team, ship, singles, mill, division, farm, holding, car, beer, service, operation, collection, hotel, soul, acre, half, store, accessory, parcel, portion, record, patent, site, ranch
+* GEK for label SBJ:
+	album, company, song, family, game, store, owner, shop, version, book, film, partner, band, heir, widow, volume, ep, wife, series, dvd, soundtrack, club, novel, edition, vendor, executor, stall, recording, dealership, retailer, dealer, salesman, record, seller, brother, trader, son, release, magazine, supermarket, broker, distributor, farmer, manga, investor, copy, shareholder, manufacturer, merchant, landowner
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for sell@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - agent
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - agent
+	ROOT - sell
+[STEP3: UPDATING AC for sell@V@ROOT]
+* previous AC:
+	OBJ - information, agent, authority, effect, contract, action, property, office, activity, role, house, home, group, part || 
+	SBJ -  || 
+	ROOT - arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree || 
+* current AC:
+	OBJ - property, information, agent, office, role, house, contract, authority, home, effect, action, activity, group, part || property, record, division, service, business, unit, ship, company, estate, product, patent, car, station, holding, land, goods, half, farm, manor, asset, hotel, interest, ticket, house, collection, copy, team, store, accessory, brand, building, item, operation, share, rights, site, stake, clothing, portion, parcel, download, painting, acre, singles, paper, beer, ranch, mill, album, soul || 
+	SBJ -  || album, company, song, family, game, store, owner, shop, version, book, film, partner, band, heir, widow, volume, ep, wife, series, dvd, soundtrack, club, novel, edition, vendor, executor, stall, recording, dealership, retailer, dealer, salesman, record, seller, brother, trader, son, release, magazine, supermarket, broker, distributor, farmer, manga, investor, copy, shareholder, manufacturer, merchant, landowner || 
+	ROOT - arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree ||  || 
+[STEP1: EXTRACTING GEK for property@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	family, list, company, compound, object, district, material, government, function, set, son, space, system, woman, number, group, graph, widow, heir, wife, trustee, descendant, developer, owner, estate, acid, farmer, structure, building, property, agent, firm, resident, person, father, theory, model, cell, brother, sister, element, couple, husband, people, member, organization, product, plant, water, study
+* GEK for label ROOT:
+	sell, own, purchase, buy, acquire, inherit, have, confiscate, lease, include, transfer, stock, manage, donate, deed, leave, bequeath, designate, protect, list, rent, seize, give, place, cover, use, expropriate, offer, mortgage, investigate, vandalize, will, hold, nationalize, divide, resell, auction, loot, operate, redevelop, tax, subdivide, forfeit, study
+[STEP2: UPDATING LC for property@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - agent
+	ROOT - sell
+* current LC:
+	OBJ - property
+	SBJ - agent
+	ROOT - sell
+[STEP3: UPDATING AC for property@N@OBJ]
+* previous AC:
+	OBJ - property, information, agent, office, role, house, contract, authority, home, effect, action, activity, group, part || property, record, division, service, business, unit, ship, company, estate, product, patent, car, station, holding, land, goods, half, farm, manor, asset, hotel, interest, ticket, house, collection, copy, team, store, accessory, brand, building, item, operation, share, rights, site, stake, clothing, portion, parcel, download, painting, acre, singles, paper, beer, ranch, mill, album, soul || 
+	SBJ -  || album, company, song, family, game, store, owner, shop, version, book, film, partner, band, heir, widow, volume, ep, wife, series, dvd, soundtrack, club, novel, edition, vendor, executor, stall, recording, dealership, retailer, dealer, salesman, record, seller, brother, trader, son, release, magazine, supermarket, broker, distributor, farmer, manga, investor, copy, shareholder, manufacturer, merchant, landowner || 
+	ROOT - arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree ||  || 
+* current AC:
+	OBJ - property, information, agent, office, role, house, contract, authority, home, effect, action, activity, group, part || property, record, division, service, business, unit, ship, company, estate, product, patent, car, station, holding, land, goods, half, farm, manor, asset, hotel, interest, ticket, house, collection, copy, team, store, accessory, brand, building, item, operation, share, rights, site, stake, clothing, portion, parcel, download, painting, acre, singles, paper, beer, ranch, mill, album, soul ||  || 
+	SBJ -  || series, record, dealership, merchant, album, salesman, broker, wife, company, dealer, manufacturer, brother, partner, son, executor, book, novel, owner, investor, volume, game, widow, version, trader, retailer, vendor, landowner, copy, seller, shareholder, distributor, store, family, farmer, dvd, release, heir, edition, film, soundtrack, manga, stall, supermarket, shop, ep, recording, song, club, magazine, band || acid, property, wife, company, developer, number, system, space, element, list, government, husband, firm, water, building, couple, brother, set, son, study, district, estate, product, object, widow, family, father, owner, sister, compound, graph, plant, agent, cell, descendant, farmer, function, model, person, material, trustee, structure, woman, heir, group, member, theory, resident, organization, people || 
+	ROOT - arrest, kill, include, able, attempt, take, raid, handle, reveal, inhibit, manage, seize, search, arrange, infiltrate, investigate, shoot, seek, discover, act, pose, report, cause, arrive, send, help, negotiate, suggest, try, recruit, refuse, want, confirm, ask, turn, tell, fail, contact, responsible, work, learn, state, visit, encourage, advise, inform, approach, claim, believe, agree ||  || give, own, manage, will, loot, seize, designate, offer, confiscate, include, expropriate, investigate, use, protect, acquire, cover, have, deed, subdivide, vandalize, purchase, operate, sell, list, leave, stock, nationalize, mortgage, place, transfer, divide, rent, buy, study, donate, tax, bequeath, auction, lease, hold, inherit, resell, forfeit, redevelop || 
+Printing vectors in output
+## Processing dataset item: [[('family', 'N', 'SBJ'), ('buy', 'V', 'ROOT'), ('home', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for family@N@SBJ]
+* GEK for label OBJ:
+	trembler, catbird, thrasher, mockingbird, quetzal, trogon, hedgehog, genera, property, refuge, land, house, home, species, estate, name, business, root, residence, manor, castle, child, origin, son, subfamily, ancestry, descent, farm, lineage, control, lawsuit, time, coat, fortune, daughter, ownership, suit, role, statement, part, plantation, tie, company, summer, mill, connection, life, west, church
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	move, reside, live, include, own, have, be, settle, sell, consist, emigrate, trace, leave, relocate, immigrate, flee, hold, take, migrate, spend, comprise, send, arrive, return, come, build, contain, make, settler, file, become, retain, change, donate, belong, attend, originate, buy, descend, member, acquire, visit, account, hail, lord, run, go, give, play
+[STEP2: UPDATING LC for family@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - family
+	ROOT - 
+[STEP3: UPDATING AC for family@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - trembler, catbird, thrasher, mockingbird, quetzal, trogon, hedgehog, genera, property, refuge, land, house, home, species, estate, name, business, root, residence, manor, castle, child, origin, son, subfamily, ancestry, descent, farm, lineage, control, lawsuit, time, coat, fortune, daughter, ownership, suit, role, statement, part, plantation, tie, company, summer, mill, connection, life, west, church || 
+	SBJ -  || 
+	ROOT - move, reside, live, include, own, have, be, settle, sell, consist, emigrate, trace, leave, relocate, immigrate, flee, hold, take, migrate, spend, comprise, send, arrive, return, come, build, contain, make, settler, file, become, retain, change, donate, belong, attend, originate, buy, descend, member, acquire, visit, account, hail, lord, run, go, give, play || 
+[STEP1: EXTRACTING GEK for buy@V@ROOT]
+* GEK for label OBJ:
+	land, ticket, house, property, estate, share, rights, drink, acre, farm, company, car, stake, station, item, building, guitar, service, mill, asset, castle, goods, painting, computer, parcel, ranch, site, hotel, business, tract, paper, manor, product, clothes, villa, mansion, interest, cottage, lease, lot, home, stock, %, plantation, time, dress, mall, plot, apartment, camera
+* GEK for label SBJ:
+	company, passenger, parent, partner, father, fan, wife, husband, player, family, mother, speculator, people, purchaser, consortium, syndicate, investor, nobody, trader, buyer, customer, group, best, consumer, dealer, anyone, collector, entrepreneur, owner, merchant, developer, businessman, farmer, congregation, airline, grandfather, corporation, user, visitor, couple, firm, money, settler, someone, tourist, brother, bank, one, resident, railroad
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for buy@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - family
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - family
+	ROOT - buy
+[STEP3: UPDATING AC for buy@V@ROOT]
+* previous AC:
+	OBJ - trembler, catbird, thrasher, mockingbird, quetzal, trogon, hedgehog, genera, property, refuge, land, house, home, species, estate, name, business, root, residence, manor, castle, child, origin, son, subfamily, ancestry, descent, farm, lineage, control, lawsuit, time, coat, fortune, daughter, ownership, suit, role, statement, part, plantation, tie, company, summer, mill, connection, life, west, church || 
+	SBJ -  || 
+	ROOT - move, reside, live, include, own, have, be, settle, sell, consist, emigrate, trace, leave, relocate, immigrate, flee, hold, take, migrate, spend, comprise, send, arrive, return, come, build, contain, make, settler, file, become, retain, change, donate, belong, attend, originate, buy, descend, member, acquire, visit, account, hail, lord, run, go, give, play || 
+* current AC:
+	OBJ - property, trembler, estate, business, time, daughter, company, role, son, land, manor, ownership, farm, residence, house, lawsuit, home, genera, fortune, lineage, castle, connection, trogon, suit, plantation, name, west, life, control, tie, origin, statement, species, mill, summer, subfamily, part, refuge, child, root, coat, hedgehog, ancestry, descent, quetzal, church, mockingbird, catbird, thrasher || property, estate, business, time, company, car, service, tract, product, land, manor, %, goods, mansion, apartment, station, plot, lease, farm, house, ticket, villa, hotel, item, home, share, asset, building, castle, parcel, drink, stake, site, acre, interest, stock, plantation, mall, cottage, computer, rights, ranch, mill, guitar, lot, painting, clothes, paper, camera, dress || 
+	SBJ -  || company, passenger, parent, partner, father, fan, wife, husband, player, family, mother, speculator, people, purchaser, consortium, syndicate, investor, nobody, trader, buyer, customer, group, best, consumer, dealer, anyone, collector, entrepreneur, owner, merchant, developer, businessman, farmer, congregation, airline, grandfather, corporation, user, visitor, couple, firm, money, settler, someone, tourist, brother, bank, one, resident, railroad || 
+	ROOT - move, reside, live, include, own, have, be, settle, sell, consist, emigrate, trace, leave, relocate, immigrate, flee, hold, take, migrate, spend, comprise, send, arrive, return, come, build, contain, make, settler, file, become, retain, change, donate, belong, attend, originate, buy, descend, member, acquire, visit, account, hail, lord, run, go, give, play ||  || 
+[STEP1: EXTRACTING GEK for home@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	proportion, tornado, family, police, team, road, fire, people, route, parish, couple, soldier, father, village, %, landslide, mob, flooding, child, wife, pa, husband, man, flood, settler, resident, storm, wind, parent, neighborhood, building, boy, mother, sister, girl, regiment, squadron, troops, worker, agent, owner, museum, house, brother, school, officer, person, woman, son, number
+* GEK for label ROOT:
+	return, leave, build, own, destroy, make, take, damage, have, design, bring, send, pass, walk, include, purchase, sell, go, raid, visit, lose, mortgage, evacuate, burn, find, come, search, call, flood, move, drive, play, buy, give, stay, share, fly, rent, get, rush, set, open, head, offer, flee, establish, ransack, nurse
+[STEP2: UPDATING LC for home@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - family
+	ROOT - buy
+* current LC:
+	OBJ - home
+	SBJ - family
+	ROOT - buy
+[STEP3: UPDATING AC for home@N@OBJ]
+* previous AC:
+	OBJ - property, trembler, estate, business, time, daughter, company, role, son, land, manor, ownership, farm, residence, house, lawsuit, home, genera, fortune, lineage, castle, connection, trogon, suit, plantation, name, west, life, control, tie, origin, statement, species, mill, summer, subfamily, part, refuge, child, root, coat, hedgehog, ancestry, descent, quetzal, church, mockingbird, catbird, thrasher || property, estate, business, time, company, car, service, tract, product, land, manor, %, goods, mansion, apartment, station, plot, lease, farm, house, ticket, villa, hotel, item, home, share, asset, building, castle, parcel, drink, stake, site, acre, interest, stock, plantation, mall, cottage, computer, rights, ranch, mill, guitar, lot, painting, clothes, paper, camera, dress || 
+	SBJ -  || company, passenger, parent, partner, father, fan, wife, husband, player, family, mother, speculator, people, purchaser, consortium, syndicate, investor, nobody, trader, buyer, customer, group, best, consumer, dealer, anyone, collector, entrepreneur, owner, merchant, developer, businessman, farmer, congregation, airline, grandfather, corporation, user, visitor, couple, firm, money, settler, someone, tourist, brother, bank, one, resident, railroad || 
+	ROOT - move, reside, live, include, own, have, be, settle, sell, consist, emigrate, trace, leave, relocate, immigrate, flee, hold, take, migrate, spend, comprise, send, arrive, return, come, build, contain, make, settler, file, become, retain, change, donate, belong, attend, originate, buy, descend, member, acquire, visit, account, hail, lord, run, go, give, play ||  || 
+* current AC:
+	OBJ - property, trembler, estate, business, time, daughter, company, role, son, land, manor, ownership, farm, residence, house, lawsuit, home, genera, fortune, lineage, castle, connection, trogon, suit, plantation, name, west, life, control, tie, origin, statement, species, mill, summer, subfamily, part, refuge, child, root, coat, hedgehog, ancestry, descent, quetzal, church, mockingbird, catbird, thrasher || property, estate, business, time, company, car, service, tract, product, land, manor, %, goods, mansion, apartment, station, plot, lease, farm, house, ticket, villa, hotel, item, home, share, asset, building, castle, parcel, drink, stake, site, acre, interest, stock, plantation, mall, cottage, computer, rights, ranch, mill, guitar, lot, painting, clothes, paper, camera, dress ||  || 
+	SBJ -  || husband, company, merchant, wife, collector, partner, investor, firm, one, developer, dealer, entrepreneur, brother, businessman, trader, corporation, owner, couple, father, grandfather, parent, speculator, consortium, syndicate, resident, purchaser, family, passenger, farmer, buyer, money, railroad, tourist, customer, bank, settler, airline, mother, group, anyone, consumer, nobody, visitor, fan, best, someone, congregation, player, user, people || husband, wife, wind, parent, couple, officer, person, brother, resident, number, father, school, squadron, son, man, owner, tornado, fire, proportion, route, team, child, family, pa, agent, troops, storm, settler, woman, village, soldier, parish, landslide, sister, mother, mob, regiment, flooding, house, flood, %, girl, building, road, worker, police, boy, museum, neighborhood, people || 
+	ROOT - move, give, include, trace, contain, file, take, own, be, acquire, reside, settler, sell, consist, comprise, make, migrate, account, have, live, send, build, retain, buy, arrive, immigrate, return, hail, settle, originate, hold, flee, emigrate, leave, run, spend, visit, play, become, lord, descend, attend, donate, come, change, go, belong, relocate, member ||  || move, give, include, offer, ransack, take, raid, pass, own, find, evacuate, send, sell, damage, share, rent, return, make, flood, have, mortgage, rush, call, get, set, purchase, search, stay, head, fly, buy, destroy, build, leave, flee, establish, visit, open, play, drive, nurse, lose, burn, design, come, go, walk, bring || 
+Printing vectors in output
+## Processing dataset item: [[('agent', 'N', 'SBJ'), ('sell', 'V', 'ROOT'), ('property', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for agent@N@SBJ]
+* GEK for label OBJ:
+	information, agent, authority, effect, contract, action, property, office, activity, role, house, home, group, part
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree
+[STEP2: UPDATING LC for agent@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - agent
+	ROOT - 
+[STEP3: UPDATING AC for agent@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - information, agent, authority, effect, contract, action, property, office, activity, role, house, home, group, part || 
+	SBJ -  || 
+	ROOT - arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree || 
+[STEP1: EXTRACTING GEK for sell@V@ROOT]
+* GEK for label OBJ:
+	copy, share, product, station, land, property, unit, house, stake, estate, rights, business, album, interest, asset, company, building, goods, ticket, download, clothing, paper, painting, brand, item, manor, team, ship, singles, mill, division, farm, holding, car, beer, service, operation, collection, hotel, soul, acre, half, store, accessory, parcel, portion, record, patent, site, ranch
+* GEK for label SBJ:
+	album, company, song, family, game, store, owner, shop, version, book, film, partner, band, heir, widow, volume, ep, wife, series, dvd, soundtrack, club, novel, edition, vendor, executor, stall, recording, dealership, retailer, dealer, salesman, record, seller, brother, trader, son, release, magazine, supermarket, broker, distributor, farmer, manga, investor, copy, shareholder, manufacturer, merchant, landowner
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for sell@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - agent
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - agent
+	ROOT - sell
+[STEP3: UPDATING AC for sell@V@ROOT]
+* previous AC:
+	OBJ - information, agent, authority, effect, contract, action, property, office, activity, role, house, home, group, part || 
+	SBJ -  || 
+	ROOT - arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree || 
+* current AC:
+	OBJ - property, information, role, agent, office, contract, authority, house, home, action, effect, activity, group, part || property, record, ship, business, album, division, company, estate, patent, service, car, holding, unit, land, product, manor, goods, collection, farm, station, house, half, ticket, hotel, item, asset, copy, accessory, building, share, store, stake, parcel, brand, portion, site, interest, operation, acre, team, clothing, download, rights, mill, ranch, singles, painting, beer, paper, soul || 
+	SBJ -  || album, company, song, family, game, store, owner, shop, version, book, film, partner, band, heir, widow, volume, ep, wife, series, dvd, soundtrack, club, novel, edition, vendor, executor, stall, recording, dealership, retailer, dealer, salesman, record, seller, brother, trader, son, release, magazine, supermarket, broker, distributor, farmer, manga, investor, copy, shareholder, manufacturer, merchant, landowner || 
+	ROOT - arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree ||  || 
+[STEP1: EXTRACTING GEK for property@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	family, list, company, compound, object, district, material, government, function, set, son, space, system, woman, number, group, graph, widow, heir, wife, trustee, descendant, developer, owner, estate, acid, farmer, structure, building, property, agent, firm, resident, person, father, theory, model, cell, brother, sister, element, couple, husband, people, member, organization, product, plant, water, study
+* GEK for label ROOT:
+	sell, own, purchase, buy, acquire, inherit, have, confiscate, lease, include, transfer, stock, manage, donate, deed, leave, bequeath, designate, protect, list, rent, seize, give, place, cover, use, expropriate, offer, mortgage, investigate, vandalize, will, hold, nationalize, divide, resell, auction, loot, operate, redevelop, tax, subdivide, forfeit, study
+[STEP2: UPDATING LC for property@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - agent
+	ROOT - sell
+* current LC:
+	OBJ - property
+	SBJ - agent
+	ROOT - sell
+[STEP3: UPDATING AC for property@N@OBJ]
+* previous AC:
+	OBJ - property, information, role, agent, office, contract, authority, house, home, action, effect, activity, group, part || property, record, ship, business, album, division, company, estate, patent, service, car, holding, unit, land, product, manor, goods, collection, farm, station, house, half, ticket, hotel, item, asset, copy, accessory, building, share, store, stake, parcel, brand, portion, site, interest, operation, acre, team, clothing, download, rights, mill, ranch, singles, painting, beer, paper, soul || 
+	SBJ -  || album, company, song, family, game, store, owner, shop, version, book, film, partner, band, heir, widow, volume, ep, wife, series, dvd, soundtrack, club, novel, edition, vendor, executor, stall, recording, dealership, retailer, dealer, salesman, record, seller, brother, trader, son, release, magazine, supermarket, broker, distributor, farmer, manga, investor, copy, shareholder, manufacturer, merchant, landowner || 
+	ROOT - arrest, tell, infiltrate, raid, include, take, inhibit, seize, contact, pose, search, investigate, negotiate, inform, act, advise, approach, attempt, arrange, try, arrive, recruit, discover, handle, able, confirm, responsible, visit, ask, report, cause, refuse, manage, encourage, suggest, kill, fail, claim, learn, reveal, send, want, work, turn, shoot, help, seek, believe, state, agree ||  || 
+* current AC:
+	OBJ - property, information, role, agent, office, contract, authority, house, home, action, effect, activity, group, part || property, record, ship, business, album, division, company, estate, patent, service, car, holding, unit, land, product, manor, goods, collection, farm, station, house, half, ticket, hotel, item, asset, copy, accessory, building, share, store, stake, parcel, brand, portion, site, interest, operation, acre, team, clothing, download, rights, mill, ranch, singles, painting, beer, paper, soul ||  || 
+	SBJ -  || album, series, record, dealership, merchant, broker, wife, company, salesman, dealer, manufacturer, partner, brother, son, executor, owner, investor, widow, novel, book, game, trader, volume, vendor, version, seller, shareholder, landowner, distributor, retailer, family, copy, farmer, store, heir, dvd, edition, soundtrack, release, film, stall, manga, supermarket, shop, ep, recording, club, song, magazine, band || property, acid, husband, wife, company, developer, number, list, firm, couple, brother, water, son, estate, element, government, system, district, owner, widow, study, father, family, product, object, space, person, trustee, building, descendant, agent, sister, cell, compound, set, farmer, plant, resident, material, woman, member, group, model, heir, graph, structure, function, organization, theory, people || 
+	ROOT - arrest, kill, include, attempt, able, take, raid, handle, reveal, inhibit, manage, seize, search, arrange, infiltrate, investigate, shoot, seek, act, discover, pose, report, send, cause, arrive, help, negotiate, suggest, try, recruit, refuse, want, confirm, ask, fail, tell, turn, contact, responsible, work, state, learn, visit, encourage, advise, inform, approach, claim, believe, agree ||  || give, own, manage, will, loot, designate, confiscate, expropriate, include, seize, offer, investigate, use, protect, acquire, cover, have, subdivide, deed, vandalize, purchase, sell, operate, list, mortgage, stock, leave, nationalize, place, divide, transfer, buy, rent, study, donate, tax, bequeath, auction, hold, lease, inherit, resell, forfeit, redevelop || 
+Printing vectors in output
+## Processing dataset item: [[('group', 'N', 'SBJ'), ('hold', 'V', 'ROOT'), ('meeting', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for group@N@SBJ]
+* GEK for label OBJ:
+	name, album, song, singles, success, attention, ep, concert, way, concern, letter, hit, attack, man, notoriety, support, award, plan, other, performance, subgroup, lawsuit, interest, responsibility, show, protest, gig, recording, group, comeback, complaint, demo, dialect, suit, popularity, anniversary, event, refuge, statement, debut, species, mission, team, music, people, rise, deal, fund, meeting, part
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	have, include, consist, release, perform, record, make, play, take, seabird, form, change, go, tour, be, receive, file, sign, hold, meet, engage, become, win, gain, raise, organize, publish, leave, begin, launch, arrive, isomorphic, migrate, give, speak, work, express, move, fly, settle, subgroup, issue, contain, join, part, spend, comprise, support, stage, provide
+[STEP2: UPDATING LC for group@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - group
+	ROOT - 
+[STEP3: UPDATING AC for group@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - name, album, song, singles, success, attention, ep, concert, way, concern, letter, hit, attack, man, notoriety, support, award, plan, other, performance, subgroup, lawsuit, interest, responsibility, show, protest, gig, recording, group, comeback, complaint, demo, dialect, suit, popularity, anniversary, event, refuge, statement, debut, species, mission, team, music, people, rise, deal, fund, meeting, part || 
+	SBJ -  || 
+	ROOT - have, include, consist, release, perform, record, make, play, take, seabird, form, change, go, tour, be, receive, file, sign, hold, meet, engage, become, win, gain, raise, organize, publish, leave, begin, launch, arrive, isomorphic, migrate, give, speak, work, express, move, fly, settle, subgroup, issue, contain, join, part, spend, comprise, support, stage, provide || 
+[STEP1: EXTRACTING GEK for hold@V@ROOT]
+* GEK for label OBJ:
+	position, election, seat, meeting, event, office, incumbency, title, post, record, degree, exhibition, festival, by-election, conference, service, competition, census, race, tournament, ceremony, funeral, referendum, concert, match, championship, manor, session, score, show, hearing, rank, collection, fellowship, papers, bachelor, class, seminar, chair, workshop, game, convention, professorship, master, hostage, rights, retrospective, ritual, congress, rating
+* GEK for label SBJ:
+	defense, stadium, family, library, party, competition, emll/cmll, cmll, company, group, film, museum, school, member, organization, committee, municipality, player, board, boxer, father, archive, event, tower, liberal, arena, congregation, club, ground, town, court, magazine, city, result, visitor, gallery, car, officer, church, politician, limit, converse, league, labour, person, season, %, promotion, team, judge
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for hold@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - group
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - group
+	ROOT - hold
+[STEP3: UPDATING AC for hold@V@ROOT]
+* previous AC:
+	OBJ - name, album, song, singles, success, attention, ep, concert, way, concern, letter, hit, attack, man, notoriety, support, award, plan, other, performance, subgroup, lawsuit, interest, responsibility, show, protest, gig, recording, group, comeback, complaint, demo, dialect, suit, popularity, anniversary, event, refuge, statement, debut, species, mission, team, music, people, rise, deal, fund, meeting, part || 
+	SBJ -  || 
+	ROOT - have, include, consist, release, perform, record, make, play, take, seabird, form, change, go, tour, be, receive, file, sign, hold, meet, engage, become, win, gain, raise, organize, publish, leave, begin, launch, arrive, isomorphic, migrate, give, speak, work, express, move, fly, settle, subgroup, issue, contain, join, part, spend, comprise, support, stage, provide || 
+* current AC:
+	OBJ - name, album, letter, lawsuit, statement, notoriety, performance, fund, show, support, complaint, success, other, attack, hit, team, interest, plan, comeback, mission, event, species, part, meeting, man, popularity, award, group, singles, deal, responsibility, concern, dialect, music, refuge, suit, debut, demo, ep, subgroup, song, anniversary, rise, protest, way, attention, recording, people, gig, concert || record, papers, degree, bachelor, incumbency, master, post, office, class, professorship, score, collection, service, census, game, by-election, position, rank, chair, election, congress, seat, manor, show, tournament, meeting, conference, race, title, retrospective, event, hostage, match, funeral, fellowship, championship, rating, ceremony, workshop, hearing, referendum, session, seminar, competition, exhibition, convention, rights, ritual, concert, festival || 
+	SBJ -  || defense, stadium, family, library, party, competition, emll/cmll, cmll, company, group, film, museum, school, member, organization, committee, municipality, player, board, boxer, father, archive, event, tower, liberal, arena, congregation, club, ground, town, court, magazine, city, result, visitor, gallery, car, officer, church, politician, limit, converse, league, labour, person, season, %, promotion, team, judge || 
+	ROOT - have, include, consist, release, perform, record, make, play, take, seabird, form, change, go, tour, be, receive, file, sign, hold, meet, engage, become, win, gain, raise, organize, publish, leave, begin, launch, arrive, isomorphic, migrate, give, speak, work, express, move, fly, settle, subgroup, issue, contain, join, part, spend, comprise, support, stage, provide ||  || 
+[STEP1: EXTRACTING GEK for meeting@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	activity, representative, committee, member, council, game, society, association, leader, board, organization, club, group, people, chapter, minister, official, resident, meeting, president, officer, party, student, company, program, team, man, government
+* GEK for label ROOT:
+	hold, attend, chair, organize, convene, host, arrange, organise, have, win, conduct, mark, call, interrupt, recount, schedule, address, request, recall, cancel, miss, include, initiate, adjourn, boycott, describe, disrupt, postpone, tell, summon, advertise, stage, facilitate, leave, sponsor, coordinate, ban, precede, commemorate, prohibit, lead, delay, demand, plan, depict, split, broadcast
+[STEP2: UPDATING LC for meeting@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - group
+	ROOT - hold
+* current LC:
+	OBJ - meeting
+	SBJ - group
+	ROOT - hold
+[STEP3: UPDATING AC for meeting@N@OBJ]
+* previous AC:
+	OBJ - name, album, letter, lawsuit, statement, notoriety, performance, fund, show, support, complaint, success, other, attack, hit, team, interest, plan, comeback, mission, event, species, part, meeting, man, popularity, award, group, singles, deal, responsibility, concern, dialect, music, refuge, suit, debut, demo, ep, subgroup, song, anniversary, rise, protest, way, attention, recording, people, gig, concert || record, papers, degree, bachelor, incumbency, master, post, office, class, professorship, score, collection, service, census, game, by-election, position, rank, chair, election, congress, seat, manor, show, tournament, meeting, conference, race, title, retrospective, event, hostage, match, funeral, fellowship, championship, rating, ceremony, workshop, hearing, referendum, session, seminar, competition, exhibition, convention, rights, ritual, concert, festival || 
+	SBJ -  || defense, stadium, family, library, party, competition, emll/cmll, cmll, company, group, film, museum, school, member, organization, committee, municipality, player, board, boxer, father, archive, event, tower, liberal, arena, congregation, club, ground, town, court, magazine, city, result, visitor, gallery, car, officer, church, politician, limit, converse, league, labour, person, season, %, promotion, team, judge || 
+	ROOT - have, include, consist, release, perform, record, make, play, take, seabird, form, change, go, tour, be, receive, file, sign, hold, meet, engage, become, win, gain, raise, organize, publish, leave, begin, launch, arrive, isomorphic, migrate, give, speak, work, express, move, fly, settle, subgroup, issue, contain, join, part, spend, comprise, support, stage, provide ||  || 
+* current AC:
+	OBJ - name, album, letter, lawsuit, statement, notoriety, performance, fund, show, support, complaint, success, other, attack, hit, team, interest, plan, comeback, mission, event, species, part, meeting, man, popularity, award, group, singles, deal, responsibility, concern, dialect, music, refuge, suit, debut, demo, ep, subgroup, song, anniversary, rise, protest, way, attention, recording, people, gig, concert || record, papers, degree, bachelor, incumbency, master, post, office, class, professorship, score, collection, service, census, game, by-election, position, rank, chair, election, congress, seat, manor, show, tournament, meeting, conference, race, title, retrospective, event, hostage, match, funeral, fellowship, championship, rating, ceremony, workshop, hearing, referendum, session, seminar, competition, exhibition, convention, rights, ritual, concert, festival ||  || 
+	SBJ -  || company, defense, board, court, judge, officer, school, season, person, father, committee, team, film, member, group, organization, car, family, emll/cmll, town, promotion, converse, result, %, congregation, tower, player, library, boxer, league, city, ground, archive, municipality, event, club, competition, labour, museum, politician, visitor, cmll, church, liberal, party, magazine, stadium, limit, gallery, arena || company, board, program, council, officer, student, committee, government, game, team, man, resident, representative, president, meeting, group, member, organization, chapter, minister, leader, club, society, association, official, activity, party, people || 
+	ROOT - have, record, be, file, form, contain, launch, include, become, issue, consist, receive, comprise, move, release, support, provide, win, give, seabird, isomorphic, take, publish, play, work, migrate, gain, express, part, stage, hold, tour, subgroup, settle, spend, perform, make, raise, fly, leave, meet, begin, go, arrive, organize, change, engage, sign, join, speak ||  || have, lead, ban, request, recount, demand, adjourn, include, prohibit, conduct, broadcast, mark, chair, win, plan, coordinate, precede, address, interrupt, convene, delay, recall, attend, host, sponsor, stage, schedule, boycott, hold, initiate, depict, tell, arrange, summon, advertise, split, call, facilitate, postpone, leave, commemorate, describe, disrupt, cancel, miss, organize, organise || 
+Printing vectors in output
+## Processing dataset item: [[('author', 'N', 'SBJ'), ('write', 'V', 'ROOT'), ('book', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for author@N@SBJ]
+* GEK for label OBJ:
+	taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate
+[STEP2: UPDATING LC for author@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - author
+	ROOT - 
+[STEP3: UPDATING AC for author@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value || 
+	SBJ -  || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate || 
+[STEP1: EXTRACTING GEK for write@V@ROOT]
+* GEK for label OBJ:
+	book, song, article, novel, story, lyric, letter, screenplay, essay, poem, music, poetry, play, column, script, dialogue, review, biography, episode, manuscript, fiction, libretto, work, foreword, text, papers, teleplay, chapter, thesis, pamphlet, non-fiction, material, name, piece, introduction, achievement, series, prose, melody, note, score, novelization, word, monograph, history, collection, treatise, memoirs, preface, commentary
+* GEK for label SBJ:
+	writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for write@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - author
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - author
+	ROOT - write
+[STEP3: UPDATING AC for write@V@ROOT]
+* previous AC:
+	OBJ - taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value || 
+	SBJ -  || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate || 
+* current AC:
+	OBJ - name, taxon, article, book, novel, story, reference, chapter, character, description, term, argument, fiction, evidence, analysis, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, score, book, collection, script, letter, novel, prose, story, foreword, chapter, manuscript, libretto, memoirs, fiction, commentary, column, poem, preface, monograph, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody || 
+	SBJ -  || writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate ||  || 
+[STEP1: EXTRACTING GEK for book@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	library, collection, publication, book, reviewer, writings, award, work, author, review, company, edition, writer, series, historian, imprint, press, people, journalist, novel, publisher, reader, magazine, wife, house, volume, scholar, anyone, article, story, poet, critic, editor, title, player, student, church, society, teacher, one, list, government, husband, woman, version, museum, man, father, store, son
+* GEK for label ROOT:
+	publish, write, author, include, adapt, translate, review, describe, illustrate, co-author, read, reprint, dedicate, release, divide, co-write, base, coauthor, use, edit, give, contain, produce, hold, sell, praise, shortlist, borrow, have, self-publish, republish, name, print, donate, narrate, award, recognise, co-edited, nominate, win, make, ban, recognize, consider, pen, rewrite, remove, research, attribute
+[STEP2: UPDATING LC for book@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - author
+	ROOT - write
+* current LC:
+	OBJ - book
+	SBJ - author
+	ROOT - write
+[STEP3: UPDATING AC for book@N@OBJ]
+* previous AC:
+	OBJ - name, taxon, article, book, novel, story, reference, chapter, character, description, term, argument, fiction, evidence, analysis, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, score, book, collection, script, letter, novel, prose, story, foreword, chapter, manuscript, libretto, memoirs, fiction, commentary, column, poem, preface, monograph, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody || 
+	SBJ -  || writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate ||  || 
+* current AC:
+	OBJ - name, taxon, article, book, novel, story, reference, chapter, character, description, term, argument, fiction, evidence, analysis, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, score, book, collection, script, letter, novel, prose, story, foreword, chapter, manuscript, libretto, memoirs, fiction, commentary, column, poem, preface, monograph, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody ||  || 
+	SBJ -  || writer, scholar, wife, playwright, screenwriter, cox, author, friend, novelist, com, composer, epstein, historian, scribe, lyricist, film, theologian, correspondent, columnist, editor, mathematician, biographer, duffy, colleague, other, traveler, critic, journalist, poet, member, philosopher, translator, overview, blogger, group, theorist, nobody, commentator, reporter, duo, programmer, chronicler, sociologist, reviewer, singer, anthropologist, songwriter, band, gay || writer, scholar, author, historian, article, story, company, husband, father, book, list, wife, government, series, writings, journalist, teacher, editor, novel, critic, son, one, publication, poet, student, publisher, review, man, library, press, version, work, museum, collection, store, woman, anyone, reviewer, title, award, reader, house, volume, society, imprint, edition, player, people, church, magazine || 
+	ROOT - write, have, unknown, attribute, include, state, recount, mention, quote, receive, estimate, cite, hypothesize, conclude, win, specialize, advocate, publish, point, use, question, note, comment, suggest, speculate, claim, place, live, analyze, propose, make, recommend, wish, describe, contend, invent, interpret, stress, explain, follow, prefer, believe, discuss, argue, emphasize, acknowledge, assert, insist, disagree ||  || write, have, attribute, name, contain, include, give, narrate, produce, ban, author, base, coauthor, read, print, sell, illustrate, use, rewrite, co-author, translate, publish, pen, release, remove, shortlist, reprint, win, co-edited, describe, make, borrow, research, co-write, self-publish, award, hold, recognize, review, nominate, republish, divide, edit, consider, donate, recognise, adapt, praise, dedicate || 
+Printing vectors in output
+## Processing dataset item: [[('delegate', 'N', 'SBJ'), ('buy', 'V', 'ROOT'), ('land', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for delegate@N@SBJ]
+* GEK for label OBJ:
+	resolution, convention, vote, conference, member
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	nominate, meet, include, vote, approve, attend, agree, elect, participate, discuss, compete, represent, adopt, refuse, choose, arrive, decide, sign, support, pass, present, be, hold, come, leave, take, go, have, make
+[STEP2: UPDATING LC for delegate@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - delegate
+	ROOT - 
+[STEP3: UPDATING AC for delegate@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - resolution, convention, vote, conference, member || 
+	SBJ -  || 
+	ROOT - nominate, meet, include, vote, approve, attend, agree, elect, participate, discuss, compete, represent, adopt, refuse, choose, arrive, decide, sign, support, pass, present, be, hold, come, leave, take, go, have, make || 
+[STEP1: EXTRACTING GEK for buy@V@ROOT]
+* GEK for label OBJ:
+	land, ticket, house, property, estate, share, rights, drink, acre, farm, company, car, stake, station, item, building, guitar, service, mill, asset, castle, goods, painting, computer, parcel, ranch, site, hotel, business, tract, paper, manor, product, clothes, villa, mansion, interest, cottage, lease, lot, home, stock, %, plantation, time, dress, mall, plot, apartment, camera
+* GEK for label SBJ:
+	company, passenger, parent, partner, father, fan, wife, husband, player, family, mother, speculator, people, purchaser, consortium, syndicate, investor, nobody, trader, buyer, customer, group, best, consumer, dealer, anyone, collector, entrepreneur, owner, merchant, developer, businessman, farmer, congregation, airline, grandfather, corporation, user, visitor, couple, firm, money, settler, someone, tourist, brother, bank, one, resident, railroad
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for buy@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - delegate
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - delegate
+	ROOT - buy
+[STEP3: UPDATING AC for buy@V@ROOT]
+* previous AC:
+	OBJ - resolution, convention, vote, conference, member || 
+	SBJ -  || 
+	ROOT - nominate, meet, include, vote, approve, attend, agree, elect, participate, discuss, compete, represent, adopt, refuse, choose, arrive, decide, sign, support, pass, present, be, hold, come, leave, take, go, have, make || 
+* current AC:
+	OBJ - resolution, conference, vote, member, convention || %, estate, share, stock, goods, business, property, stake, product, mill, company, ticket, interest, asset, land, manor, car, castle, home, house, item, farm, service, time, acre, computer, tract, ranch, lease, plantation, plot, camera, parcel, drink, building, station, mansion, lot, mall, cottage, painting, rights, apartment, guitar, hotel, site, paper, villa, clothes, dress || 
+	SBJ -  || company, passenger, parent, partner, father, fan, wife, husband, player, family, mother, speculator, people, purchaser, consortium, syndicate, investor, nobody, trader, buyer, customer, group, best, consumer, dealer, anyone, collector, entrepreneur, owner, merchant, developer, businessman, farmer, congregation, airline, grandfather, corporation, user, visitor, couple, firm, money, settler, someone, tourist, brother, bank, one, resident, railroad || 
+	ROOT - nominate, meet, include, vote, approve, attend, agree, elect, participate, discuss, compete, represent, adopt, refuse, choose, arrive, decide, sign, support, pass, present, be, hold, come, leave, take, go, have, make ||  || 
+[STEP1: EXTRACTING GEK for land@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	family, farmer, government, name, son, area, landowner, peasant, settler, state, company, city, tenant, tribe, lord, treaty, descendant, developer, heir, property, owner, king, forest, storm, estate, resident, chief, brother, father, parish, troops, citizen, council, municipality, man, territory, official, town, county, player, member, river, village, school, other, wife, people, church, army, person
+* GEK for label ROOT:
+	donate, purchase, sell, buy, own, acquire, grant, lease, inherit, give, cede, hold, possess, use, transfer, occupy, include, mean, divide, deed, farm, confiscate, subdivide, bequeath, crash, restore, survey, incorporate, claim, have, conquer, clear, seize, till, open, invade, manage, expropriate, call, homestead, redistribute, know, plough, leave
+[STEP2: UPDATING LC for land@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - delegate
+	ROOT - buy
+* current LC:
+	OBJ - land
+	SBJ - delegate
+	ROOT - buy
+[STEP3: UPDATING AC for land@N@OBJ]
+* previous AC:
+	OBJ - resolution, conference, vote, member, convention || %, estate, share, stock, goods, business, property, stake, product, mill, company, ticket, interest, asset, land, manor, car, castle, home, house, item, farm, service, time, acre, computer, tract, ranch, lease, plantation, plot, camera, parcel, drink, building, station, mansion, lot, mall, cottage, painting, rights, apartment, guitar, hotel, site, paper, villa, clothes, dress || 
+	SBJ -  || company, passenger, parent, partner, father, fan, wife, husband, player, family, mother, speculator, people, purchaser, consortium, syndicate, investor, nobody, trader, buyer, customer, group, best, consumer, dealer, anyone, collector, entrepreneur, owner, merchant, developer, businessman, farmer, congregation, airline, grandfather, corporation, user, visitor, couple, firm, money, settler, someone, tourist, brother, bank, one, resident, railroad || 
+	ROOT - nominate, meet, include, vote, approve, attend, agree, elect, participate, discuss, compete, represent, adopt, refuse, choose, arrive, decide, sign, support, pass, present, be, hold, come, leave, take, go, have, make ||  || 
+* current AC:
+	OBJ - resolution, conference, vote, member, convention || %, estate, share, stock, goods, business, property, stake, product, mill, company, ticket, interest, asset, land, manor, car, castle, home, house, item, farm, service, time, acre, computer, tract, ranch, lease, plantation, plot, camera, parcel, drink, building, station, mansion, lot, mall, cottage, painting, rights, apartment, guitar, hotel, site, paper, villa, clothes, dress ||  || 
+	SBJ -  || company, husband, collector, wife, merchant, developer, one, firm, partner, corporation, dealer, investor, businessman, brother, couple, speculator, entrepreneur, owner, consortium, grandfather, passenger, trader, syndicate, purchaser, father, family, tourist, airline, money, railroad, parent, bank, farmer, buyer, resident, settler, group, consumer, customer, anyone, visitor, mother, player, nobody, fan, congregation, user, best, someone, people || company, name, property, wife, developer, state, brother, father, school, son, army, council, government, person, resident, chief, owner, estate, other, man, county, member, family, descendant, storm, parish, village, tenant, troops, town, citizen, landowner, settler, farmer, king, territory, city, treaty, area, forest, river, player, official, municipality, heir, lord, people, church, peasant, tribe || 
+	ROOT - have, include, be, pass, present, take, choose, nominate, approve, vote, make, elect, support, decide, hold, arrive, refuse, attend, leave, represent, adopt, meet, discuss, compete, go, come, agree, sign, participate ||  || manage, farm, include, know, call, clear, possess, have, transfer, acquire, plough, homestead, inherit, leave, give, sell, divide, hold, till, conquer, grant, subdivide, claim, own, buy, seize, confiscate, lease, purchase, use, redistribute, crash, bequeath, deed, occupy, mean, expropriate, cede, survey, restore, open, incorporate, invade, donate || 
+Printing vectors in output
+## Processing dataset item: [[('author', 'N', 'SBJ'), ('write', 'V', 'ROOT'), ('book', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for author@N@SBJ]
+* GEK for label OBJ:
+	taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate
+[STEP2: UPDATING LC for author@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - author
+	ROOT - 
+[STEP3: UPDATING AC for author@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value || 
+	SBJ -  || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate || 
+[STEP1: EXTRACTING GEK for write@V@ROOT]
+* GEK for label OBJ:
+	book, song, article, novel, story, lyric, letter, screenplay, essay, poem, music, poetry, play, column, script, dialogue, review, biography, episode, manuscript, fiction, libretto, work, foreword, text, papers, teleplay, chapter, thesis, pamphlet, non-fiction, material, name, piece, introduction, achievement, series, prose, melody, note, score, novelization, word, monograph, history, collection, treatise, memoirs, preface, commentary
+* GEK for label SBJ:
+	writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for write@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - author
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - author
+	ROOT - write
+[STEP3: UPDATING AC for write@V@ROOT]
+* previous AC:
+	OBJ - taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value || 
+	SBJ -  || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate || 
+* current AC:
+	OBJ - name, taxon, article, book, novel, story, reference, chapter, character, description, term, argument, fiction, evidence, analysis, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, book, score, script, collection, letter, novel, prose, story, foreword, chapter, manuscript, libretto, memoirs, fiction, commentary, column, poem, preface, monograph, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody || 
+	SBJ -  || writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate ||  || 
+[STEP1: EXTRACTING GEK for book@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	library, collection, publication, book, reviewer, writings, award, work, author, review, company, edition, writer, series, historian, imprint, press, people, journalist, novel, publisher, reader, magazine, wife, house, volume, scholar, anyone, article, story, poet, critic, editor, title, player, student, church, society, teacher, one, list, government, husband, woman, version, museum, man, father, store, son
+* GEK for label ROOT:
+	publish, write, author, include, adapt, translate, review, describe, illustrate, co-author, read, reprint, dedicate, release, divide, co-write, base, coauthor, use, edit, give, contain, produce, hold, sell, praise, shortlist, borrow, have, self-publish, republish, name, print, donate, narrate, award, recognise, co-edited, nominate, win, make, ban, recognize, consider, pen, rewrite, remove, research, attribute
+[STEP2: UPDATING LC for book@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - author
+	ROOT - write
+* current LC:
+	OBJ - book
+	SBJ - author
+	ROOT - write
+[STEP3: UPDATING AC for book@N@OBJ]
+* previous AC:
+	OBJ - name, taxon, article, book, novel, story, reference, chapter, character, description, term, argument, fiction, evidence, analysis, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, book, score, script, collection, letter, novel, prose, story, foreword, chapter, manuscript, libretto, memoirs, fiction, commentary, column, poem, preface, monograph, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody || 
+	SBJ -  || writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate ||  || 
+* current AC:
+	OBJ - name, taxon, article, book, novel, story, reference, chapter, character, description, term, argument, fiction, evidence, analysis, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, book, score, script, collection, letter, novel, prose, story, foreword, chapter, manuscript, libretto, memoirs, fiction, commentary, column, poem, preface, monograph, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody ||  || 
+	SBJ -  || writer, wife, scholar, cox, author, playwright, scribe, novelist, screenwriter, com, biographer, other, traveler, mathematician, historian, poet, translator, composer, epstein, chronicler, editor, theologian, duffy, columnist, overview, friend, correspondent, film, journalist, lyricist, colleague, philosopher, commentator, reporter, group, member, critic, programmer, blogger, theorist, nobody, duo, sociologist, reviewer, anthropologist, singer, gay, songwriter, band || writer, husband, company, scholar, wife, series, list, author, one, father, publisher, government, son, teacher, writings, article, historian, story, student, book, editor, novel, version, man, collection, review, critic, journalist, poet, publication, award, library, house, anyone, title, woman, work, volume, store, press, player, museum, imprint, edition, reviewer, reader, society, church, people, magazine || 
+	ROOT - write, have, unknown, attribute, state, include, quote, recount, mention, receive, cite, win, estimate, hypothesize, conclude, advocate, specialize, publish, point, note, question, comment, use, suggest, claim, speculate, place, live, wish, recommend, propose, analyze, make, contend, describe, invent, stress, interpret, follow, explain, believe, argue, discuss, prefer, acknowledge, insist, emphasize, assert, disagree ||  || write, name, have, author, attribute, contain, coauthor, include, ban, narrate, base, give, shortlist, reprint, produce, sell, co-author, research, print, win, release, co-edited, read, illustrate, publish, review, nominate, pen, hold, use, borrow, translate, rewrite, award, co-write, remove, self-publish, republish, make, donate, recognize, describe, divide, consider, praise, edit, recognise, dedicate, adapt || 
+Printing vectors in output
+## Processing dataset item: [[('man', 'N', 'SBJ'), ('hear', 'V', 'ROOT'), ('word', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for man@N@SBJ]
+* GEK for label OBJ:
+	part, life, sex, woman, fire, wife, intercourse, hat, shirt, suicide, uniform, shot, anything, suit, hand, role, thing, time, crime, room, medal, right, review, way, position, home, advantage, living, office, award, difficulty, title, chance, affair, appearance, force, name, relationship, experience, care, ability, work, father, story, game, idea, interest, power, rights, man
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	take, have, emigrate, immigrate, kill, compete, film, die, represent, wear, fall, serve, live, come, be, do, arrive, make, work, commit, enter, album, give, join, return, love, spend, receive, volunteer, outnumber, tell, shake, become, hold, double, win, save, play, leave, attack, likely, rape, fire, marry, go, look, kidnap, stab, reach
+[STEP2: UPDATING LC for man@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - man
+	ROOT - 
+[STEP3: UPDATING AC for man@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - part, life, sex, woman, fire, wife, intercourse, hat, shirt, suicide, uniform, shot, anything, suit, hand, role, thing, time, crime, room, medal, right, review, way, position, home, advantage, living, office, award, difficulty, title, chance, affair, appearance, force, name, relationship, experience, care, ability, work, father, story, game, idea, interest, power, rights, man || 
+	SBJ -  || 
+	ROOT - take, have, emigrate, immigrate, kill, compete, film, die, represent, wear, fall, serve, live, come, be, do, arrive, make, work, commit, enter, album, give, join, return, love, spend, receive, volunteer, outnumber, tell, shake, become, hold, double, win, save, play, leave, attack, likely, rape, fire, marry, go, look, kidnap, stab, reach || 
+[STEP1: EXTRACTING GEK for hear@V@ROOT]
+* GEK for label OBJ:
+	case, appeal, argument, song, singing, voice, commotion, scream, sound, gunshot, news, rumour, cry, gunfire, rumor, testimony, noise, confession, footstep, story, sermon, demo, music, explosion, anything, conversation, bell, nothing, shot, melody, tape, evidence, call, roar, tale, something, playing, whisper, thought, word, everything, talk, message, station, shout, bang, speech, ringing, siren, heartbeat
+* GEK for label SBJ:
+	court, judge, inquest, listener, nobody, jury, anyone, ear, everyone, inquiry, neighbor, voice, one, witness, viewer, panel, audience, fan, visitor, crew, people, committee, ability, commission, someone, king, person, boy, user, resident, mother, girl, friend, soldier, man, other, officer, producer, father, wife, case, child, student, woman, member, player, song, family, group, band
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for hear@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - man
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - man
+	ROOT - hear
+[STEP3: UPDATING AC for hear@V@ROOT]
+* previous AC:
+	OBJ - part, life, sex, woman, fire, wife, intercourse, hat, shirt, suicide, uniform, shot, anything, suit, hand, role, thing, time, crime, room, medal, right, review, way, position, home, advantage, living, office, award, difficulty, title, chance, affair, appearance, force, name, relationship, experience, care, ability, work, father, story, game, idea, interest, power, rights, man || 
+	SBJ -  || 
+	ROOT - take, have, emigrate, immigrate, kill, compete, film, die, represent, wear, fall, serve, live, come, be, do, arrive, make, work, commit, enter, album, give, join, return, love, spend, receive, volunteer, outnumber, tell, shake, become, hold, double, win, save, play, leave, attack, likely, rape, fire, marry, go, look, kidnap, stab, reach || 
+* current AC:
+	OBJ - story, part, crime, fire, ability, suicide, sex, relationship, uniform, role, hand, difficulty, work, time, affair, home, way, game, shot, room, suit, force, man, father, position, award, living, name, life, power, care, anything, office, intercourse, rights, medal, experience, wife, interest, appearance, woman, idea, review, chance, right, thing, advantage, title, hat, shirt || story, news, gunshot, gunfire, argument, shot, nothing, case, anything, explosion, talk, call, conversation, rumor, everything, speech, station, noise, bell, word, testimony, commotion, tale, tape, something, message, sermon, thought, voice, heartbeat, cry, sound, appeal, footstep, scream, shout, evidence, music, bang, demo, playing, melody, song, whisper, singing, confession, siren, ringing, roar, rumour || 
+	SBJ -  || court, judge, inquest, listener, nobody, jury, anyone, ear, everyone, inquiry, neighbor, voice, one, witness, viewer, panel, audience, fan, visitor, crew, people, committee, ability, commission, someone, king, person, boy, user, resident, mother, girl, friend, soldier, man, other, officer, producer, father, wife, case, child, student, woman, member, player, song, family, group, band || 
+	ROOT - take, have, emigrate, immigrate, kill, compete, film, die, represent, wear, fall, serve, live, come, be, do, arrive, make, work, commit, enter, album, give, join, return, love, spend, receive, volunteer, outnumber, tell, shake, become, hold, double, win, save, play, leave, attack, likely, rape, fire, marry, go, look, kidnap, stab, reach ||  || 
+[STEP1: EXTRACTING GEK for word@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	chairmanship, language, name, dictionary, vocabulary, people, dialect, contestant, speaker, reader, translation, word, text, letter, user, one, person, edition, author, writer, version, child, player, character, team, group, song, other, member, work, woman, title, man, book, student
+* GEK for label ROOT:
+	use, omit, write, send, derive, exchange, utter, repeal, spread, give, borrow, have, utter, pronounce, receive, say, combine, set, coin, interpret, repeat, forget, mouth, speak, mince, quote, remember, hear, translate, take, mispronounce, understand, read, recall, sing, whisper, misspell, misinterpret, transliterate, heed, keep, memorize, guess, transcribe, spell, twist, learn
+[STEP2: UPDATING LC for word@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - man
+	ROOT - hear
+* current LC:
+	OBJ - word
+	SBJ - man
+	ROOT - hear
+[STEP3: UPDATING AC for word@N@OBJ]
+* previous AC:
+	OBJ - story, part, crime, fire, ability, suicide, sex, relationship, uniform, role, hand, difficulty, work, time, affair, home, way, game, shot, room, suit, force, man, father, position, award, living, name, life, power, care, anything, office, intercourse, rights, medal, experience, wife, interest, appearance, woman, idea, review, chance, right, thing, advantage, title, hat, shirt || story, news, gunshot, gunfire, argument, shot, nothing, case, anything, explosion, talk, call, conversation, rumor, everything, speech, station, noise, bell, word, testimony, commotion, tale, tape, something, message, sermon, thought, voice, heartbeat, cry, sound, appeal, footstep, scream, shout, evidence, music, bang, demo, playing, melody, song, whisper, singing, confession, siren, ringing, roar, rumour || 
+	SBJ -  || court, judge, inquest, listener, nobody, jury, anyone, ear, everyone, inquiry, neighbor, voice, one, witness, viewer, panel, audience, fan, visitor, crew, people, committee, ability, commission, someone, king, person, boy, user, resident, mother, girl, friend, soldier, man, other, officer, producer, father, wife, case, child, student, woman, member, player, song, family, group, band || 
+	ROOT - take, have, emigrate, immigrate, kill, compete, film, die, represent, wear, fall, serve, live, come, be, do, arrive, make, work, commit, enter, album, give, join, return, love, spend, receive, volunteer, outnumber, tell, shake, become, hold, double, win, save, play, leave, attack, likely, rape, fire, marry, go, look, kidnap, stab, reach ||  || 
+* current AC:
+	OBJ - story, part, crime, fire, ability, suicide, sex, relationship, uniform, role, hand, difficulty, work, time, affair, home, way, game, shot, room, suit, force, man, father, position, award, living, name, life, power, care, anything, office, intercourse, rights, medal, experience, wife, interest, appearance, woman, idea, review, chance, right, thing, advantage, title, hat, shirt || story, news, gunshot, gunfire, argument, shot, nothing, case, anything, explosion, talk, call, conversation, rumor, everything, speech, station, noise, bell, word, testimony, commotion, tale, tape, something, message, sermon, thought, voice, heartbeat, cry, sound, appeal, footstep, scream, shout, evidence, music, bang, demo, playing, melody, song, whisper, singing, confession, siren, ringing, roar, rumour ||  || 
+	SBJ -  || wife, one, judge, officer, case, crew, commission, father, other, court, person, family, neighbor, producer, king, inquiry, panel, friend, committee, soldier, resident, man, student, group, member, woman, anyone, mother, visitor, ability, player, jury, witness, inquest, child, nobody, user, fan, viewer, someone, song, voice, listener, audience, girl, boy, people, everyone, band, ear || author, student, person, other, group, speaker, writer, name, child, contestant, man, book, team, chairmanship, woman, one, song, member, reader, people, language, player, character, title, work, translation, word, dictionary, version, text, user, letter, edition, dialect, vocabulary || 
+	ROOT - take, album, have, double, be, fire, serve, become, receive, film, likely, marry, give, attack, win, immigrate, enter, return, commit, emigrate, hold, play, save, work, kidnap, kill, volunteer, live, compete, tell, spend, reach, make, outnumber, wear, fall, leave, rape, come, go, love, stab, represent, join, arrive, die, look, do, shake ||  || take, have, write, give, combine, read, receive, set, transliterate, omit, translate, use, exchange, derive, coin, repeal, repeat, spread, recall, memorize, misspell, quote, borrow, mince, transcribe, interpret, send, mouth, learn, twist, utter, utter, pronounce, mispronounce, hear, keep, spell, remember, say, misinterpret, guess, whisper, heed, understand, speak, forget, sing || 
+Printing vectors in output
+## Processing dataset item: [[('author', 'N', 'SBJ'), ('write', 'V', 'ROOT'), ('book', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for author@N@SBJ]
+* GEK for label OBJ:
+	taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate
+[STEP2: UPDATING LC for author@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - author
+	ROOT - 
+[STEP3: UPDATING AC for author@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value || 
+	SBJ -  || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate || 
+[STEP1: EXTRACTING GEK for write@V@ROOT]
+* GEK for label OBJ:
+	book, song, article, novel, story, lyric, letter, screenplay, essay, poem, music, poetry, play, column, script, dialogue, review, biography, episode, manuscript, fiction, libretto, work, foreword, text, papers, teleplay, chapter, thesis, pamphlet, non-fiction, material, name, piece, introduction, achievement, series, prose, melody, note, score, novelization, word, monograph, history, collection, treatise, memoirs, preface, commentary
+* GEK for label SBJ:
+	writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for write@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - author
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - author
+	ROOT - write
+[STEP3: UPDATING AC for write@V@ROOT]
+* previous AC:
+	OBJ - taxon, book, award, right, novel, term, use, story, name, work, copyright, reader, definition, interpretation, description, argument, importance, chapter, idea, view, article, account, fiction, text, claim, detail, evidence, theory, approach, reference, contribution, knowledge, analysis, concept, species, concern, attention, question, experience, theme, influence, model, reason, method, character, word, material, access, rights, value || 
+	SBJ -  || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate || 
+* current AC:
+	OBJ - name, taxon, article, book, novel, reference, chapter, character, description, term, argument, fiction, evidence, analysis, story, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, book, score, script, collection, letter, novel, prose, foreword, chapter, manuscript, memoirs, libretto, fiction, commentary, column, poem, preface, monograph, story, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody || 
+	SBJ -  || writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate ||  || 
+[STEP1: EXTRACTING GEK for book@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	library, collection, publication, book, reviewer, writings, award, work, author, review, company, edition, writer, series, historian, imprint, press, people, journalist, novel, publisher, reader, magazine, wife, house, volume, scholar, anyone, article, story, poet, critic, editor, title, player, student, church, society, teacher, one, list, government, husband, woman, version, museum, man, father, store, son
+* GEK for label ROOT:
+	publish, write, author, include, adapt, translate, review, describe, illustrate, co-author, read, reprint, dedicate, release, divide, co-write, base, coauthor, use, edit, give, contain, produce, hold, sell, praise, shortlist, borrow, have, self-publish, republish, name, print, donate, narrate, award, recognise, co-edited, nominate, win, make, ban, recognize, consider, pen, rewrite, remove, research, attribute
+[STEP2: UPDATING LC for book@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - author
+	ROOT - write
+* current LC:
+	OBJ - book
+	SBJ - author
+	ROOT - write
+[STEP3: UPDATING AC for book@N@OBJ]
+* previous AC:
+	OBJ - name, taxon, article, book, novel, reference, chapter, character, description, term, argument, fiction, evidence, analysis, story, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, book, score, script, collection, letter, novel, prose, foreword, chapter, manuscript, memoirs, libretto, fiction, commentary, column, poem, preface, monograph, story, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody || 
+	SBJ -  || writer, journalist, composer, author, poet, historian, overview, band, playwright, critic, colleague, songwriter, wife, friend, other, reviewer, scribe, com, chronicler, film, biographer, epstein, blogger, duffy, novelist, columnist, programmer, cox, lyricist, singer, correspondent, sociologist, reporter, theorist, philosopher, member, traveler, anthropologist, nobody, group, theologian, editor, gay, commentator, scholar, screenwriter, mathematician, duo, translator || 
+	ROOT - write, include, use, describe, place, follow, live, publish, receive, make, hypothesize, win, have, speculate, contend, conclude, disagree, argue, assert, stress, suggest, recount, unknown, prefer, note, acknowledge, propose, recommend, interpret, discuss, claim, analyze, point, attribute, quote, question, emphasize, mention, comment, state, specialize, explain, cite, wish, advocate, invent, insist, believe, estimate ||  || 
+* current AC:
+	OBJ - name, taxon, article, book, novel, reference, chapter, character, description, term, argument, fiction, evidence, analysis, story, account, knowledge, text, access, value, experience, material, definition, reader, method, species, question, model, award, view, use, work, claim, interpretation, contribution, word, theme, influence, reason, detail, idea, theory, concept, approach, concern, rights, copyright, importance, right, attention || name, series, papers, biography, episode, screenplay, treatise, teleplay, article, novelization, book, score, script, collection, letter, novel, prose, foreword, chapter, manuscript, memoirs, libretto, fiction, commentary, column, poem, preface, monograph, story, non-fiction, achievement, history, pamphlet, text, essay, piece, review, introduction, dialogue, material, play, thesis, poetry, note, work, word, song, music, lyric, melody ||  || 
+	SBJ -  || writer, author, scholar, cox, playwright, scribe, wife, screenwriter, novelist, com, biographer, mathematician, traveler, historian, other, poet, translator, composer, epstein, chronicler, theologian, duffy, editor, film, friend, overview, columnist, correspondent, colleague, journalist, lyricist, philosopher, programmer, commentator, reporter, group, critic, blogger, member, theorist, nobody, duo, sociologist, reviewer, anthropologist, singer, songwriter, gay, band || writer, author, company, series, husband, scholar, publisher, list, one, wife, son, book, article, writings, collection, version, novel, publication, government, historian, father, poet, volume, story, house, store, library, editor, title, teacher, journalist, review, edition, man, student, imprint, reader, critic, woman, award, anyone, press, player, work, museum, reviewer, people, magazine, society, church || 
+	ROOT - write, have, unknown, attribute, state, include, quote, mention, recount, receive, win, cite, hypothesize, advocate, conclude, estimate, specialize, publish, point, note, comment, question, use, suggest, claim, speculate, place, live, wish, recommend, contend, analyze, make, propose, invent, describe, stress, interpret, follow, believe, explain, discuss, acknowledge, argue, prefer, emphasize, insist, assert, disagree ||  || write, name, author, have, attribute, coauthor, contain, include, ban, shortlist, reprint, narrate, base, research, give, co-author, produce, sell, win, release, print, co-edited, review, hold, publish, illustrate, read, borrow, nominate, pen, award, use, co-write, translate, rewrite, remove, republish, self-publish, donate, make, recognize, praise, consider, divide, describe, edit, recognise, dedicate, adapt || 
+Printing vectors in output
+## Processing dataset item: [[('writer', 'N', 'SBJ'), ('read', 'V', 'ROOT'), ('word', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for writer@N@SBJ]
+* GEK for label OBJ:
+	novel, book, contribution, award, story, work, storyline, script, idea, article, poem, theme, literature, view, character, voice, account, influence, job, concept, experience, letter, episode, play, word, element, review, scene, relationship, style, term, material, interest, role, language, use, performance, name, issue, career, way, song, show, life, film, time, part, series
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	write, include, choose, publish, work, live, describe, say, win, make, opine, speculate, comment, author, remark, note, assert, contribute, praise, specialize, criticise, question, feel, acknowledge, argue, criticize, interpret, suggest, observe, mention, prefer, tend, unknown, hope, want, attribute, claim, collaborate, compare, state, like, attempt, decide, think, try, believe, conclude, express
+[STEP2: UPDATING LC for writer@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - writer
+	ROOT - 
+[STEP3: UPDATING AC for writer@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - novel, book, contribution, award, story, work, storyline, script, idea, article, poem, theme, literature, view, character, voice, account, influence, job, concept, experience, letter, episode, play, word, element, review, scene, relationship, style, term, material, interest, role, language, use, performance, name, issue, career, way, song, show, life, film, time, part, series || 
+	SBJ -  || 
+	ROOT - write, include, choose, publish, work, live, describe, say, win, make, opine, speculate, comment, author, remark, note, assert, contribute, praise, specialize, criticise, question, feel, acknowledge, argue, criticize, interpret, suggest, observe, mention, prefer, tend, unknown, hope, want, attribute, claim, collaborate, compare, state, like, attempt, decide, think, try, believe, conclude, express || 
+[STEP1: EXTRACTING GEK for read@V@ROOT]
+* GEK for label OBJ:
+	law, book, classic, newspaper, philosophy, history, parashah, politics, script, music, mind, letter, economics, mathematics, literature, magazine, novel, excerpt, story, diary, poem, poetry, comic, work, biography, passage, paper, writings, declaration, manuscript, papers, article, text, message, statement, verse, essay, note, everything, page, comprehension, speech, translation, news, chapter, journal, copy, word, report, document
+* GEK for label SBJ:
+	grader, %, citation, inscription, statement, blazon, epitaph, placard, consensus, caption, gravestone, headstone, tombstone, scorecard, tagline, plaque, sticker, headline, t-shirt, paragraph, excerpt, banner, marker, hobby, quote, motto, dedication, people, sign, tablet, text, reader, anyone, description, poster, certificate, passage, verse, note, advertisement, medal, translation, message, nomination, equation, everyone, plate, entry, notice, manuscript
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for read@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - writer
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - writer
+	ROOT - read
+[STEP3: UPDATING AC for read@V@ROOT]
+* previous AC:
+	OBJ - novel, book, contribution, award, story, work, storyline, script, idea, article, poem, theme, literature, view, character, voice, account, influence, job, concept, experience, letter, episode, play, word, element, review, scene, relationship, style, term, material, interest, role, language, use, performance, name, issue, career, way, song, show, life, film, time, part, series || 
+	SBJ -  || 
+	ROOT - write, include, choose, publish, work, live, describe, say, win, make, opine, speculate, comment, author, remark, note, assert, contribute, praise, specialize, criticise, question, feel, acknowledge, argue, criticize, interpret, suggest, observe, mention, prefer, tend, unknown, hope, want, attribute, claim, collaborate, compare, state, like, attempt, decide, think, try, believe, conclude, express || 
+* current AC:
+	OBJ - novel, story, part, role, character, show, job, time, storyline, book, relationship, element, work, term, career, name, word, way, series, issue, life, film, view, use, account, episode, performance, article, script, experience, voice, award, scene, letter, poem, play, idea, interest, material, theme, language, review, contribution, literature, concept, influence, style, song || novel, story, news, report, biography, book, speech, passage, work, chapter, history, statement, comic, document, writings, word, everything, text, parashah, page, copy, papers, diary, message, article, mathematics, script, newspaper, politics, law, translation, paper, verse, letter, poem, note, comprehension, essay, excerpt, declaration, manuscript, poetry, economics, journal, literature, philosophy, music, magazine, mind, classic || 
+	SBJ -  || grader, %, citation, inscription, statement, blazon, epitaph, placard, consensus, caption, gravestone, headstone, tombstone, scorecard, tagline, plaque, sticker, headline, t-shirt, paragraph, excerpt, banner, marker, hobby, quote, motto, dedication, people, sign, tablet, text, reader, anyone, description, poster, certificate, passage, verse, note, advertisement, medal, translation, message, nomination, equation, everyone, plate, entry, notice, manuscript || 
+	ROOT - write, include, choose, publish, work, live, describe, say, win, make, opine, speculate, comment, author, remark, note, assert, contribute, praise, specialize, criticise, question, feel, acknowledge, argue, criticize, interpret, suggest, observe, mention, prefer, tend, unknown, hope, want, attribute, claim, collaborate, compare, state, like, attempt, decide, think, try, believe, conclude, express ||  || 
+[STEP1: EXTRACTING GEK for word@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	chairmanship, language, name, dictionary, vocabulary, people, dialect, contestant, speaker, reader, translation, word, text, letter, user, one, person, edition, author, writer, version, child, player, character, team, group, song, other, member, work, woman, title, man, book, student
+* GEK for label ROOT:
+	use, omit, write, send, derive, exchange, utter, repeal, spread, give, borrow, have, utter, pronounce, receive, say, combine, set, coin, interpret, repeat, forget, mouth, speak, mince, quote, remember, hear, translate, take, mispronounce, understand, read, recall, sing, whisper, misspell, misinterpret, transliterate, heed, keep, memorize, guess, transcribe, spell, twist, learn
+[STEP2: UPDATING LC for word@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - writer
+	ROOT - read
+* current LC:
+	OBJ - word
+	SBJ - writer
+	ROOT - read
+[STEP3: UPDATING AC for word@N@OBJ]
+* previous AC:
+	OBJ - novel, story, part, role, character, show, job, time, storyline, book, relationship, element, work, term, career, name, word, way, series, issue, life, film, view, use, account, episode, performance, article, script, experience, voice, award, scene, letter, poem, play, idea, interest, material, theme, language, review, contribution, literature, concept, influence, style, song || novel, story, news, report, biography, book, speech, passage, work, chapter, history, statement, comic, document, writings, word, everything, text, parashah, page, copy, papers, diary, message, article, mathematics, script, newspaper, politics, law, translation, paper, verse, letter, poem, note, comprehension, essay, excerpt, declaration, manuscript, poetry, economics, journal, literature, philosophy, music, magazine, mind, classic || 
+	SBJ -  || grader, %, citation, inscription, statement, blazon, epitaph, placard, consensus, caption, gravestone, headstone, tombstone, scorecard, tagline, plaque, sticker, headline, t-shirt, paragraph, excerpt, banner, marker, hobby, quote, motto, dedication, people, sign, tablet, text, reader, anyone, description, poster, certificate, passage, verse, note, advertisement, medal, translation, message, nomination, equation, everyone, plate, entry, notice, manuscript || 
+	ROOT - write, include, choose, publish, work, live, describe, say, win, make, opine, speculate, comment, author, remark, note, assert, contribute, praise, specialize, criticise, question, feel, acknowledge, argue, criticize, interpret, suggest, observe, mention, prefer, tend, unknown, hope, want, attribute, claim, collaborate, compare, state, like, attempt, decide, think, try, believe, conclude, express ||  || 
+* current AC:
+	OBJ - novel, story, part, role, character, show, job, time, storyline, book, relationship, element, work, term, career, name, word, way, series, issue, life, film, view, use, account, episode, performance, article, script, experience, voice, award, scene, letter, poem, play, idea, interest, material, theme, language, review, contribution, literature, concept, influence, style, song || novel, story, news, report, biography, book, speech, passage, work, chapter, history, statement, comic, document, writings, word, everything, text, parashah, page, copy, papers, diary, message, article, mathematics, script, newspaper, politics, law, translation, paper, verse, letter, poem, note, comprehension, essay, excerpt, declaration, manuscript, poetry, economics, journal, literature, philosophy, music, magazine, mind, classic ||  || 
+	SBJ -  || %, grader, certificate, passage, tombstone, entry, quote, gravestone, manuscript, description, excerpt, nomination, citation, translation, scorecard, notice, paragraph, headstone, inscription, epitaph, tablet, text, blazon, statement, verse, poster, reader, medal, equation, plaque, message, plate, marker, note, anyone, hobby, advertisement, dedication, sticker, banner, headline, placard, caption, people, t-shirt, everyone, consensus, tagline, sign, motto || writer, author, name, one, chairmanship, dictionary, other, book, letter, character, version, person, translation, title, speaker, text, reader, edition, man, group, team, contestant, student, member, woman, word, player, child, work, user, language, vocabulary, dialect, people, song || 
+	ROOT - write, author, unknown, attribute, state, include, remark, mention, win, conclude, opine, specialize, attempt, publish, note, comment, question, suggest, express, claim, work, speculate, choose, live, decide, compare, praise, make, like, describe, contribute, collaborate, say, criticize, observe, interpret, try, believe, hope, acknowledge, want, argue, tend, prefer, feel, think, assert, criticise ||  || write, take, have, quote, receive, coin, give, set, repeal, combine, exchange, omit, transliterate, misspell, read, borrow, mince, derive, translate, twist, use, mouth, spread, recall, repeat, transcribe, send, utter, utter, memorize, hear, heed, whisper, guess, learn, spell, pronounce, say, interpret, remember, keep, mispronounce, sing, speak, understand, misinterpret, forget || 
+Printing vectors in output
+## Processing dataset item: [[('case', 'N', 'SBJ'), ('require', 'V', 'ROOT'), ('attention', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for case@N@SBJ]
+* GEK for label OBJ:
+	attention, way, precedent, headline, coverage, question, place, publicity, controversy, debate, principle, right, issue, claim, murder, standard, trial, interest, evidence, test, rights, court, decision, law, rule, problem, effect, use, case, point, time, role
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely
+[STEP2: UPDATING LC for case@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - case
+	ROOT - 
+[STEP3: UPDATING AC for case@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - attention, way, precedent, headline, coverage, question, place, publicity, controversy, debate, principle, right, issue, claim, murder, standard, trial, interest, evidence, test, rights, court, decision, law, rule, problem, effect, use, case, point, time, role || 
+	SBJ -  || 
+	ROOT - go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely || 
+[STEP1: EXTRACTING GEK for require@V@ROOT]
+* GEK for label OBJ:
+	district, student, federation, cut, visa, coalition, treatment, nation, process, import, surgery, party, player, administration, school, stitch, disclosure, member, swing, contestant, closing, entity, skill, knowledge, operation, majority, effort, assistance, use, seat, hospitalisation, care, coach, board, help, unanimity, supermajority, hospitalization, pruning, dexterity, watering, time, lubrication, cofactor, authorisation, dialysis, labeling, dredging, houseguest
+* GEK for label SBJ:
+	xvi-c, injury, state, roadblock, format, consolidation, law, national, participation, referendum, holder, bill, link, seed, patient, category, idea, degree, program, job, seat, round, game, contract, system, position, role, school, directive, ordinance, lender, statute, diagnosis, clause, regulation, amendment, legislation, specification, puzzle, algorithm, verb, proposition, protocol, constitution, guideline, calculation, fracture, admission, regulator, procedure
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for require@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - case
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - case
+	ROOT - require
+[STEP3: UPDATING AC for require@V@ROOT]
+* previous AC:
+	OBJ - attention, way, precedent, headline, coverage, question, place, publicity, controversy, debate, principle, right, issue, claim, murder, standard, trial, interest, evidence, test, rights, court, decision, law, rule, problem, effect, use, case, point, time, role || 
+	SBJ -  || 
+	ROOT - go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely || 
+* current AC:
+	OBJ - case, attention, role, court, test, rule, coverage, murder, time, decision, law, controversy, precedent, evidence, use, standard, debate, issue, trial, interest, problem, question, effect, rights, publicity, principle, headline, point, way, claim, place, right || administration, labeling, skill, time, use, majority, school, knowledge, surgery, effort, operation, hospitalization, lubrication, board, assistance, treatment, authorisation, visa, student, dialysis, dexterity, help, contestant, closing, cofactor, coach, process, import, district, member, hospitalisation, coalition, supermajority, party, entity, houseguest, care, dredging, unanimity, federation, seat, disclosure, player, stitch, nation, swing, watering, pruning, cut || 
+	SBJ -  || xvi-c, injury, state, roadblock, format, consolidation, law, national, participation, referendum, holder, bill, link, seed, patient, category, idea, degree, program, job, seat, round, game, contract, system, position, role, school, directive, ordinance, lender, statute, diagnosis, clause, regulation, amendment, legislation, specification, puzzle, algorithm, verb, proposition, protocol, constitution, guideline, calculation, fracture, admission, regulator, procedure || 
+	ROOT - go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely ||  || 
+[STEP1: EXTRACTING GEK for attention@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	case, work, album, performance, band, incident, song, success, book, story, group, one, project, event, article, film, issue, video, activity, campaign, people, form, government, demo, scandal, game, writings, talent, discovery, ep, protest, comment, controversy, popularity, coverage, murder, trial, exhibition, speech, topic, skill, publication, move, report, paper, presence, painting, voice, concept, approach
+* GEK for label ROOT:
+	attract, receive, draw, pay, gain, turn, bring, catch, focus, give, garner, divert, devote, get, earn, grab, call, shift, praise, lavish, refocus, capture, deflect, direct, distract, enjoy, deserve, arouse, need, redirect, warrant, seek, achieve, concentrate, demand, spark, restrict, generate, require, command, gather, avoid, switch, fix, escape, sustain, occupy, engage, divide, dedicate
+[STEP2: UPDATING LC for attention@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - case
+	ROOT - require
+* current LC:
+	OBJ - attention
+	SBJ - case
+	ROOT - require
+[STEP3: UPDATING AC for attention@N@OBJ]
+* previous AC:
+	OBJ - case, attention, role, court, test, rule, coverage, murder, time, decision, law, controversy, precedent, evidence, use, standard, debate, issue, trial, interest, problem, question, effect, rights, publicity, principle, headline, point, way, claim, place, right || administration, labeling, skill, time, use, majority, school, knowledge, surgery, effort, operation, hospitalization, lubrication, board, assistance, treatment, authorisation, visa, student, dialysis, dexterity, help, contestant, closing, cofactor, coach, process, import, district, member, hospitalisation, coalition, supermajority, party, entity, houseguest, care, dredging, unanimity, federation, seat, disclosure, player, stitch, nation, swing, watering, pruning, cut || 
+	SBJ -  || xvi-c, injury, state, roadblock, format, consolidation, law, national, participation, referendum, holder, bill, link, seed, patient, category, idea, degree, program, job, seat, round, game, contract, system, position, role, school, directive, ordinance, lender, statute, diagnosis, clause, regulation, amendment, legislation, specification, puzzle, algorithm, verb, proposition, protocol, constitution, guideline, calculation, fracture, admission, regulator, procedure || 
+	ROOT - go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely ||  || 
+* current AC:
+	OBJ - case, attention, role, court, test, rule, coverage, murder, time, decision, law, controversy, precedent, evidence, use, standard, debate, issue, trial, interest, problem, question, effect, rights, publicity, principle, headline, point, way, claim, place, right || administration, labeling, skill, time, use, majority, school, knowledge, surgery, effort, operation, hospitalization, lubrication, board, assistance, treatment, authorisation, visa, student, dialysis, dexterity, help, contestant, closing, cofactor, coach, process, import, district, member, hospitalisation, coalition, supermajority, party, entity, houseguest, care, dredging, unanimity, federation, seat, disclosure, player, stitch, nation, swing, watering, pruning, cut ||  || 
+	SBJ -  || xvi-c, role, bill, degree, game, program, ordinance, amendment, job, state, position, clause, system, directive, lender, legislation, law, regulator, specification, constitution, regulation, proposition, calculation, consolidation, holder, format, verb, procedure, contract, school, statute, algorithm, category, roadblock, round, protocol, puzzle, seat, injury, link, seed, patient, admission, fracture, diagnosis, referendum, idea, participation, national, guideline || album, report, case, book, one, discovery, presence, writings, article, government, form, game, publication, incident, move, story, coverage, issue, scandal, film, skill, trial, murder, controversy, performance, activity, project, group, event, topic, speech, talent, success, comment, work, painting, campaign, voice, popularity, protest, video, song, concept, ep, paper, demo, approach, exhibition, people, band || 
+	ROOT - include, occur, likely, be, last, dismiss, gain, illustrate, go, take, rare, overturn, make, deal, allege, involve, drag, set, result, garner, reach, stem, correspond, receive, prompt, differ, proceed, rest, rule, arise, demonstrate, weak, resolve, pend, happen, revolve, appeal, ongoing, attract, highlight, uphold, draw, come, concern, spark, collapse, raise, challenge, progress ||  || warrant, command, earn, escape, lavish, receive, garner, give, catch, generate, demand, direct, gain, require, occupy, restrict, avoid, seek, spark, get, capture, sustain, devote, redirect, pay, divert, deflect, turn, praise, attract, grab, switch, enjoy, divide, achieve, call, draw, arouse, concentrate, fix, engage, dedicate, gather, bring, deserve, need, distract, focus, shift, refocus || 
+Printing vectors in output
+## Processing dataset item: [[('customer', 'N', 'SBJ'), ('pay', 'V', 'ROOT'), ('price', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for customer@N@SBJ]
+* GEK for label OBJ:
+	fee, option, access, order, power, company, item, purchase, ticket, card, product, price, choice, account, money, store, amount, service, car, number, point, system, game
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	include, pay, have, place, lose, pre-order, subscribe, complain, opt, willing, purchase, access, buy, prefer, wish, specify, request, wait, choose, order, able, want, switch, need, demand, likely, view, experience, unable, expect, enjoy, ask, receive, get, select, visit, feel, arrive, report, look, seek, enter, try, use, own, come, power, decide, spend, require
+[STEP2: UPDATING LC for customer@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - customer
+	ROOT - 
+[STEP3: UPDATING AC for customer@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - fee, option, access, order, power, company, item, purchase, ticket, card, product, price, choice, account, money, store, amount, service, car, number, point, system, game || 
+	SBJ -  || 
+	ROOT - include, pay, have, place, lose, pre-order, subscribe, complain, opt, willing, purchase, access, buy, prefer, wish, specify, request, wait, choose, order, able, want, switch, need, demand, likely, view, experience, unable, expect, enjoy, ask, receive, get, select, visit, feel, arrive, report, look, seek, enter, try, use, own, come, power, decide, spend, require || 
+[STEP1: EXTRACTING GEK for pay@V@ROOT]
+* GEK for label OBJ:
+	tax, tribute, fee, homage, attention, tuition, visit, compensation, tax-rate, fine, sum, respects, rent, salary, school, ransom, dollar, principal, dividend, due, money, price, bribe, interest, cost, rate, amount, way, reparation, debt, fare, expense, restitution, liaison, compliment, bill, royalty, respect, %, damages, franc, penalty, bail, wages, difference, obeisance, pound, jizya, indemnity, alimony
+* GEK for label SBJ:
+	villager, district, state, company, household, tenant, student, parent, passenger, member, government, customer, resident, people, polluter, user, owner, gamble, one, contract, song, advertiser, borrower, insurer, debtor, bidder, purchaser, taxpayer, video, buyer, subscriber, show, employer, nobody, seller, consumer, name, defendant, anyone, film, corporation, patron, dealer, investor, client, sponsor, rider, merchant, everyone, wrestler
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for pay@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - customer
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - customer
+	ROOT - pay
+[STEP3: UPDATING AC for pay@V@ROOT]
+* previous AC:
+	OBJ - fee, option, access, order, power, company, item, purchase, ticket, card, product, price, choice, account, money, store, amount, service, car, number, point, system, game || 
+	SBJ -  || 
+	ROOT - include, pay, have, place, lose, pre-order, subscribe, complain, opt, willing, purchase, access, buy, prefer, wish, specify, request, wait, choose, order, able, want, switch, need, demand, likely, view, experience, unable, expect, enjoy, ask, receive, get, select, visit, feel, arrive, report, look, seek, enter, try, use, own, come, power, decide, spend, require || 
+* current AC:
+	OBJ - fee, company, number, service, purchase, car, power, game, system, product, item, option, amount, ticket, store, price, card, money, order, account, access, point, choice || fee, %, sum, bill, damages, bribe, due, tax, jizya, principal, debt, amount, dollar, money, indemnity, school, price, cost, attention, bail, rent, rate, salary, fine, ransom, penalty, alimony, interest, restitution, dividend, fare, tuition, liaison, expense, pound, respect, obeisance, tax-rate, compliment, royalty, wages, difference, compensation, visit, respects, way, reparation, franc, tribute, homage || 
+	SBJ -  || villager, district, state, company, household, tenant, student, parent, passenger, member, government, customer, resident, people, polluter, user, owner, gamble, one, contract, song, advertiser, borrower, insurer, debtor, bidder, purchaser, taxpayer, video, buyer, subscriber, show, employer, nobody, seller, consumer, name, defendant, anyone, film, corporation, patron, dealer, investor, client, sponsor, rider, merchant, everyone, wrestler || 
+	ROOT - include, pay, have, place, lose, pre-order, subscribe, complain, opt, willing, purchase, access, buy, prefer, wish, specify, request, wait, choose, order, able, want, switch, need, demand, likely, view, experience, unable, expect, enjoy, ask, receive, get, select, visit, feel, arrive, report, look, seek, enter, try, use, own, come, power, decide, spend, require ||  || 
+[STEP1: EXTRACTING GEK for price@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	district, seller, buyer, consumer, price, customer, farmer, firm, demand, cost, factor, market, store, owner, producer, company, government, people, work
+* GEK for label ROOT:
+	raise, pay, put, lower, set, reduce, undercut, inflate, fetch, bear, have, depress, slash, stabilize, fix, disclose, manipulate, negotiate, receive, charge, command, adjust, afford, advertise, calculate, quote, boost, regulate, worth, justify, guarantee, double, increase, determine, decrease, cut, cost, win, exceed, compare, demand, match, estimate, push, control, affect
+[STEP2: UPDATING LC for price@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - customer
+	ROOT - pay
+* current LC:
+	OBJ - price
+	SBJ - customer
+	ROOT - pay
+[STEP3: UPDATING AC for price@N@OBJ]
+* previous AC:
+	OBJ - fee, company, number, service, purchase, car, power, game, system, product, item, option, amount, ticket, store, price, card, money, order, account, access, point, choice || fee, %, sum, bill, damages, bribe, due, tax, jizya, principal, debt, amount, dollar, money, indemnity, school, price, cost, attention, bail, rent, rate, salary, fine, ransom, penalty, alimony, interest, restitution, dividend, fare, tuition, liaison, expense, pound, respect, obeisance, tax-rate, compliment, royalty, wages, difference, compensation, visit, respects, way, reparation, franc, tribute, homage || 
+	SBJ -  || villager, district, state, company, household, tenant, student, parent, passenger, member, government, customer, resident, people, polluter, user, owner, gamble, one, contract, song, advertiser, borrower, insurer, debtor, bidder, purchaser, taxpayer, video, buyer, subscriber, show, employer, nobody, seller, consumer, name, defendant, anyone, film, corporation, patron, dealer, investor, client, sponsor, rider, merchant, everyone, wrestler || 
+	ROOT - include, pay, have, place, lose, pre-order, subscribe, complain, opt, willing, purchase, access, buy, prefer, wish, specify, request, wait, choose, order, able, want, switch, need, demand, likely, view, experience, unable, expect, enjoy, ask, receive, get, select, visit, feel, arrive, report, look, seek, enter, try, use, own, come, power, decide, spend, require ||  || 
+* current AC:
+	OBJ - fee, company, number, service, purchase, car, power, game, system, product, item, option, amount, ticket, store, price, card, money, order, account, access, point, choice || fee, %, sum, bill, damages, bribe, due, tax, jizya, principal, debt, amount, dollar, money, indemnity, school, price, cost, attention, bail, rent, rate, salary, fine, ransom, penalty, alimony, interest, restitution, dividend, fare, tuition, liaison, expense, pound, respect, obeisance, tax-rate, compliment, royalty, wages, difference, compensation, visit, respects, way, reparation, franc, tribute, homage ||  || 
+	SBJ -  || company, villager, name, merchant, household, one, gamble, corporation, dealer, investor, defendant, state, owner, district, seller, passenger, bidder, insurer, debtor, purchaser, government, taxpayer, borrower, contract, employer, show, parent, tenant, rider, film, buyer, polluter, resident, student, subscriber, consumer, member, customer, advertiser, sponsor, wrestler, anyone, client, nobody, user, patron, video, song, people, everyone || company, firm, owner, district, seller, government, producer, factor, store, market, price, cost, demand, farmer, buyer, consumer, customer, work, people || 
+	ROOT - have, include, order, report, unable, request, likely, purchase, specify, receive, power, access, buy, able, require, demand, use, own, choose, select, enter, seek, experience, decide, expect, get, view, switch, wait, place, ask, opt, willing, arrive, prefer, try, pay, pre-order, visit, spend, lose, subscribe, wish, complain, want, enjoy, need, come, feel, look ||  || have, guarantee, double, command, afford, quote, fetch, lower, receive, exceed, cost, set, win, demand, decrease, estimate, disclose, reduce, determine, charge, match, increase, inflate, undercut, bear, calculate, negotiate, control, cut, slash, regulate, advertise, stabilize, raise, pay, compare, worth, affect, manipulate, boost, justify, push, put, depress, fix, adjust || 
+Printing vectors in output
+## Processing dataset item: [[('case', 'N', 'SBJ'), ('require', 'V', 'ROOT'), ('attention', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for case@N@SBJ]
+* GEK for label OBJ:
+	attention, way, precedent, headline, coverage, question, place, publicity, controversy, debate, principle, right, issue, claim, murder, standard, trial, interest, evidence, test, rights, court, decision, law, rule, problem, effect, use, case, point, time, role
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely
+[STEP2: UPDATING LC for case@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - case
+	ROOT - 
+[STEP3: UPDATING AC for case@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - attention, way, precedent, headline, coverage, question, place, publicity, controversy, debate, principle, right, issue, claim, murder, standard, trial, interest, evidence, test, rights, court, decision, law, rule, problem, effect, use, case, point, time, role || 
+	SBJ -  || 
+	ROOT - go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely || 
+[STEP1: EXTRACTING GEK for require@V@ROOT]
+* GEK for label OBJ:
+	district, student, federation, cut, visa, coalition, treatment, nation, process, import, surgery, party, player, administration, school, stitch, disclosure, member, swing, contestant, closing, entity, skill, knowledge, operation, majority, effort, assistance, use, seat, hospitalisation, care, coach, board, help, unanimity, supermajority, hospitalization, pruning, dexterity, watering, time, lubrication, cofactor, authorisation, dialysis, labeling, dredging, houseguest
+* GEK for label SBJ:
+	xvi-c, injury, state, roadblock, format, consolidation, law, national, participation, referendum, holder, bill, link, seed, patient, category, idea, degree, program, job, seat, round, game, contract, system, position, role, school, directive, ordinance, lender, statute, diagnosis, clause, regulation, amendment, legislation, specification, puzzle, algorithm, verb, proposition, protocol, constitution, guideline, calculation, fracture, admission, regulator, procedure
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for require@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - case
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - case
+	ROOT - require
+[STEP3: UPDATING AC for require@V@ROOT]
+* previous AC:
+	OBJ - attention, way, precedent, headline, coverage, question, place, publicity, controversy, debate, principle, right, issue, claim, murder, standard, trial, interest, evidence, test, rights, court, decision, law, rule, problem, effect, use, case, point, time, role || 
+	SBJ -  || 
+	ROOT - go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely || 
+* current AC:
+	OBJ - case, attention, court, role, test, coverage, rule, murder, decision, time, controversy, law, precedent, evidence, use, debate, issue, standard, interest, problem, trial, question, effect, rights, publicity, headline, principle, point, way, claim, place, right || administration, labeling, time, skill, use, majority, school, knowledge, surgery, operation, effort, hospitalization, lubrication, board, authorisation, assistance, treatment, visa, student, dialysis, dexterity, closing, help, contestant, cofactor, coach, import, process, district, hospitalisation, member, supermajority, coalition, entity, houseguest, party, dredging, care, unanimity, federation, seat, disclosure, player, stitch, nation, watering, swing, pruning, cut || 
+	SBJ -  || xvi-c, injury, state, roadblock, format, consolidation, law, national, participation, referendum, holder, bill, link, seed, patient, category, idea, degree, program, job, seat, round, game, contract, system, position, role, school, directive, ordinance, lender, statute, diagnosis, clause, regulation, amendment, legislation, specification, puzzle, algorithm, verb, proposition, protocol, constitution, guideline, calculation, fracture, admission, regulator, procedure || 
+	ROOT - go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely ||  || 
+[STEP1: EXTRACTING GEK for attention@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	case, work, album, performance, band, incident, song, success, book, story, group, one, project, event, article, film, issue, video, activity, campaign, people, form, government, demo, scandal, game, writings, talent, discovery, ep, protest, comment, controversy, popularity, coverage, murder, trial, exhibition, speech, topic, skill, publication, move, report, paper, presence, painting, voice, concept, approach
+* GEK for label ROOT:
+	attract, receive, draw, pay, gain, turn, bring, catch, focus, give, garner, divert, devote, get, earn, grab, call, shift, praise, lavish, refocus, capture, deflect, direct, distract, enjoy, deserve, arouse, need, redirect, warrant, seek, achieve, concentrate, demand, spark, restrict, generate, require, command, gather, avoid, switch, fix, escape, sustain, occupy, engage, divide, dedicate
+[STEP2: UPDATING LC for attention@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - case
+	ROOT - require
+* current LC:
+	OBJ - attention
+	SBJ - case
+	ROOT - require
+[STEP3: UPDATING AC for attention@N@OBJ]
+* previous AC:
+	OBJ - case, attention, court, role, test, coverage, rule, murder, decision, time, controversy, law, precedent, evidence, use, debate, issue, standard, interest, problem, trial, question, effect, rights, publicity, headline, principle, point, way, claim, place, right || administration, labeling, time, skill, use, majority, school, knowledge, surgery, operation, effort, hospitalization, lubrication, board, authorisation, assistance, treatment, visa, student, dialysis, dexterity, closing, help, contestant, cofactor, coach, import, process, district, hospitalisation, member, supermajority, coalition, entity, houseguest, party, dredging, care, unanimity, federation, seat, disclosure, player, stitch, nation, watering, swing, pruning, cut || 
+	SBJ -  || xvi-c, injury, state, roadblock, format, consolidation, law, national, participation, referendum, holder, bill, link, seed, patient, category, idea, degree, program, job, seat, round, game, contract, system, position, role, school, directive, ordinance, lender, statute, diagnosis, clause, regulation, amendment, legislation, specification, puzzle, algorithm, verb, proposition, protocol, constitution, guideline, calculation, fracture, admission, regulator, procedure || 
+	ROOT - go, come, receive, include, occur, attract, involve, raise, make, set, reach, draw, pend, gain, be, take, drag, arise, proceed, uphold, collapse, revolve, overturn, spark, concern, stem, rest, illustrate, dismiss, garner, ongoing, allege, prompt, happen, highlight, weak, result, rare, progress, challenge, deal, correspond, resolve, appeal, rule, last, differ, demonstrate, likely ||  || 
+* current AC:
+	OBJ - case, attention, court, role, test, coverage, rule, murder, decision, time, controversy, law, precedent, evidence, use, debate, issue, standard, interest, problem, trial, question, effect, rights, publicity, headline, principle, point, way, claim, place, right || administration, labeling, time, skill, use, majority, school, knowledge, surgery, operation, effort, hospitalization, lubrication, board, authorisation, assistance, treatment, visa, student, dialysis, dexterity, closing, help, contestant, cofactor, coach, import, process, district, hospitalisation, member, supermajority, coalition, entity, houseguest, party, dredging, care, unanimity, federation, seat, disclosure, player, stitch, nation, watering, swing, pruning, cut ||  || 
+	SBJ -  || xvi-c, role, bill, game, job, program, degree, amendment, legislation, directive, procedure, specification, system, position, ordinance, calculation, clause, law, verb, state, format, lender, regulation, consolidation, regulator, proposition, constitution, algorithm, school, holder, contract, protocol, patient, statute, category, link, injury, round, roadblock, puzzle, fracture, seed, diagnosis, idea, seat, admission, referendum, participation, national, guideline || album, report, case, one, writings, book, presence, game, discovery, government, article, form, publication, incident, story, move, issue, coverage, scandal, film, skill, murder, performance, controversy, trial, activity, group, project, event, success, speech, work, topic, campaign, painting, talent, comment, voice, popularity, video, protest, paper, song, ep, concept, demo, approach, people, exhibition, band || 
+	ROOT - occur, likely, be, last, dismiss, gain, illustrate, include, go, take, make, rare, overturn, deal, involve, drag, allege, set, garner, result, reach, stem, correspond, prompt, receive, differ, proceed, rest, arise, rule, demonstrate, weak, resolve, pend, happen, revolve, appeal, ongoing, attract, highlight, uphold, come, draw, concern, spark, collapse, raise, challenge, progress ||  || command, earn, escape, lavish, warrant, receive, garner, give, catch, generate, demand, direct, gain, require, occupy, restrict, avoid, seek, spark, get, capture, sustain, devote, redirect, pay, divert, deflect, turn, praise, attract, grab, switch, enjoy, divide, achieve, call, draw, arouse, concentrate, fix, engage, dedicate, gather, bring, deserve, need, distract, focus, shift, refocus || 
+Printing vectors in output
+## Processing dataset item: [[('patient', 'N', 'SBJ'), ('need', 'V', 'ROOT'), ('treatment', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for patient@N@SBJ]
+* GEK for label OBJ:
+	symptom, treatment, surgery, criterion, pain, improvement, therapy, mutation, difficulty, care, disease, risk, rate, right, access, problem, level, condition, transplant, history, impairment, medication, antibody, dose, seizure, deficit, complication, infection, syndrome, outcome, procedure, sign, disorder, illness, reduction, relief, reaction, drug, response, ability, cancer, chance, benefit, damage, patient, increase, injury, function, loss, test
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	have, receive, experience, undergo, respond, show, require, meet, asymptomatic, include, breathe, tolerate, susceptible, complain, benefit, exhibit, likely, ill, diagnose, suffer, unable, recover, afford, aware, tend, need, alive, wait, able, survive, regain, present, die, report, wish, display, feel, demonstrate, lack, develop, risk, eat, fail, understand, avoid, walk, lie, admit, stay, improve
+[STEP2: UPDATING LC for patient@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - patient
+	ROOT - 
+[STEP3: UPDATING AC for patient@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - symptom, treatment, surgery, criterion, pain, improvement, therapy, mutation, difficulty, care, disease, risk, rate, right, access, problem, level, condition, transplant, history, impairment, medication, antibody, dose, seizure, deficit, complication, infection, syndrome, outcome, procedure, sign, disorder, illness, reduction, relief, reaction, drug, response, ability, cancer, chance, benefit, damage, patient, increase, injury, function, loss, test || 
+	SBJ -  || 
+	ROOT - have, receive, experience, undergo, respond, show, require, meet, asymptomatic, include, breathe, tolerate, susceptible, complain, benefit, exhibit, likely, ill, diagnose, suffer, unable, recover, afford, aware, tend, need, alive, wait, able, survive, regain, present, die, report, wish, display, feel, demonstrate, lack, develop, risk, eat, fail, understand, avoid, walk, lie, admit, stay, improve || 
+[STEP1: EXTRACTING GEK for need@V@ROOT]
+* GEK for label OBJ:
+	service, help, stitch, transplant, somebody, draw, surgery, someone, run, assistance, money, permission, something, break, protection, anything, advice, watering, support, attention, treatment, love, care, clarification, kind, doctor, transfusion, space, blood, job, change, thing, vote, rest, adjustment, partner, manpower, information, experience, correction, confirmation, authorization, overhaul, repair, encouragement, permit, boost, visa, caution, operation
+* GEK for label SBJ:
+	pupil, people, citation, applicant, diver, programmer, attacker, everybody, user, patient, anyone, competitor, algorithm, customer, everyone, rider, client, guy, developer, parameter, employer, organism, kid, being, operator, maker, application, professional, baby, reader, server, someone, holder, consumer, person, farmer, investor, consideration, provider, human, visitor, driver, something, player, device, file, candidate, participant, dog
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for need@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - patient
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - patient
+	ROOT - need
+[STEP3: UPDATING AC for need@V@ROOT]
+* previous AC:
+	OBJ - symptom, treatment, surgery, criterion, pain, improvement, therapy, mutation, difficulty, care, disease, risk, rate, right, access, problem, level, condition, transplant, history, impairment, medication, antibody, dose, seizure, deficit, complication, infection, syndrome, outcome, procedure, sign, disorder, illness, reduction, relief, reaction, drug, response, ability, cancer, chance, benefit, damage, patient, increase, injury, function, loss, test || 
+	SBJ -  || 
+	ROOT - have, receive, experience, undergo, respond, show, require, meet, asymptomatic, include, breathe, tolerate, susceptible, complain, benefit, exhibit, likely, ill, diagnose, suffer, unable, recover, afford, aware, tend, need, alive, wait, able, survive, regain, present, die, report, wish, display, feel, demonstrate, lack, develop, risk, eat, fail, understand, avoid, walk, lie, admit, stay, improve || 
+* current AC:
+	OBJ - reaction, function, response, level, history, test, difficulty, procedure, symptom, surgery, cancer, ability, problem, outcome, antibody, treatment, drug, access, condition, reduction, seizure, relief, injury, risk, infection, rate, impairment, loss, increase, patient, disease, therapy, illness, damage, sign, criterion, complication, improvement, disorder, medication, dose, transplant, care, pain, mutation, chance, syndrome, deficit, benefit, right || repair, treatment, surgery, change, protection, adjustment, authorization, attention, space, support, help, visa, correction, doctor, advice, clarification, anything, permit, break, transfusion, something, caution, permission, transplant, information, experience, overhaul, confirmation, partner, boost, someone, operation, assistance, draw, rest, run, blood, service, love, money, somebody, manpower, vote, job, kind, thing, watering, encouragement, care, stitch || 
+	SBJ -  || pupil, people, citation, applicant, diver, programmer, attacker, everybody, user, patient, anyone, competitor, algorithm, customer, everyone, rider, client, guy, developer, parameter, employer, organism, kid, being, operator, maker, application, professional, baby, reader, server, someone, holder, consumer, person, farmer, investor, consideration, provider, human, visitor, driver, something, player, device, file, candidate, participant, dog || 
+	ROOT - have, receive, experience, undergo, respond, show, require, meet, asymptomatic, include, breathe, tolerate, susceptible, complain, benefit, exhibit, likely, ill, diagnose, suffer, unable, recover, afford, aware, tend, need, alive, wait, able, survive, regain, present, die, report, wish, display, feel, demonstrate, lack, develop, risk, eat, fail, understand, avoid, walk, lie, admit, stay, improve ||  || 
+[STEP1: EXTRACTING GEK for treatment@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	patient, seed, people, clinic, physician, doctor, hospital, treatment, individual, person, woman, program, study, child, use, group, %, company, member, government, work, book
+* GEK for label ROOT:
+	receive, undergo, provide, require, give, seek, refuse, criticize, need, get, develop, complete, prescribe, withhold, describe, accord, write, deserve, complicate, protest, afford, administer, endure, pioneer, continue, recommend, begin, justify, discontinue, publish, delay, condemn, criticise, deny, guide, improve, demand, monitor, compare, advocate, regulate, initiate, ensure, test, concern, investigate, govern, prohibit, offer, aim
+[STEP2: UPDATING LC for treatment@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - patient
+	ROOT - need
+* current LC:
+	OBJ - treatment
+	SBJ - patient
+	ROOT - need
+[STEP3: UPDATING AC for treatment@N@OBJ]
+* previous AC:
+	OBJ - reaction, function, response, level, history, test, difficulty, procedure, symptom, surgery, cancer, ability, problem, outcome, antibody, treatment, drug, access, condition, reduction, seizure, relief, injury, risk, infection, rate, impairment, loss, increase, patient, disease, therapy, illness, damage, sign, criterion, complication, improvement, disorder, medication, dose, transplant, care, pain, mutation, chance, syndrome, deficit, benefit, right || repair, treatment, surgery, change, protection, adjustment, authorization, attention, space, support, help, visa, correction, doctor, advice, clarification, anything, permit, break, transfusion, something, caution, permission, transplant, information, experience, overhaul, confirmation, partner, boost, someone, operation, assistance, draw, rest, run, blood, service, love, money, somebody, manpower, vote, job, kind, thing, watering, encouragement, care, stitch || 
+	SBJ -  || pupil, people, citation, applicant, diver, programmer, attacker, everybody, user, patient, anyone, competitor, algorithm, customer, everyone, rider, client, guy, developer, parameter, employer, organism, kid, being, operator, maker, application, professional, baby, reader, server, someone, holder, consumer, person, farmer, investor, consideration, provider, human, visitor, driver, something, player, device, file, candidate, participant, dog || 
+	ROOT - have, receive, experience, undergo, respond, show, require, meet, asymptomatic, include, breathe, tolerate, susceptible, complain, benefit, exhibit, likely, ill, diagnose, suffer, unable, recover, afford, aware, tend, need, alive, wait, able, survive, regain, present, die, report, wish, display, feel, demonstrate, lack, develop, risk, eat, fail, understand, avoid, walk, lie, admit, stay, improve ||  || 
+* current AC:
+	OBJ - reaction, function, response, level, history, test, difficulty, procedure, symptom, surgery, cancer, ability, problem, outcome, antibody, treatment, drug, access, condition, reduction, seizure, relief, injury, risk, infection, rate, impairment, loss, increase, patient, disease, therapy, illness, damage, sign, criterion, complication, improvement, disorder, medication, dose, transplant, care, pain, mutation, chance, syndrome, deficit, benefit, right || repair, treatment, surgery, change, protection, adjustment, authorization, attention, space, support, help, visa, correction, doctor, advice, clarification, anything, permit, break, transfusion, something, caution, permission, transplant, information, experience, overhaul, confirmation, partner, boost, someone, operation, assistance, draw, rest, run, blood, service, love, money, somebody, manpower, vote, job, kind, thing, watering, encouragement, care, stitch ||  || 
+	SBJ -  || person, developer, diver, driver, provider, candidate, investor, being, file, holder, competitor, pupil, application, operator, citation, maker, applicant, employer, consideration, guy, server, rider, farmer, device, programmer, reader, parameter, organism, consumer, customer, anyone, dog, visitor, client, algorithm, player, attacker, user, kid, participant, someone, baby, human, patient, people, something, everyone, everybody, professional || person, book, group, treatment, individual, company, doctor, patient, %, woman, study, use, government, program, physician, clinic, hospital, people, seed, child, work, member || 
+	ROOT - include, have, report, risk, afford, receive, present, likely, show, unable, lack, asymptomatic, demonstrate, experience, require, survive, avoid, able, ill, eat, recover, admit, display, stay, benefit, undergo, wait, wish, tolerate, fail, meet, exhibit, walk, suffer, complain, susceptible, alive, aware, breathe, lie, diagnose, tend, develop, regain, feel, die, improve, respond, need, understand ||  || write, test, afford, offer, prohibit, withhold, complete, receive, discontinue, give, demand, pioneer, advocate, provide, publish, require, deny, administer, investigate, delay, guide, seek, initiate, endure, get, refuse, undergo, regulate, continue, protest, recommend, compare, accord, complicate, ensure, concern, govern, begin, describe, justify, criticize, aim, prescribe, condemn, develop, monitor, deserve, improve, need, criticise || 
+Printing vectors in output
+## Processing dataset item: [[('charity', 'N', 'SBJ'), ('help', 'V', 'ROOT'), ('people', 'N', 'OBJ')], 'SENTENCE', {'OBJ', 'SBJ', 'ROOT'}] ##
+RELATIONS: {'OBJ', 'SBJ', 'ROOT'}
+[STEP1: EXTRACTING GEK for charity@N@SBJ]
+* GEK for label OBJ:
+	support, service, donation, fund, money, child, project, people, name, family
+* GEK for label SBJ:
+	
+* GEK for label ROOT:
+	provide, include, aim, benefit, support, help, raise, focus, promote, exist, operate, seek, work, launch, run, offer, receive, change, continue, begin, hold, have, be, give, become, use, make
+[STEP2: UPDATING LC for charity@N@SBJ]
+* previous LC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - charity
+	ROOT - 
+[STEP3: UPDATING AC for charity@N@SBJ]
+* previous AC:
+	OBJ - 
+	SBJ - 
+	ROOT - 
+* current AC:
+	OBJ - support, service, donation, fund, money, child, project, people, name, family || 
+	SBJ -  || 
+	ROOT - provide, include, aim, benefit, support, help, raise, focus, promote, exist, operate, seek, work, launch, run, offer, receive, change, continue, begin, hold, have, be, give, become, use, make || 
+[STEP1: EXTRACTING GEK for help@V@ROOT]
+* GEK for label OBJ:
+	team, club, people, escape, child, promotion, other, woman, family, adult, side, friend, victim, finish, father, mother, capture, pioneer, advance, cause, launch, brother, homeless, raise, return, addict, orphan, girl, design, draft, refugee, learner, construct, student, broker, survivor, husband, kid, villager, stranger, organization, jew, campaign, plan, farmer, stay, rush, hunt, neighbor, patient
+* GEK for label SBJ:
+	friend, goal, other, area, wife, experience, one, therapist, somebody, proceeds, medication, publicity, influx, volunteer, man, charity, therapy, mentor, trait, donation, woman, people, psychologist, app, testimony, tool, popularity, intervention, proximity, expertise, discovery, insight, friendship, invention, finding, presence, initiative, organization, skill, innovation, exercise, availability, exposure, nurse, effort, nickname, anyone, move, diet, inclusion
+* GEK for label ROOT:
+	
+[STEP2: UPDATING LC for help@V@ROOT]
+* previous LC:
+	OBJ - 
+	SBJ - charity
+	ROOT - 
+* current LC:
+	OBJ - 
+	SBJ - charity
+	ROOT - help
+[STEP3: UPDATING AC for help@V@ROOT]
+* previous AC:
+	OBJ - support, service, donation, fund, money, child, project, people, name, family || 
+	SBJ -  || 
+	ROOT - provide, include, aim, benefit, support, help, raise, focus, promote, exist, operate, seek, work, launch, run, offer, receive, change, continue, begin, hold, have, be, give, become, use, make || 
+* current AC:
+	OBJ - name, support, service, family, money, fund, project, child, donation, people || villager, husband, broker, brother, jew, escape, father, neighbor, orphan, family, other, hunt, stranger, launch, friend, plan, farmer, cause, pioneer, survivor, draft, adult, return, student, design, finish, team, woman, rush, mother, promotion, side, organization, campaign, construct, child, capture, kid, stay, learner, addict, advance, raise, victim, refugee, homeless, girl, people, patient, club || 
+	SBJ -  || friend, goal, other, area, wife, experience, one, therapist, somebody, proceeds, medication, publicity, influx, volunteer, man, charity, therapy, mentor, trait, donation, woman, people, psychologist, app, testimony, tool, popularity, intervention, proximity, expertise, discovery, insight, friendship, invention, finding, presence, initiative, organization, skill, innovation, exercise, availability, exposure, nurse, effort, nickname, anyone, move, diet, inclusion || 
+	ROOT - provide, include, aim, benefit, support, help, raise, focus, promote, exist, operate, seek, work, launch, run, offer, receive, change, continue, begin, hold, have, be, give, become, use, make ||  || 
+[STEP1: EXTRACTING GEK for people@N@OBJ]
+* GEK for label OBJ:
+	
+* GEK for label SBJ:
+	outsider, census, tornado, village, population, event, church, company, stadium, storm, landslide, people, explosion, flooding, bombing, blast, earthquake, arena, hall, flood, police, hurricane, crash, festival, outbreak, disease, cyclone, wind, group, bomb, bomber, list, disaster, issue, sector, name, accident, factory, mine, number, system, class, firm, attack, fire, industry, plant, business, facility, town
+* GEK for label ROOT:
+	kill, employ, engage, attract, enumerate, evacuate, have, include, help, make, affect, bring, leave, organise, injure, arrest, hold, transport, encourage, protect, draw, reach, find, treat, send, represent, seat, number, accommodate, convince, deport, serve, seat, report, lift, save, sentence, allow, tell, meet, baptize, take, divide, mean, count, recognize, interview, photograph, trust
+[STEP2: UPDATING LC for people@N@OBJ]
+* previous LC:
+	OBJ - 
+	SBJ - charity
+	ROOT - help
+* current LC:
+	OBJ - people
+	SBJ - charity
+	ROOT - help
+[STEP3: UPDATING AC for people@N@OBJ]
+* previous AC:
+	OBJ - name, support, service, family, money, fund, project, child, donation, people || villager, husband, broker, brother, jew, escape, father, neighbor, orphan, family, other, hunt, stranger, launch, friend, plan, farmer, cause, pioneer, survivor, draft, adult, return, student, design, finish, team, woman, rush, mother, promotion, side, organization, campaign, construct, child, capture, kid, stay, learner, addict, advance, raise, victim, refugee, homeless, girl, people, patient, club || 
+	SBJ -  || friend, goal, other, area, wife, experience, one, therapist, somebody, proceeds, medication, publicity, influx, volunteer, man, charity, therapy, mentor, trait, donation, woman, people, psychologist, app, testimony, tool, popularity, intervention, proximity, expertise, discovery, insight, friendship, invention, finding, presence, initiative, organization, skill, innovation, exercise, availability, exposure, nurse, effort, nickname, anyone, move, diet, inclusion || 
+	ROOT - provide, include, aim, benefit, support, help, raise, focus, promote, exist, operate, seek, work, launch, run, offer, receive, change, continue, begin, hold, have, be, give, become, use, make ||  || 
+* current AC:
+	OBJ - name, support, service, family, money, fund, project, child, donation, people || villager, husband, broker, brother, jew, escape, father, neighbor, orphan, family, other, hunt, stranger, launch, friend, plan, farmer, cause, pioneer, survivor, draft, adult, return, student, design, finish, team, woman, rush, mother, promotion, side, organization, campaign, construct, child, capture, kid, stay, learner, addict, advance, raise, victim, refugee, homeless, girl, people, patient, club ||  || 
+	SBJ -  || app, one, wife, friend, presence, invention, finding, proximity, move, other, discovery, availability, testimony, area, initiative, skill, man, experience, insight, mentor, nickname, woman, expertise, diet, charity, anyone, trait, innovation, organization, donation, exposure, volunteer, intervention, publicity, effort, proceeds, somebody, psychologist, friendship, exercise, tool, goal, popularity, influx, medication, therapy, people, nurse, therapist, inclusion || list, business, company, name, class, system, firm, fire, group, census, wind, outbreak, mine, blast, explosion, number, facility, disaster, issue, police, tornado, attack, flood, population, disease, industry, event, accident, sector, flooding, people, earthquake, bomber, storm, factory, cyclone, landslide, bombing, hurricane, town, outsider, village, crash, hall, festival, plant, bomb, church, stadium, arena || 
+	ROOT - include, have, provide, support, exist, run, offer, be, become, receive, launch, give, hold, operate, use, seek, work, benefit, continue, raise, make, begin, help, aim, promote, change, focus ||  || take, include, have, transport, number, report, enumerate, serve, sentence, seat, seat, count, lift, arrest, hold, find, save, allow, trust, interview, kill, employ, injure, mean, send, photograph, evacuate, deport, tell, baptize, treat, reach, convince, accommodate, make, recognize, meet, attract, affect, leave, divide, help, draw, represent, protect, engage, bring, encourage, organise || 
+Printing vectors in output

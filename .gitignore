@@ -5,3 +5,5 @@
 /prove/
 /data/DTFit/generated/Recipient.head
 /old_pipeline/
+*.py[cod]
+*/__pycache/*

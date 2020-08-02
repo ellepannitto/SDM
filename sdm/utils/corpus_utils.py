@@ -18,7 +18,7 @@ def StanzaReader(text, preprocessing_fn=None, nlp=None):
         yield sentence
 
 
-def CoNLLReader(delimiter, filepath):
+def CoNLLReader(delimiter, filepaths):
     """
 
     :param str delimiter: character that separates CONLL file's columns (" " or "\t")
@@ -33,49 +33,58 @@ def CoNLLReader(delimiter, filepath):
     accepted_chars = string.ascii_letters + "01234567890.-'"
     BASIC_FIELD_TO_IDX = {'id', 'text', 'lemma', 'upos', 'head', 'deprel'}
 
-    with open(filepath) as fin:
-        sentence = []
-        skip_sentence = False
+    current_batch = []
 
-        for line in fin:
-        # for line in tqdm.tqdm(fin, desc="CoNLLReader"):
-            line = line.strip()
+    for filepath in filepaths:
+        with open(filepath) as fin:
+            sentence = []
+            skip_sentence = False
 
-            if not len(line):
-                if len(sentence):
-                    if not skip_sentence:
-                        yield sentence
-                    sentence = []
-                    skip_sentence = False
-            else:
-                linesplit = line.split(delimiter)
+            for line in fin:
+            # for line in tqdm.tqdm(fin, desc="CoNLLReader"):
+                line = line.strip()
 
-                id, text, lemma, upos, ne, deprels = linesplit
-                deprels = deprels.split(",")
+                if not len(line):
+                    if len(sentence):
+                        if not skip_sentence:
+                            current_batch.append (sentence)
+                            # if len(current_batch) >= batch_size:
+                            #     yield current_batch
+                            #     current_batch = []
+                        sentence = []
+                        skip_sentence = False
+                else:
+                    linesplit = line.split(delimiter)
 
-                if any(c in string.ascii_letters for c in lemma) and all(c in accepted_chars for c in lemma):
+                    id, text, lemma, upos, ne, deprels = linesplit
+                    deprels = deprels.split(",")
 
-                    if upos in ["NNP", "NNPS"] and not ne == "O":
-                        text = ne
-                        lemma = ne
-                    else:
-                        lemma = lemma.lower()
+                    if any(c in string.ascii_letters for c in lemma) and all(c in accepted_chars for c in lemma):
 
-                    for head_plus_rel in deprels:
-                        try:
-                            rel_label, head = head_plus_rel.rsplit("=", 1)
-                            #head = int(head)
+                        if upos in ["NNP", "NNPS"] and not ne == "O":
+                            text = ne
+                            lemma = ne
+                        else:
+                            lemma = lemma.lower()
 
-                            token_dict = {'id': id, 'text': text, 'lemma': lemma,
-                                          'upos': upos, 'head': head, 'deprel': rel_label}
-                            sentence.append(token_dict)
-                        except:
-                            skip_sentence = True
-                            logger.info("ILL FORMED LINE:{} (in {})".format(line,filepath))
+                        for head_plus_rel in deprels:
+                            try:
+                                rel_label, head = head_plus_rel.rsplit("=", 1)
+                                #head = int(head)
 
-        if len(sentence):
-           if not skip_sentence:
-               yield sentence
+                                token_dict = {'id': id, 'text': text, 'lemma': lemma,
+                                              'upos': upos, 'head': head, 'deprel': rel_label}
+                                sentence.append(token_dict)
+                            except:
+                                skip_sentence = True
+                                logger.info("ILL FORMED LINE:{} (in {})".format(line,filepath))
+
+            if len(sentence):
+               if not skip_sentence:
+                   current_batch.append(sentence)
+
+    if len(current_batch):
+        yield current_batch
 
     logger.info("Finish reading: {}".format(filepath))
 
@@ -97,7 +106,7 @@ def ukWaCReader(filepath):
         if len(sentence):
             yield sentence
 
-def DependencyBuilder(accepted_pos, accepted_rel, sentence, refine=True):
+def DependencyBuilder(accepted_pos, accepted_rel, sentences, refine=True):
     """
     :param list accepted_pos: filter out lemmas with pos out of this list
     :param list accepted_rel: filter out relations out of that list
@@ -148,48 +157,42 @@ def DependencyBuilder(accepted_pos, accepted_rel, sentence, refine=True):
                 word["lemma"] = "PERSON"
                 word["upos"] = "N"
 
-    # read input sentence
-    words_dict = {} # {token_id : {lemma,upos}}
-    deps_ids_dict = defaultdict(list) # {head_id:[(dep_id, role)]}
-    for token in sentence:
-        pos = pos_standardization(token["upos"])
-        # take only words with a given PoS
-        if pos in accepted_pos:
-            deps_ids_dict[token["head"]].append((token["id"], relation_standardization(token["deprel"])))
-            # take only dependencies with a given label
-            # role = relation_standardization(token["deprel"])
-            # if role.startswith(tuple(accepted_rel)):
-            #     deps_ids_dict[token["head"]].append((token["id"], role))
-            if token["id"] not in words_dict:
-                words_dict[token["id"]] = {'lemma': token["lemma"], 'upos': pos}
+    accepted_rel = tuple(accepted_rel)
+    current_batch = []
 
-    if refine: refine_lemmas(words_dict, deps_ids_dict)
+    for sentence in sentences:
+        # read input sentence
+        words_dict = {} # {token_id : {lemma,upos}}
+        deps_ids_dict = defaultdict(list) # {head_id:[(dep_id, role)]}
+        for token in sentence:
+            pos = pos_standardization(token["upos"])
+            # take only words with a given PoS
+            if pos in accepted_pos:
+                deps_ids_dict[token["head"]].append((token["id"], relation_standardization(token["deprel"])))
+                # take only dependencies with a given label
+                # role = relation_standardization(token["deprel"])
+                # if role.startswith(tuple(accepted_rel)):
+                #     deps_ids_dict[token["head"]].append((token["id"], role))
+                if token["id"] not in words_dict:
+                    words_dict[token["id"]] = {'lemma': token["lemma"], 'upos': pos}
 
-    # filter
-    deps_ids_dict_copy = copy.deepcopy(deps_ids_dict)
-    # deps_ids_dict_res = defaultdict(list)
-    for h_id, deps in deps_ids_dict.items():
-        if h_id not in words_dict.keys():
-            del deps_ids_dict_copy[h_id]
-        else:
-            for i, dep in enumerate(deps):
-                dep_id, rel = dep
-                if not rel.startswith(tuple(accepted_rel)):
-                    deps_ids_dict_copy[h_id][i] = None
-            # if no relations are attested for the head after filtering, remove the key
-            deps_ids_dict_copy[h_id] = [i for i in deps_ids_dict_copy[h_id] if i is not None]
-            if len(deps_ids_dict_copy[h_id]) == 0:
-                del deps_ids_dict_copy[h_id]
+        if refine: refine_lemmas(words_dict, deps_ids_dict)
 
-    yield words_dict, deps_ids_dict_copy
-    #     for dep in deps:
-    #         if h_id in words_dict.keys() and dep[0] in words_dict.keys():
-    #             if abs(int(h_id)-int(dep[0])) <=10:
-    #
-    #                 deps_ids_dict_res[h_id].append(dep)
-    #
-    #
-    # yield words_dict, deps_ids_dict_res
+        # new filter
+        deps_ids_dict_copy = {}
+        for h_id, deps in deps_ids_dict.items():
+            if h_id in words_dict:
+                tmp_rels = []
+                for i, dep in enumerate(deps):
+                    dep_id, rel = dep
+                    if rel.startswith(accepted_rel):
+                        tmp_rels.append(deps_ids_dict[h_id][i])
+                if len(tmp_rels) > 0:
+                    deps_ids_dict_copy[h_id] = tmp_rels
+
+        current_batch.append ((words_dict, deps_ids_dict_copy))
+
+    yield current_batch
 
 if __name__ == "__main__":
     import glob

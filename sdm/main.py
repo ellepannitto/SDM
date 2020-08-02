@@ -14,7 +14,8 @@ import sdm.utils.data_utils as dutils
 
 import sdm.core.datasets as datasets
 import sdm.core.model as model
-import sdm.core.extraction as extraction
+import sdm.core.extraction_w_pipeline as extraction
+import sdm.core.extraction_w_farm as seq_extraction
 import sdm.core.evaluation as evaluation
 
 config_dict = cutils.load(os.path.join(os.path.dirname(__file__), "logging_utils", "logging.yml"))
@@ -27,16 +28,18 @@ Functions for building the Graph (GEK 2.0)
 """
 
 
-def _pipeline_extraction(args):
+def _sequential_extraction(args):
     output_path = outils.check_dir(args.output_dir)
     input_paths = args.input_dirs
     delimiter = args.delimiter
     acceptable_labels = args.labels
-    batch_size_s = args.batch_size_stats
-    batch_size_e = args.batch_size_events
+    batch_size_farm = args.batch_size_input
+    batch_size_merge = args.batch_size_merge
     workers = args.workers
     w_thresh = args.word_thresh
     e_thresh = args.event_thresh
+    lemmas_freqs_file = args.lemmas_freqs_filepath
+    associative_events = False
 
     pipeline = args.pipeline
 
@@ -46,9 +49,52 @@ def _pipeline_extraction(args):
         stats = events = True
 
     if pipeline == "conll":
-        extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels,
-                                       delimiter, batch_size_s, batch_size_e,
-                                       w_thresh, e_thresh, stats, events, workers)
+        if stats:
+            logger.info("Extracting stats")
+            lemmas_freqs_file = seq_extraction.stats_manager(output_path, input_paths, acceptable_labels, delimiter,
+                                                             batch_size_farm, batch_size_merge, w_thresh, workers)
+        if events:
+            logger.info("Extracting events using {} workers".format(workers))
+            seq_extraction.events_manager(output_path, input_paths, acceptable_labels, delimiter,
+                                          batch_size_farm, batch_size_merge, e_thresh, w_thresh, lemmas_freqs_file, workers,
+                                          associative_events)
+
+    elif pipeline == "stream":
+        extraction.StreamPipeline(output_path)
+
+def _pipeline_extraction(args):
+    output_path = outils.check_dir(args.output_dir)
+    input_paths = args.input_dirs
+    delimiter = args.delimiter
+    acceptable_labels = args.labels
+    batch_size_list = args.batch_sizes
+    # batch_size_e = args.batch_size_events
+    workers = args.workers
+    w_thresh = args.word_thresh
+    e_thresh = args.event_thresh
+    lemmas_freqs_file = args.lemmas_freqs_filepath
+    associative_events = False
+
+    pipeline = args.pipeline
+
+    stats = args.s
+    events = args.e
+    if (not stats) and (not events):
+        stats = events = True
+
+    if pipeline == "conll":
+        if stats:
+            logger.info("Extracting stats")
+            lemmas_freqs_file = extraction.stats_manager(output_path, input_paths, acceptable_labels, delimiter,
+                                                         batch_size_list, w_thresh, workers)
+        if events:
+            logger.info("Extracting events")
+            extraction.events_manager(output_path, input_paths, acceptable_labels, delimiter,
+                                      batch_size_list, e_thresh, w_thresh, lemmas_freqs_file, workers, associative_events)
+
+        # extraction.launchCoNLLPipeline(output_path, input_paths, acceptable_labels,
+        #                                delimiter, batch_size_s, batch_size_e,
+        #                                w_thresh, e_thresh, stats, events, workers)
 
     elif pipeline == "stream":
         extraction.StreamPipeline(output_path)
@@ -154,16 +200,45 @@ def main():
     parser_pipelineExtraction.add_argument("--delimiter", default=" ")
     parser_pipelineExtraction.add_argument("--labels", required=True,
                                            help="path to file for filtering pos/roles")
+    parser_pipelineExtraction.add_argument("--batch-sizes", nargs='+', type=int, default=[1, 10, 30000, 30000, 30000])
     parser_pipelineExtraction.add_argument("--batch-size-stats", type=int, default=5000)
     parser_pipelineExtraction.add_argument("--batch-size-events", type=int, default=1000)
-    parser_pipelineExtraction.add_argument("--word-thresh", type=int, default=100)
-    parser_pipelineExtraction.add_argument("--event-thresh", type=int, default=20)
+    parser_pipelineExtraction.add_argument("--word-thresh", type=int, default=500)
+    parser_pipelineExtraction.add_argument("--event-thresh", type=int, default=50)
+    parser_pipelineExtraction.add_argument("--lemmas-freqs-filepath")
 
     parser_pipelineExtraction.add_argument('-s', action='store_true', help='flag to launch lemmas freqs extraction')
     parser_pipelineExtraction.add_argument('-e', action='store_true', help='flag to launch events freqs extraction')
     parser_pipelineExtraction.add_argument('--workers', nargs='+', type=int, default=[1,1,1,1])
 
     parser_pipelineExtraction.set_defaults(func=_pipeline_extraction)
+
+    parser_sequentExtraction = subparsers.add_parser("sequential-extraction",
+                                                      help="From dependency-parsed text(s) extract lemmas and/or events frequencies")
+    parser_sequentExtraction.add_argument("-p", "--pipeline",
+                                           help="type of pipeline to run",
+                                           choices=["conll", "stream"], default="conll")
+
+    parser_sequentExtraction.add_argument("-i", "--input_dirs", required=True, nargs="+",
+                                         help="paths to folder(s) containing corpora")
+    parser_sequentExtraction.add_argument("-o", "--output-dir", required=True)
+    parser_sequentExtraction.add_argument("--delimiter", default=" ")
+    parser_sequentExtraction.add_argument("--labels", required=True,
+                                           help="path to file for filtering pos/roles")
+    parser_sequentExtraction.add_argument("--batch-size-input", type=int, default=1000)
+    parser_sequentExtraction.add_argument("--batch-size-merge", type=int, default=1024)
+    # parser_sequentExtraction.add_argument("--batch-size-stats", type=int, default=5000)
+    # parser_sequentExtraction.add_argument("--batch-size-events", type=int, default=1000)
+    parser_sequentExtraction.add_argument("--word-thresh", type=int, default=500)
+    parser_sequentExtraction.add_argument("--event-thresh", type=int, default=50)
+    parser_sequentExtraction.add_argument("--lemmas-freqs-filepath")
+
+    parser_sequentExtraction.add_argument('-s', action='store_true', help='flag to launch lemmas freqs extraction')
+    parser_sequentExtraction.add_argument('-e', action='store_true', help='flag to launch events freqs extraction')
+    parser_sequentExtraction.add_argument('--workers', type=int, default=1)
+
+    parser_sequentExtraction.set_defaults(func=_sequential_extraction)
+
 
     # 2. From pipeline output to neo4j input format
     parser_buildGraph = subparsers.add_parser("build-graph", help="Write neo4j database files for GEK graph")

@@ -10,17 +10,20 @@ handlers:
     formatter: simple
 loggers:
   sdm.core:
-    level: DEBUG
+    level: INFO
     handlers: [console]
   sdm.main:
     level: INFO
     handlers: [console]
-#  sdm.utils:
-#    level: WARN
-#    handlers: [console]
+  sdm.utils.FileMerger.filesmerger.HierarchicalMerger:
+    level: WARN
+    handlers: [console]
+  sdm.utils.FileMerger.filesmerge.core:
+    level: WARN
+    handlers: [console]
   sdm.utils.corpus_utils:
     level: WARN
     handlers: [console]
-  sdm.utils.pipeline_utils:
-    level: DEBUG
+  sdm.utils.Pipeline:
+    level: INFO
     handlers: [console]
