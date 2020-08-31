@@ -176,32 +176,50 @@ def load_lemmapos_freqs(filepath, thresh, delimiter="\t"):
     return ret
 
 
-def load_freqs(filepath):
+def load_freqs_generator(filepath):
     # It returns the tuple (item, freq)
-    items = set()
-    with open(filepath) as fin:
-        for line in fin:
-            item, freq = line.strip().split("\t")
-            items.add((item, freq))
-    return items
+
+    fin = open(filepath)
+    if filepath.endswith(".gz"):
+        fin = gzip.open(filepath, "rt")
+
+    # items = set()
+    # with open(filepath) as fin:
+    for line in fin:
+        item, freq = line.strip().split("\t")
+        # items.add((item, freq))
+        yield (item, freq)
+
+    fin.close()
+
+    # return items
 
 
 def count_absolute_freq(filepath):
     N = 0.0
-    with open(filepath) as fin:
-        for line in fin:
-            freq = float(line.strip().split("\t")[1])
-            N += freq
+    fin = open(filepath)
+    if filepath.endswith(".gz"):
+        fin = gzip.open(filepath, "rt")
+
+    for line in fin:
+        freq = float(line.strip().split("\t")[1])
+        N += freq
+
     return N
 
 
 def load_n_events_freq(filepath):
+
+    fin = open(filepath)
+    if filepath.endswith(".gz"):
+        fin = gzip.open(filepath, "rt")
+
     n_events = defaultdict(int)
-    with open(filepath) as fin:
-        for line in fin:
-            event, freq = line.strip().split("\t")
-            n = len(event.split(" "))
-            n_events[n] += float(freq)
+
+    for line in fin:
+        event, freq = line.strip().split("\t")
+        n = len(event.split(" "))
+        n_events[n] += float(freq)
     #print(n_events)
     return n_events
 

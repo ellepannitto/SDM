@@ -11,6 +11,7 @@ import sdm.utils.config as cutils
 import sdm.utils.graph_utils as gutils
 import sdm.utils.os_utils as outils
 import sdm.utils.data_utils as dutils
+import sdm.utils.FileMerger.filesmerger.core as fmutils
 
 import sdm.core.datasets as datasets
 import sdm.core.model as model
@@ -112,6 +113,18 @@ def _import_graph(args):
     data_folder = args.data
     cp = args.copy
     gutils.import_graph(neo_folder, data_folder, cp)
+
+
+"""
+UTILS
+"""
+
+def _merge_files(args):
+    output_path = outils.check_dir(args.output_dir)
+    input_paths = args.input_filepaths
+    threshold = args.threshold
+
+    fmutils.merge_and_collapse_iterable(input_paths, tmpdir=output_path, threshold=threshold)
 
 
 """
@@ -239,6 +252,12 @@ def main():
 
     parser_sequentExtraction.set_defaults(func=_sequential_extraction)
 
+    parser_merge = subparsers.add_parser("merge", help="merge and collapse sorted files")
+    parser_merge.add_argument("-i", "--input_filepaths", required=True, nargs="+",
+                              help="paths to file(s) to merge")
+    parser_merge.add_argument("-o", "--output-dir", required=True)
+    parser_merge.add_argument("-t", "--threshold", type=int, default=1)
+    parser_merge.set_defaults(func=_merge_files)
 
     # 2. From pipeline output to neo4j input format
     parser_buildGraph = subparsers.add_parser("build-graph", help="Write neo4j database files for GEK graph")

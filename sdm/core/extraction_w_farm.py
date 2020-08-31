@@ -8,6 +8,7 @@ import tempfile
 import gzip
 
 import time
+import os
 
 from sdm.utils import os_utils as outils
 from sdm.utils import data_utils as dutils
@@ -16,6 +17,7 @@ from sdm.utils import Pipeline as putils
 from sdm.utils.FileMerger import filesmerger as fmutils
 
 logger = logging.getLogger(__name__)
+
 
 def stats_manager(output_dir, input_paths, acceptable_labels, delimiter, batch_size_farm, batch_size_merge,
                   w_thresh, workers):
@@ -30,7 +32,7 @@ def stats_manager(output_dir, input_paths, acceptable_labels, delimiter, batch_s
     conll_pip = putils.Farm(list_of_functions, workers, batch_size_farm)
 
     reduce_fn = functools.partial(fmutils.merge_and_collapse_iterable, output_filename=None, tmpdir=tmp_folder,
-                                   delete_input=True)
+                                  delete_input=True)
 
     start_time = time.time()
 
@@ -41,7 +43,7 @@ def stats_manager(output_dir, input_paths, acceptable_labels, delimiter, batch_s
 
     output_fname = output_dir+"/{}-freqs.gz".format("lemma")
 
-    shutil.move (merged_fname, output_fname)
+    shutil.move(merged_fname, output_fname)
 
     shutil.rmtree(tmp_folder)
 
@@ -52,27 +54,33 @@ def extract_stats(tmp_folder, list_of_sentences):
     """
 
     :param str tmp_folder: path to temporary folder
-    :param list_of_sentences: a tuple containing two objects: a words dictionary {token_id : {"lemma":lemma,"upos":pos}} and a dependencies dictionary {head_id:[(dep_id, role)]}
+    :param list_of_sentences: a tuple containing two objects: a words dictionary {token_id : {"lemma":lemma,"upos":pos}}
+     and a dependencies dictionary {head_id:[(dep_id, role)]}
     :type list_of_sentences: (dict[str,dict], dict[str,list[tuple]])
     :return dictionary: dictionary of dictionaries {"lemma": { (lemma, pos): freq ..}}
     """
 
     file_id = uuid.uuid4()
+
+    logger.debug("{}: started extract_stats, saving on file {}".format(os.getpid(), file_id))
+
     lemma_freqdict = collections.defaultdict(int)
     for sentence, _ in filter(lambda x: x is not None, list_of_sentences):
         for token_id in sentence:
             token = sentence[token_id]
             lemma, pos = token["lemma"], token["upos"]
-            lemma_freqdict[(lemma,pos)] += 1
+            lemma_freqdict[(lemma, pos)] += 1
 
     dict_of_dicts = {"lemma": lemma_freqdict}
 
     for prefix, dic in dict_of_dicts.items():
-        sorted_freqdict = sorted(dic.items(), key = lambda x: x[0])
+        sorted_freqdict = sorted(dic.items(), key=lambda x: x[0])
 
         with gzip.open(tmp_folder+"{}-freqs-{}.gz".format(prefix, file_id), "wt") as fout:
             for tup, freq in sorted_freqdict:
                 print("{}\t{}".format(" ".join(tup), freq), file=fout)
+
+    logger.debug("{}: finished extract_stats, saved on file {}".format(os.getpid(), file_id))
 
     yield [tmp_folder+"lemma-freqs-{}.gz".format(file_id)]
 
@@ -91,7 +99,7 @@ def events_manager(output_dir, input_paths, acceptable_labels, delimiter, batch_
 
     conll_pip = putils.Farm(list_of_functions, workers, batch_size_farm)
     reduce_fn = functools.partial(fmutils.merge_and_collapse_iterable, output_filename=None, tmpdir=tmp_folder,
-                                   delete_input=True)
+                                  delete_input=True)
 
     start_time = time.time()
 
@@ -102,7 +110,7 @@ def events_manager(output_dir, input_paths, acceptable_labels, delimiter, batch_
 
     output_fname = output_dir+"/{}-freqs.gz".format("events")
 
-    shutil.move (merged_fname, output_fname)
+    shutil.move(merged_fname, output_fname)
 
     shutil.rmtree(tmp_folder)
 
@@ -115,7 +123,8 @@ def extract_patterns(tmp_folder, accepted_lemmas, associative_relations, list_of
     """
 
     :param str tmp_folder: path to temporary folder
-    :param list_of_sentences: a tuple containing two objects: a words dictionary {token_id : {"lemma":lemma,"upos":pos}} and a dependencies dictionary {head_id:[(dep_id, role)]}
+    :param list_of_sentences: a tuple containing two objects: a words dictionary {token_id : {"lemma":lemma,"upos":pos}}
+     and a dependencies dictionary {head_id:[(dep_id, role)]}
     :type list_of_sentences: (dict[str,dict], dict[str,list[tuple]])
     :param set accepted_lemmas: a list of accepted lemmas in the form {token_ID : {'lemma': lemma, 'upos': pos}..}
     :param boolean associative_relations:

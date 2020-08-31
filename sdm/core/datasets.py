@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 import pandas as pd
 
 
@@ -10,7 +11,8 @@ class Datasets(object):
         self.name = os.path.basename(infile).split(".")[0]
         self.outfolder = outfolder
         self.eval_funcs = {"ks": self.ks, "dtfit": self.dtfit, "tfit_mit": self.tfit_mit}
-        if args_order is None: args_order = "head_verbs_args"
+        if args_order is None:
+            args_order = "head_verbs_args"
         self.args_order = args_order
 
     def ks(self):
@@ -33,8 +35,8 @@ class Datasets(object):
             v2 = self.data["verb2"][ind]
             o2 = self.data["object2"][ind]
 
-            e1 = ""
-            e2 = ""
+            # e1 = ""
+            # e2 = ""
             if self.args_order == "head_verbs_args":
                 e1 = "{}@N@SBJ {}@V@ROOT {}@N@OBJ".format(s1, v1, o1)
                 e2 = "{}@N@SBJ {}@V@ROOT {}@N@OBJ".format(s2, v2, o2)
@@ -49,8 +51,8 @@ class Datasets(object):
             mapping[ind] = (len(events) - 2, len(events) - 1)
 
         # write generated file
-        df = pd.DataFrame(data={"item": events, "target-relation": ["SENTENCE" for i in range(0, len(events))]})
-        df.to_csv(os.path.join(self.outfolder, "{}.{}".format(self.name,self.args_order)), sep="\t", index=False)
+        df = pd.DataFrame(data={"item": events, "target-relation": ["SENTENCE" for _ in range(0, len(events))]})
+        df.to_csv(os.path.join(self.outfolder, "{}.{}".format(self.name, self.args_order)), sep="\t", index=False)
         # write mapping file
         df = pd.DataFrame.from_dict(mapping, orient="index")
         df.to_csv(os.path.join(self.outfolder, "{}-mapping.csv".format(self.name.split(".")[0])), sep="\t",
@@ -80,7 +82,7 @@ class Datasets(object):
                 items.append("{}  {}@N@OBJ".format(sv, self.data["OBJECT"][ind]))
 
         # write file
-        df = pd.DataFrame(data={"item": items, "target-relation": [mapping[experiment] for i in range(0, len(items))]})
+        df = pd.DataFrame(data={"item": items, "target-relation": [mapping[experiment] for _ in range(0, len(items))]})
         df.to_csv(os.path.join(self.outfolder, "{}.{}".format(self.name, self.args_order)), sep="\t", index=False)
 
     def tfit_mit(self):

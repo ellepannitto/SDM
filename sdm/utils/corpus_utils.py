@@ -4,6 +4,9 @@ import string
 import tqdm
 from collections import defaultdict
 
+import os
+import sys
+
 logger = logging.getLogger(__name__)
 
 
@@ -27,21 +30,24 @@ def CoNLLReader(delimiter, filepaths):
     :rtype: list[dict]
     """
 
-    # print("[CONLL READER] - ", filepath)
-    # logger.info("CONLL READER parsing {}".format(filepath))
+    logger.info("{} Started CoNLL reader.".format(os.getpid()))
+
 
     accepted_chars = string.ascii_letters + "01234567890.-'"
     BASIC_FIELD_TO_IDX = {'id', 'text', 'lemma', 'upos', 'head', 'deprel'}
 
     current_batch = []
 
-    for filepath in filepaths:
+    for file_no, filepath in enumerate(filepaths):
+
+        logger.debug ("{} reading file {}  (total {}), current batch size {}KB".format(os.getpid(), filepath, file_no, sys.getsizeof(current_batch)/1024))
+
         with open(filepath) as fin:
             sentence = []
             skip_sentence = False
 
-            for line in fin:
-            # for line in tqdm.tqdm(fin, desc="CoNLLReader"):
+            for line_no, line in enumerate(fin):
+
                 line = line.strip()
 
                 if not len(line):
@@ -86,7 +92,7 @@ def CoNLLReader(delimiter, filepaths):
     if len(current_batch):
         yield current_batch
 
-    logger.info("Finish reading: {}".format(filepath))
+    logger.info("{} Finished CoNLL reader.".format(os.getpid()))
 
 
 def ukWaCReader(filepath):

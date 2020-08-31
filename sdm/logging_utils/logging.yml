@@ -25,5 +25,6 @@ loggers:
     level: WARN
     handlers: [console]
   sdm.utils.Pipeline:
-    level: INFO
+    level: DEBUG
     handlers: [console]
+
