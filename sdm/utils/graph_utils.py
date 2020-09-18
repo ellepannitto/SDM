@@ -135,7 +135,7 @@ def write_graph(stats_path, events_path, output_path):
 
                     pmi_w_t_E = freq * math.log(observed_f/expected_f)
 
-                    line = "\t".join([str(c), str(freq),
+                    line = "\t".join([str(c), str(int(freq)),
                                       "{:.5f}".format(prob),
                                       "{:.5f}".format(prob_E_g_w),
                                       "{:.5f}".format(prob_w_g_E),
