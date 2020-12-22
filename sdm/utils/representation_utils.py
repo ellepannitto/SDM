@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 
 def _centroid(list_of_lists, n):
@@ -11,7 +12,7 @@ def _centroid(list_of_lists, n):
         for el in sub_list[:n]:
             label, vector, weight = el
             if centroid is None:
-                centroid = vector
+                centroid = copy.deepcopy(vector)
                 n_summed += 1
             else:
                 centroid += vector
