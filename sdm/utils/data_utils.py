@@ -77,9 +77,9 @@ class VectorsDict(dict):
         self.withPoS = withPoS
 
     def __getitem__(self, item):
-
+        
+        form, pos = item
         if self.withPoS:
-            form, pos = item
             # TODO: allow for different composition functions
             form = form+"/"+pos
 
