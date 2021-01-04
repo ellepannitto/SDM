@@ -82,8 +82,7 @@ class VectorsDict(dict):
             form, pos = item
             # TODO: allow for different composition functions
             form = form+"/"+pos
-        else:
-            form = item
+
         return super().__getitem__(form)
 
 
